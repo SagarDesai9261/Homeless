@@ -1,10 +1,17 @@
+import 'dart:io';
+
+import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeless/Screen/home_screen.dart';
-import 'package:homeless/model/model.dart';
-import 'package:homeless/model/service.dart';
-import 'package:navbar_router/navbar_router.dart';
+
+import 'package:image_picker/image_picker.dart';
+
 import 'package:rflutter_alert/rflutter_alert.dart';
+
+import '../model/model.dart';
+import '../model/service.dart';
+import 'home_screen.dart';
 
 class StepModel {
   final String title;
@@ -19,6 +26,8 @@ class Register_Organization extends StatefulWidget {
 }
 
 class _Register_OrganizationState extends State<Register_Organization> {
+  List<String> imagePaths = [];
+  List<XFile?> selectedImages = [];
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController contact_person = TextEditingController();
@@ -36,6 +45,18 @@ class _Register_OrganizationState extends State<Register_Organization> {
   bool password2 = true;
   final formkey = GlobalKey<FormState>();
   int currentStep = 0;
+  int currentIndex = 0;
+  final ImagePicker _picker = ImagePicker();
+  Future<void> pickImage() async {
+    final XFile? pickedImage =
+    await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      setState(() {
+        selectedImages.add(pickedImage);
+        currentIndex++;
+      });
+    }
+  }
   List steps = [
     {
       'title': "Organization Details",
@@ -129,6 +150,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
                       ? Organization_details(context)
                       : currentStep == 1
                       ? Address_details(context)
+                      : currentStep == 2
+                      ? upload_document(context)
                       : Container(),
                 )
               ],
@@ -453,49 +476,171 @@ class _Register_OrganizationState extends State<Register_Organization> {
       ),
     );
   }
+  upload_document(BuildContext context){
+   return Stack(
+     children: [
+       Padding(
+         padding: const EdgeInsets.all(14.0),
+         child: SingleChildScrollView(
+           child: Column(
+             crossAxisAlignment: CrossAxisAlignment.start,
+             children: [
+               Center(
+                 child: Text(
+                   'Upload Registration Certificate',
+                   style: TextStyle(
+                     color: Color(0xFF787878),
+                     fontSize: 17,
+                     fontFamily: 'SF Pro Text',
+                     fontWeight: FontWeight.w500,
+                     height: 1,
+                   ),
+                 ),
+               ),
+               Padding(
+                 padding: const EdgeInsets.all(10.0),
+                 child: GridView.builder(
+                   shrinkWrap: true,
+                   itemCount: selectedImages.length +
+                       1, // Add one for the "Add" button
+                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                     crossAxisCount:
+                     3, // You can adjust the number of columns as needed
+                     childAspectRatio:
+                     1.0, // Set the aspect ratio to 1.0 for square items
+                     mainAxisSpacing: 16.0, // Adjust the spacing as needed
+                     crossAxisSpacing: 16.0, // Adjust the spacing as needed
+                     // Set itemExtent to specify fixed height and width
+                     // You can adjust these values as needed
+                     // For example, if you want each item to be 100x100 pixels, set itemExtent: 100.0,
+                     // itemExtent: 100.0,
+                   ),
+                   itemBuilder: (context, index) {
+                     if (index < selectedImages.length) {
+                       // Display selected image
+                       String imagePath =
+                           selectedImages[index]!.path; // Get the image path
+                       imagePaths
+                           .add(imagePath); // Add the image path to the list
+                       return GestureDetector(
+                         onLongPress: (){
+                           setState(() {
+                             selectedImages.removeAt(index);
+                           });
+                         },
+                         child: Container(
+                           decoration: BoxDecoration(
+                             image: DecorationImage(
+                                 image:FileImage(File(imagePath))
+                             ),
+                             border: Border.all(
+                               color: Colors
+                                   .grey, // Set the border color as desired
+                               width: 1.0, // Set the border width as desired
+                             ),
+                             borderRadius: BorderRadius.circular(
+                                 10.0), // Set border radius as desired
+                           ),
 
+                         ),
+                       );
+                     } else {
+                       // Display "Add" button
+                       return Container(
+                         decoration: BoxDecoration(
+                           border: Border.all(
+                             color: Colors
+                                 .grey, // Set the border color as desired
+                             width: 1.0, // Set the border width as desired
+                           ),
+                           borderRadius: BorderRadius.circular(
+                               10.0), // Set border radius as desired
+                         ),
+                         child: IconButton(
+                             icon: Icon(Icons.add),
+                             onPressed:(){
+                               _showImagePickerBottomSheet(context);
+                             }
+                           // Call pickImage() when the button is pressed
+                         ),
+                       );
+                     }
+                   },
+                 ),
+               ),
+
+             ],
+           ),
+         ),
+       ),
+       Container(
+         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * .75,left: 20),
+         child: InkWell(
+           onTap: () async{
+              if(selectedImages.isEmpty){
+                Alert(
+                  context: context,
+                  type: AlertType.warning,
+                  title: "Please Upload Registration Certificate"
+                ).show();
+              }
+              List<String> downloadUrls = await uploadImages(selectedImages);
+              print(downloadUrls);
+               UserApp user = UserApp(
+                    organizationName : name.text,
+                    email: email.text,
+                    password: confirm_password.text,
+                    contactPerson: contact_person.text,
+                    phone: phone.text,
+                    fullName: fullname.text,
+                    address: address.text,
+                    apartmentName: appartment.text,
+                    city: city.text,
+                    state: state.text,
+                    country: country.text,
+                    image: downloadUrls
+                );
+                AuthService().registerUser(user).then((value) => Alert(context: context,title:"Account Register Successfully",type: AlertType.success,buttons: [
+                  DialogButton(
+                    child: Text(
+                      "ok",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
+                    onPressed: () =>  Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Navbar_screen())),
+                    color: Color.fromRGBO(0, 179, 134, 1.0),
+                    radius: BorderRadius.circular(0.0),
+                  ),
+                ],).show());
+
+           },
+           child: Container(
+               width: 343,
+               height: 50,
+               decoration: ShapeDecoration(
+                 color: Color(0xFF46BA80),
+                 shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(8)),
+               ),
+               child: Text('Register',
+                   textAlign: TextAlign.center,
+                   style: TextStyle(
+                     color: Colors.white,
+                     fontSize: 18,
+                     fontFamily: 'SF Pro Text',
+                     fontWeight: FontWeight.w600,
+                     height: 2,
+                   ))),
+         ),
+       ),
+     ],
+   );
+  }
   Address_details(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'Full name',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: fullname,
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter Fullname";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
 
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "Full name",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
           Column(
             children: [
               Container(
@@ -525,7 +670,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   decoration: InputDecoration(
                       fillColor: Color(0x1943BA82),
                       filled: true,
-                      hintText: "Address",
+                      hintText: "Street Address",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none)),
@@ -539,7 +684,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
-                  'Appartment name,society etc',
+                  'Area/Sector',
                   style: TextStyle(
                     color: Color(0xFF787878),
                     fontSize: 13,
@@ -562,7 +707,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   decoration: InputDecoration(
                       fillColor: Color(0x1943BA82),
                       filled: true,
-                      hintText: "Appartment name,society etc",
+                      hintText: "Area/Sector",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none)),
@@ -576,7 +721,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
-                  'City',
+                  'Pincode',
                   style: TextStyle(
                     color: Color(0xFF787878),
                     fontSize: 13,
@@ -592,14 +737,14 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   controller: city,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
-                      return "Please enter City";
+                      return "Please enter Pincode";
                     }
                     return null;
                   },
                   decoration: InputDecoration(
                       fillColor: Color(0x1943BA82),
                       filled: true,
-                      hintText: "city",
+                      hintText: "Pincode",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none)),
@@ -613,7 +758,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
-                  'State',
+                  'State/Province',
                   style: TextStyle(
                     color: Color(0xFF787878),
                     fontSize: 13,
@@ -629,7 +774,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   controller: state,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
-                      return "Please enter State";
+                      return "Please enter State/Province";
                     }
                     return null;
                   },
@@ -638,7 +783,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                       filled: true,
 
                       //suffixIcon: Icon(Icons.visibility),
-                      hintText: "State",
+                      hintText: "State/Province",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none)),
@@ -690,7 +835,10 @@ class _Register_OrganizationState extends State<Register_Organization> {
           InkWell(
             onTap: () {
               if(formkey.currentState!.validate()){
-                UserApp user = UserApp(
+              setState(() {
+                currentStep ++ ;
+              });
+                /*  UserApp user = UserApp(
                     organizationName : name.text,
                     email: email.text,
                     password: confirm_password.text,
@@ -714,7 +862,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     color: Color.fromRGBO(0, 179, 134, 1.0),
                     radius: BorderRadius.circular(0.0),
                   ),
-                ],).show());
+                ],).show());*/
 
               }
 
@@ -741,6 +889,125 @@ class _Register_OrganizationState extends State<Register_Organization> {
         ],
       ),
     );
+  }
+  void _showImagePickerBottomSheet(BuildContext context) {
+    showFlexibleBottomSheet<void>(
+      minHeight: 0,
+      initHeight: 0.26,
+      maxHeight: 1,
+      bottomSheetColor: Colors.white,
+      context: context,
+      builder: (BuildContext context, ScrollController scrollController, double offset) {
+        return Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text("Choose an Option",style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold
+                ),),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () async {
+                      final XFile? pickedImage =
+                      await _picker.pickImage(source: ImageSource.camera);
+                      if (pickedImage != null) {
+                        setState(() {
+                          selectedImages.add(pickedImage);
+                          currentIndex++;
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.photo_camera,
+                          size: 64,
+                          color: Colors.grey,
+                        ),
+                        Text('Camera'),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final XFile? pickedImage =
+                      await _picker.pickImage(source: ImageSource.gallery);
+                      if (pickedImage != null) {
+                        setState(() {
+                          selectedImages.add(pickedImage);
+                          currentIndex++;
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.photo_size_select_actual_outlined,
+                          size: 64,
+                          color: Colors.grey,
+                        ),
+                        Text('Gallery'),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+                      if (image != null) {
+                        Navigator.pop(context); // Close the bottom sheet
+                        // Add your image handling logic here
+                      }
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Icon(
+                          Icons.add_to_drive_rounded,
+                          size: 64,
+                          color: Colors.grey,
+                        ),
+                        Text('Drive'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Divider(),
+              ),
+              TextButton(onPressed: (){
+                Navigator.of(context).pop();
+              }, child: Text("Cancel"))
+              // Add Google Drive option and functionality here.
+            ],
+          ),
+        );
+      },
+    );
+  }
+  Future<List<String>> uploadImages(List<XFile?> selectedImages) async {
+    final List<String> downloadUrls = [];
+
+    for (final imageFile in selectedImages) {
+      final Reference storageRef = FirebaseStorage.instance.ref().child('Orgranization/${DateTime.now()}.png');
+      final UploadTask uploadTask = storageRef.putFile(File(imageFile!.path));
+
+      await uploadTask.whenComplete(() async {
+        final String downloadUrl = await storageRef.getDownloadURL();
+        downloadUrls.add(downloadUrl);
+      });
+    }
+
+    return downloadUrls;
   }
 }
 

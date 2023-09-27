@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:homeless/Screen/home_screen.dart';
+import 'package:homeless/model/model.dart';
+import 'package:homeless/model/service.dart';
+import 'package:image/image.dart' as img;
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Register_donor extends StatefulWidget {
   @override
@@ -8,6 +12,30 @@ class Register_donor extends StatefulWidget {
 }
 
 class _Register_donorState extends State<Register_donor> {
+  Widget customRadioButton({
+    required String label,
+    required bool value,
+    required VoidCallback onChanged,
+    required String imagePath,
+  }) {
+    return Row(
+      children: [
+        Radio(
+          value: value,
+          groupValue: selectedGender,
+          onChanged: (newValue) {
+            setState(() {
+              selectedGender = newValue.toString();
+            });
+          },
+          activeColor: Colors.green, // Set to transparent to use custom image
+        ),
+        SizedBox(width: 8),
+        Text(label),
+      ],
+    );
+  }
+ bool isloading = false;
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController contact_person = TextEditingController();
@@ -36,6 +64,8 @@ class _Register_donorState extends State<Register_donor> {
       'title': "Upload Documents",
     }
   ];
+
+  var selectedGender = "Male";
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -64,60 +94,11 @@ class _Register_donorState extends State<Register_donor> {
             key: formkey,
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List<Widget>.generate(steps.length, (index) {
-                    //  String name = widget.steps[index].title;
-                    String text = steps[index]["title"];
-                    List<String> words = text.split(" ");
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${words[0]}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: 'SF Pro Text',
-                            fontWeight: FontWeight.w500,
-                            height: 1,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${words[1]}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontFamily: 'SF Pro Text',
-                            fontWeight: FontWeight.w500,
-                            height: 1,
-                          ),
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * .25,
-                          height: 5,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: currentStep >= index
-                                  ? Colors.green
-                                  : Colors.grey),
-                        )
-                      ],
-                    );
-                  }),
-                ),
+
                 Container(
                   child: currentStep == 0
                       ? Organization_details(context)
-                      : currentStep == 1
-                          ? Address_details(context)
+
                           : Container(),
                 )
               ],
@@ -129,6 +110,7 @@ class _Register_donorState extends State<Register_donor> {
   }
 
   Organization_details(BuildContext context) {
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -138,7 +120,7 @@ class _Register_donorState extends State<Register_donor> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
-                  'Donor name',
+                  'Full Name',
                   style: TextStyle(
                     color: Color(0xFF787878),
                     fontSize: 13,
@@ -154,14 +136,14 @@ class _Register_donorState extends State<Register_donor> {
                   controller: name,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
-                      return "Please enter name";
+                      return "Please enter your full name";
                     }
                     return null;
                   },
                   decoration: InputDecoration(
                       fillColor: Color(0x1943BA82),
                       filled: true,
-                      hintText: "Donor name",
+                      hintText: "Full Name",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none)),
@@ -212,43 +194,6 @@ class _Register_donorState extends State<Register_donor> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
-                  'Contact Person',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter Contact person";
-                    }
-                    return null;
-                  },
-                  controller: contact_person,
-                  decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "Contact Person",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
                   'Phone',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -265,9 +210,8 @@ class _Register_donorState extends State<Register_donor> {
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Phone";
-                    }
-                    else if(value.length < 10){
-                      return "Please enter valid Phone";
+                    } else if (value.length < 10) {
+                      return "Please enter a valid Phone number";
                     }
                     return null;
                   },
@@ -293,7 +237,7 @@ class _Register_donorState extends State<Register_donor> {
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(top: 10, left: 20),
                 child: Text(
-                  'Choose Password',
+                  'Password',
                   style: TextStyle(
                     color: Color(0xFF787878),
                     fontSize: 13,
@@ -308,7 +252,7 @@ class _Register_donorState extends State<Register_donor> {
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
-                      return "Please enter Choose Password";
+                      return "Please enter a password";
                     }
                     return null;
                   },
@@ -327,7 +271,7 @@ class _Register_donorState extends State<Register_donor> {
                           });
                         },
                       ),
-                      hintText: "Choose Password",
+                      hintText: "Password",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                           borderSide: BorderSide.none)),
@@ -357,9 +301,8 @@ class _Register_donorState extends State<Register_donor> {
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Confirm Password";
-                    }
-                    else if(value != choose_password.text){
-                      return "Both password is not Match";
+                    } else if (value != choose_password.text) {
+                      return "Passwords do not match";
                     }
                     return null;
                   },
@@ -376,7 +319,8 @@ class _Register_donorState extends State<Register_donor> {
                         onPressed: () {
                           setState(() {
                             password2 ? password2 = false : password2 = true;
-                          });},
+                          });
+                        },
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -385,7 +329,60 @@ class _Register_donorState extends State<Register_donor> {
               )
             ],
           ),
+          Container(
+            alignment: Alignment.topLeft,
+            padding: EdgeInsets.only(top: 10, left: 20),
+            child: Text(
+              'Gender',
+              style: TextStyle(
+                color: Color(0xFF787878),
+                fontSize: 13,
+                fontFamily: 'SF Pro Text',
+                fontWeight: FontWeight.w400,
+                height: 1,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Radio(
+                      activeColor: Color(0xFF46BA80),
+                      value: 'Male',
+                      groupValue: selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedGender = value.toString();
+                        });
+                      },
+                    ),
+                    Text('Male'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      activeColor:Color(0xFF46BA80),
+                      value: 'Female',
+                      groupValue: selectedGender,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedGender = value.toString();
+                        });
+                      },
+                    ),
+                    Text('Female'),
+                  ],
+                ),
+              ],
+            ),
+          ),
           CheckboxListTile(
+            activeColor: Color(0xFF46BA80) ,
             title: Text(
               "I’ve read and agreed to Terms & conditions",
               style: TextStyle(fontSize: 14),
@@ -401,34 +398,102 @@ class _Register_donorState extends State<Register_donor> {
               });
             },
             controlAffinity:
-                ListTileControlAffinity.leading, //  <-- leading Checkbox
+            ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
           InkWell(
-            onTap: () {
+            onTap: () async{
               if (formkey.currentState!.validate()) {
-                if (checkvalue == false) {
+                if(selectedGender == ""){
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Please select the gender")));
+                }
+               else if (checkvalue == false) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text("Please check the Terms and Condition")));
                 } else {
-                  print(name.text);
-                  setState(() {
-                    currentStep = currentStep + 1;
-                  });
+                 setState(() {
+                   isloading = true;
+                 });
+                 donorUser user = donorUser(
+                   fullName: name.text,
+                   email: email.text,
+                   password: choose_password.text,
+                   gender: selectedGender,
+                   phone: phone.text
+                 );
+                 var message =  await AuthService().registerDonor(user);
+                  if(message == "Email is already registered."){
+                    Alert(
+                      context: context,
+                      type: AlertType.error,
+                      title: message,buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () {Navigator.pop(context);
+                          setState(() {
+                            isloading = false;
+                          });
+                        } ,
+                        width: 120,
+                      )
+                    ],
+                    ).show();
+                  }
+                  else if (message =="Account Register Successfully"){
+                    Alert(
+                        context: context,
+                        type: AlertType.success,
+                        title: message,buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () {Navigator.pop(context);
+                        setState(() {
+                          isloading = false;
+                        });
+                        } ,
+                        width: 120,
+                      )
+                    ],
+                    ).show();
+                  }
+                  else {
+                    Alert(
+                        context: context,
+                        type: AlertType.error,
+                        title: message,buttons: [
+                      DialogButton(
+                        child: Text(
+                          "Ok",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () {Navigator.pop(context);
+                        setState(() {
+                          isloading = false;
+                        });
+                        } ,
+                        width: 120,
+                      )
+                    ],
+                    ).show();
+                  }
                 }
               }
-
-              //   print(DefaultTabController.of(context).index);
-              //Navigator.push(context, MaterialPageRoute(builder: (context)=> Home_screen() ));
             },
-            child: Container(
-                width: 343,
+            child:Container(
+                width: 200,
                 height: 50,
                 decoration: ShapeDecoration(
                   color: Color(0xFF46BA80),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue',
+                child: isloading == false ?  Text('Sign up your Account',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -436,275 +501,13 @@ class _Register_donorState extends State<Register_donor> {
                       fontFamily: 'SF Pro Text',
                       fontWeight: FontWeight.w600,
                       height: 2,
-                    ))),
+                    )) : Center(child: CircularProgressIndicator(color: Colors.white,)))
           ),
         ],
       ),
     );
+
   }
 
-  Address_details(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'Full name',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: fullname,
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter Fullname";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
 
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "Full name",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'Address',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter Address";
-                    }
-                    return null;
-                  },
-                  controller: address,
-                  decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "Address",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'Appartment name,society etc',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: appartment,
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter Appartment";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "Appartment name,society etc",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'City',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: city,
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter City";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "city",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'State',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-                child: TextFormField(
-                  controller: state,
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter State";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-
-                      //suffixIcon: Icon(Icons.visibility),
-                      hintText: "State",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
-                  'Country',
-                  style: TextStyle(
-                    color: Color(0xFF787878),
-                    fontSize: 13,
-                    fontFamily: 'SF Pro Text',
-                    fontWeight: FontWeight.w400,
-                    height: 1,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                child: TextFormField(
-                  controller: country,
-                  validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please enter Country";
-                    }
-                    return null;
-                  },
-                  decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
-                      filled: true,
-                      hintText: "Country",
-                      //suffixIcon: Icon(Icons.visibility),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide.none)),
-                ),
-              )
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .02,
-          ),
-          InkWell(
-            onTap: () {
-              if(formkey.currentState!.validate()){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Navbar_screen()));
-              }
-
-
-            },
-            child: Container(
-                width: 343,
-                height: 50,
-                decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                ),
-                child: Text('Continue',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'SF Pro Text',
-                      fontWeight: FontWeight.w600,
-                      height: 2,
-                    ))),
-          ),
-        ],
-      ),
-    );
-  }
 }

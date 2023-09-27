@@ -173,8 +173,6 @@ class Rectangle1 extends StatelessWidget {
                 ),
               ],
             ),
-
-
           ],
         ),
       ),

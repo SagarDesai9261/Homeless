@@ -11,6 +11,7 @@ class UserApp {
   final String? city;
   final String? state;
   final String? country;
+  final List<String>? image;
 
   UserApp({
     this.uid,
@@ -25,6 +26,7 @@ class UserApp {
     this.city,
     this.state,
     this.country,
+    this.image,
   });
 
   UserApp copyWith({
@@ -40,6 +42,7 @@ class UserApp {
     String? city,
     String? state,
     String? country,
+    List<String>? image
   }) {
     return UserApp(
       uid: uid ?? this.uid,
@@ -54,6 +57,41 @@ class UserApp {
       city: city ?? this.city,
       state: state ?? this.state,
       country: country ?? this.country,
+      image: image ?? this.image
+    );
+  }
+}
+
+class donorUser{
+  String? uid;
+  final String? gender;
+  final String? email;
+
+  final String? phone;
+  final String? password;
+  final String? fullName;
+  donorUser({
+    this.uid,
+   this.password,
+   this.email,
+   this.phone,this.gender,
+   this.fullName
+});
+  donorUser copyWith({
+    String? uid,
+     String? gender,
+     String? email,
+     String? phone,
+     String? password,
+     String? fullName
+  }) {
+    return donorUser(
+      uid: uid??this.uid,
+      password:password ?? this.password,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      fullName: fullName ?? this.fullName,
+      gender: gender??this.gender
     );
   }
 }

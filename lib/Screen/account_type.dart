@@ -4,6 +4,8 @@ import 'package:homeless/Screen/Register.dart';
 import 'package:homeless/Screen/Register_donor.dart';
 import 'package:homeless/Screen/Register_merchant.dart';
 import 'package:homeless/Screen/home_screen.dart';
+import 'package:homeless/Screen/login_donor.dart';
+import 'package:homeless/Screen/login_mechant.dart';
 import 'package:homeless/Screen/login_organization.dart';
 import 'package:homeless/Screen/splash_screen.dart';
 
@@ -211,10 +213,10 @@ class _Account_typeState extends State<Account_type> {
                     }
 
                   }else if(seleted_index == 2){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Register_merchant() ));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_screen_Merchant() ));
                   }
                   else if(seleted_index == 3){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Register_donor() ));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_screen_donor() ));
                   }
 
                 },

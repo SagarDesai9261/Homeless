@@ -50,6 +50,7 @@ dependencies:
   firebase_analytics: ^10.1.4
   cloud_firestore: ^4.4.4
   rflutter_alert:
+  bottom_sheet:
 
 
 

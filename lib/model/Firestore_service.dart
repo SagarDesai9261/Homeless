@@ -19,12 +19,25 @@ class FirestoreService {
         'city': user.city,
         'state': user.state,
         'country': user.country,
+        'images':user.image
       });
     } catch (e) {
       print('Error creating user record: $e');
     }
   }
-
+  Future<void> createdonorRecord(donorUser user) async {
+    try {
+      await _firestore.collection('donor').doc(user.uid).set({
+        'email': user.email,
+        'phone': user.phone,
+        'password': user.password,
+        'fullName': user.fullName,
+        'gender':user.gender
+      });
+    } catch (e) {
+      print('Error creating user record: $e');
+    }
+  }
   Future<UserApp?> getUserData(String uid) async {
     try {
       final DocumentSnapshot doc = await _firestore.collection('users').doc(uid).get();

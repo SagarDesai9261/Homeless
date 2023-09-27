@@ -3,20 +3,20 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homeless/Screen/Register.dart';
+import 'package:homeless/Screen/Register_donor.dart';
 import 'package:homeless/model/service.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'home_screen.dart';
 
-class Login_screen_Organazition extends StatefulWidget {
-  const Login_screen_Organazition({Key? key}) : super(key: key);
+class Login_screen_donor extends StatefulWidget {
+  const Login_screen_donor({Key? key}) : super(key: key);
 
   @override
-  State<Login_screen_Organazition> createState() =>
-      _Login_screen_OrganazitionState();
+  State<Login_screen_donor> createState() => _Login_screen_OrganazitionState();
 }
 
-class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
+class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
   String error = "";
   bool pass = true;
   bool isloading = false;
@@ -56,7 +56,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                   ),
                   Center(
                     child: Text(
-                      "Welcome to Organization",
+                      "Welcome to Donor",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -72,10 +72,14 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                       width: double.infinity,
                       decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(100),topRight: Radius.circular(100))),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(100),
+                              topRight: Radius.circular(100))),
                       child: Column(
                         children: [
-                          SizedBox(height: MediaQuery.of(context).size.height * .1,),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * .1,
+                          ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * .8,
                             child: TextFormField(
@@ -97,22 +101,23 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                               controller: password,
                               obscureText: pass,
                               decoration: InputDecoration(
-                                suffixIcon: pass ?  IconButton(
-                                  icon:  Icon(Icons.visibility)
-                                  , onPressed: () {
-                                    setState(() {
-                                      pass = false;
-                                    });
-                                },
-                                ) : IconButton(
-                                  icon:  Icon(Icons.visibility_off)
-                                  , onPressed: () {
-                                  setState(() {
-                                    pass = true;
-                                  });
-
-                                },
-                                ),
+                                  suffixIcon: pass
+                                      ? IconButton(
+                                          icon: Icon(Icons.visibility),
+                                          onPressed: () {
+                                            setState(() {
+                                              pass = false;
+                                            });
+                                          },
+                                        )
+                                      : IconButton(
+                                          icon: Icon(Icons.visibility_off),
+                                          onPressed: () {
+                                            setState(() {
+                                              pass = true;
+                                            });
+                                          },
+                                        ),
                                   hintText: "Password",
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(20)
@@ -124,12 +129,13 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                             height: 10,
                           ),
                           GestureDetector(
-                            onTap: (){
+                            onTap: () {
                               showAlertDialog(context);
                             },
                             child: Container(
                               margin: EdgeInsets.only(
-                                  right: MediaQuery.of(context).size.width * .15),
+                                  right:
+                                      MediaQuery.of(context).size.width * .15),
                               alignment: Alignment.topRight,
                               child: Text(
                                 "Forgot Password?",
@@ -150,20 +156,19 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                               try {
                                 await FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
-                                    email: email.text,
-                                    password: password.text);
+                                        email: email.text,
+                                        password: password.text);
                                 final user = FirebaseAuth.instance.currentUser;
 
-                                if(user!.displayName == "Organization"){
+                                if(user!.displayName == "Donor"){
                                   showalert("Login Successfully", AlertType.success, context);
                                 }
                                 else{
-                                  FirebaseAuth.instance.signOut();
-                                  showalert("Email is not register in Organization", AlertType.error, context);
+                                  showalert("Email is not register in Donor", AlertType.error, context);
                                 }
                                 //print(user!.displayName);
                                 setState(() {
-                                  isloading = false;
+                                 isloading = false;
                                 });
                               } catch (e) {
                                 if (e is FirebaseAuthException) {
@@ -194,13 +199,13 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                       // Handle wrong password error
                                       break;
                                     case 'too-many-requests':
-                                    // Handle too many login attempts error
+                                      // Handle too many login attempts error
                                       break;
                                     case 'network-request-failed':
-                                    // Handle network request failed error
+                                      // Handle network request failed error
                                       break;
                                     default:
-                                    // Handle other Firebase Authentication errors
+                                      // Handle other Firebase Authentication errors
                                       break;
                                   }
                                 }
@@ -237,18 +242,18 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                 ),
                                 child: isloading == false
                                     ? Text('Sign up your Account',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'SF Pro Text',
-                                      fontWeight: FontWeight.w600,
-                                      height: 2,
-                                    ))
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily: 'SF Pro Text',
+                                          fontWeight: FontWeight.w600,
+                                          height: 2,
+                                        ))
                                     : Center(
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                    ))),
+                                        child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                      ))),
                           ),
                           SizedBox(
                             height: 20,
@@ -261,14 +266,18 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                 style: TextStyle(fontSize: 16),
                               ),
                               InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Register_Organization()));
-                                },
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Register_donor()));
+                                  },
                                   child: Text(
-                                "Register",
-                                style:
-                                    TextStyle(fontSize: 16, color: Color(0xFF46BA80)),
-                              ))
+                                    "Register",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Color(0xFF46BA80)),
+                                  ))
                             ],
                           )
                         ],
@@ -299,82 +308,82 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
       )
     ],).show();
   }
-     showAlertDialog(BuildContext context) {
-      TextEditingController _emailController = new TextEditingController();
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          final emailField = TextFormField(
-            controller: _emailController,
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              color: Colors.black,
-            ),
-            decoration: InputDecoration(
+
+  showAlertDialog(BuildContext context) {
+    TextEditingController _emailController = new TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final emailField = TextFormField(
+          controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
+          style: TextStyle(
+            color: Colors.black,
+          ),
+          decoration: InputDecoration(
               hintText: 'something@example.com',
-             // labelText: 'Account Email to Reset',
+              // labelText: 'Account Email to Reset',
               labelStyle: TextStyle(
                 color: Colors.black,
               ),
               hintStyle: TextStyle(
                 color: Colors.black,
               ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20)
-              )
-            ),
-          );
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(20))),
+        );
 
-            return AlertDialog(
-            content: Container(
-              width: MediaQuery.of(context).size.width / 1.3,
-              height: MediaQuery.of(context).size.height / 4,
-              decoration: new BoxDecoration(
-                shape: BoxShape.rectangle,
-                color: const Color(0xFFFFFF),
-                borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
-              ),
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text("Reset Password Link",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
-                  emailField,
-                  MaterialButton(
-                    onPressed: () async {
-                      await FirebaseAuth.instance
-                          .sendPasswordResetEmail(email: _emailController.text);
-                      Navigator.of(context).pop();
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height/12,
-                      padding: EdgeInsets.all(15.0),
-                      child: Material(
-                          color: Color(0xFF46BA80),
-                          borderRadius: BorderRadius.circular(25.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'Reset',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                  fontFamily: 'helvetica_neue_light',
-                                ),
-                                textAlign: TextAlign.center,
+        return AlertDialog(
+          content: Container(
+            width: MediaQuery.of(context).size.width / 1.3,
+            height: MediaQuery.of(context).size.height / 4,
+            decoration: new BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: const Color(0xFFFFFF),
+              borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+            ),
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Reset Password Link",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+                ),
+                emailField,
+                MaterialButton(
+                  onPressed: () async {
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: _emailController.text);
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 12,
+                    padding: EdgeInsets.all(15.0),
+                    child: Material(
+                        color: Color(0xFF46BA80),
+                        borderRadius: BorderRadius.circular(25.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Reset',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
+                                fontFamily: 'helvetica_neue_light',
                               ),
-                            ],
-                          )
-                      ),
-                    ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        )),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
-      );
-    }
+          ),
+        );
+      },
+    );
   }
-
+}

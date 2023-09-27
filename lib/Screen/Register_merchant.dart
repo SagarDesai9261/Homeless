@@ -463,6 +463,9 @@ class _Register_merchantState extends State<Register_merchant> {
                       height: 2,
                     ))),
           ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * .02,
+          ),
         ],
       ),
     );

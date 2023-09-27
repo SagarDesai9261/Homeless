@@ -78,7 +78,7 @@ class _Register_merchantState extends State<Register_merchant> {
   int currentStep = 0;
   List steps = [
     {
-      'title': "Your Details",
+      'title': "Your ",
     },
     {
       'title': "Business Details",

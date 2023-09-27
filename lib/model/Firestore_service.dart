@@ -13,10 +13,9 @@ class FirestoreService {
         'contactPerson': user.contactPerson,
         'phone': user.phone,
         'password': user.password,
-        'fullName': user.fullName,
         'address': user.address,
-        'apartmentName': user.apartmentName,
-        'city': user.city,
+        'area': user.apartmentName,
+        'pincode': user.city,
         'state': user.state,
         'country': user.country,
         'images':user.image

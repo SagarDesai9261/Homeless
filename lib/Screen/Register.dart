@@ -735,6 +735,11 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 padding: EdgeInsets.all(10),
                 child: TextFormField(
                   controller: city,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(6),
+                  ],
+                  keyboardType: TextInputType.number,
+
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Pincode";

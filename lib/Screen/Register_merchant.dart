@@ -1076,6 +1076,8 @@ class _Register_merchantState extends State<Register_merchant> {
                 );
 
                 await firestoreService.addMerchantData(merchant);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Navbar_screen()));
               }
             },
             child: Container(
@@ -1086,7 +1088,7 @@ class _Register_merchantState extends State<Register_merchant> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue Finally',
+                child: Text('Continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,

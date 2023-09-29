@@ -30,6 +30,13 @@ class ChatListPage extends StatelessWidget {
             'https://as1.ftcdn.net/v2/jpg/02/43/12/34/1000_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
         lastMessage: "What's up?",
       ),
+      ChatPerson(
+        id: '4',
+        name: 'Yash Trivedi',
+        imageUrl:
+            'https://as1.ftcdn.net/v2/jpg/02/43/12/34/1000_F_243123463_zTooub557xEWABDLk0jJklDyLSGl2jrr.jpg',
+        lastMessage: "Hello!!",
+      ),
     ];
 
     return Scaffold(

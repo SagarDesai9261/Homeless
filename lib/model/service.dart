@@ -73,7 +73,9 @@ class AuthService {
       return null;
     }
   }
-  Future<String> signInWithEmailAndPassword(String email, String password) async {
+
+  Future<String> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       final UserCredential authResult = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -96,6 +98,7 @@ class AuthService {
   Future<UserApp?> getUserData(String uid) async {
     return _firestoreService.getUserData(uid);
   }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();

@@ -1,4 +1,3 @@
-// chat_screen.dart
 import 'package:flutter/material.dart';
 import 'package:homeless/model/model.dart';
 
@@ -6,99 +5,120 @@ class ChatScreen extends StatefulWidget {
   final ChatPerson chatPerson;
 
   ChatScreen({required this.chatPerson});
-
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final TextEditingController _messageController = TextEditingController();
+  final TextEditingController _textController = TextEditingController();
+  final List<ChatMessage> _messages = [];
+  bool isSender = true; // Track the current message type
 
-    List<String> chatMessages = [];
-    return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            // Handle the back button action here, such as popping the current route.
-            Navigator.of(context).pop();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.arrow_back_ios_new,
-                    color: Colors.grey, size: 26), // Back icon
-                // Text(
-                //   "Back",
-                //   style: TextStyle(
-                //     color: Colors.grey,
-                //     fontSize: 14, // Customize the font size as needed
-                //   ),
-                // ),
-              ],
+  void _handleSubmitted(String text) {
+    _textController.clear();
+    ChatMessage message = ChatMessage(
+      text: text,
+      isSender: isSender, // Use the current message type
+    );
+    setState(() {
+      _messages.insert(0, message);
+    });
+  }
+
+  Widget _buildTextComposer() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: <Widget>[
+          Flexible(
+            child: TextField(
+              controller: _textController,
+              onSubmitted: _handleSubmitted,
+              decoration: InputDecoration.collapsed(
+                  hintText: 'Type your message',
+                  hintStyle: TextStyle(color: Colors.grey)),
             ),
           ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
+          IconButton(
+            icon: Icon(
+              Icons.swap_horiz,
+              color: Colors.grey,
+            ), // Add a button to switch message type
+            onPressed: () {
+              setState(() {
+                isSender = !isSender;
+              });
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.send,
+              color: Colors.grey,
+            ),
+            onPressed: () => _handleSubmitted(_textController.text),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.grey),
         centerTitle: true,
+        elevation: 0,
+        backgroundColor: Colors.white,
         title: Text(
           widget.chatPerson.name.toString(),
           style: TextStyle(color: Colors.black),
         ),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Expanded(
             child: ListView.builder(
-              padding: EdgeInsets.all(16.0),
-              itemCount: chatMessages.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(chatMessages[index]),
-                  // Add more styling as needed
-                );
+              reverse: true, // Start from the bottom of the list
+              itemCount: _messages.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _messages[index];
               },
             ),
           ),
+          Divider(height: 1.0),
+          _buildTextComposer(),
+        ],
+      ),
+    );
+  }
+}
+
+class ChatMessage extends StatelessWidget {
+  final String text;
+  final bool isSender;
+
+  ChatMessage({required this.text, required this.isSender});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment:
+            isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: <Widget>[
           Container(
-            padding: EdgeInsets.all(10.0),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isSender ? Colors.white : Colors.blueGrey,
+              borderRadius: BorderRadius.circular(8.0),
             ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Type your message...',
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    // Get the entered message from the text field
-                    final message = _messageController.text;
-
-                    if (message.isNotEmpty) {
-                      // Add the message to the list of chat messages
-                      setState(() {
-                        chatMessages.add(message);
-                      });
-
-                      // Clear the text field
-                      _messageController.clear();
-                    }
-                  },
-                ),
-              ],
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: isSender ? Colors.grey : Colors.white,
+              ),
             ),
           ),
         ],

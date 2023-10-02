@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homeless/Screen/triangleUIChat.dart';
 import 'package:homeless/model/model.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -32,6 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
         children: <Widget>[
           Flexible(
             child: TextField(
+              maxLines: null,
               controller: _textController,
               onSubmitted: _handleSubmitted,
               decoration: InputDecoration.collapsed(
@@ -50,12 +52,16 @@ class _ChatScreenState extends State<ChatScreen> {
               });
             },
           ),
-          IconButton(
-            icon: Icon(
-              Icons.send,
-              color: Colors.grey,
+          InkWell(
+            onTap: () {
+              _handleSubmitted(_textController.text);
+            },
+            child: SizedBox(
+              height: 28,
+              child: Image(
+                image: AssetImage('assets/send.png'),
+              ),
             ),
-            onPressed: () => _handleSubmitted(_textController.text),
           ),
         ],
       ),
@@ -102,6 +108,17 @@ class ChatMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool shouldWrapText =
+        text.length > 25; // Determine if text should wrap
+    final BorderRadius messageBorderRadius = BorderRadius.only(
+      topLeft:
+          Radius.circular(isSender ? 18.0 : 0), // Round top-left for sender
+      topRight:
+          Radius.circular(isSender ? 0 : 16.0), // Round top-right for receiver
+      bottomLeft: Radius.circular(16.0), // Always round bottom-left
+      bottomRight: Radius.circular(16.0), // Always round bottom-right
+    );
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
       child: Row(
@@ -109,16 +126,23 @@ class ChatMessage extends StatelessWidget {
             isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: <Widget>[
           Container(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width *
+                  0.7, // Set a maximum width
+            ),
             decoration: BoxDecoration(
               color: isSender ? Colors.white : Colors.blueGrey,
-              borderRadius: BorderRadius.circular(8.0),
+              borderRadius: messageBorderRadius,
             ),
             padding: EdgeInsets.all(10.0),
             child: Text(
               text,
               style: TextStyle(
-                color: isSender ? Colors.grey : Colors.white,
+                color: isSender ? Colors.black : Colors.white,
               ),
+              maxLines: shouldWrapText ? null : 1, // Allow text to wrap
+              overflow:
+                  shouldWrapText ? TextOverflow.visible : TextOverflow.ellipsis,
             ),
           ),
         ],

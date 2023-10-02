@@ -1,4 +1,6 @@
+import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:homeless/Screen/triangleUIChat.dart';
 import 'package:homeless/model/model.dart';
 
@@ -12,30 +14,31 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _textController = TextEditingController();
-  final List<ChatMessage> _messages = [];
-  bool isSender = true; // Track the current message type
+  // final List<ChatMessage> _messages = [];
+  // bool isSender = true; // Track the current message type
 
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    ChatMessage message = ChatMessage(
-      text: text,
-      isSender: isSender, // Use the current message type
-    );
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
+  // void _handleSubmitted(String text) {
+  //   _textController.clear();
+  //   ChatMessage message = ChatMessage(
+  //     text: text,
+  //     isSender: isSender, // Use the current message type
+  //   );
+  //   setState(() {
+  //     _messages.insert(0, message);
+  //   });
+  // }
 
   Widget _buildTextComposer() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+      color: Colors.white,
+      padding: EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
           Flexible(
             child: TextField(
               maxLines: null,
               controller: _textController,
-              onSubmitted: _handleSubmitted,
+              // onSubmitted: _handleSubmitted,
               decoration: InputDecoration.collapsed(
                   hintText: 'Type your message',
                   hintStyle: TextStyle(color: Colors.grey)),
@@ -48,13 +51,17 @@ class _ChatScreenState extends State<ChatScreen> {
             ), // Add a button to switch message type
             onPressed: () {
               setState(() {
-                isSender = !isSender;
+                // isSender = !isSender;
               });
             },
           ),
           InkWell(
             onTap: () {
-              _handleSubmitted(_textController.text);
+              if (_textController.text == null) {
+                return;
+              } else {
+                // _handleSubmitted(_textController.text);
+              }
             },
             child: SizedBox(
               height: 28,
@@ -81,72 +88,273 @@ class _ChatScreenState extends State<ChatScreen> {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: ListView.builder(
-              reverse: true, // Start from the bottom of the list
-              itemCount: _messages.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _messages[index];
-              },
+      body: Container(
+        color: Colors.black12,
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 10,
             ),
-          ),
-          Divider(height: 1.0),
-          _buildTextComposer(),
-        ],
+            Expanded(
+              child: ListView.builder(
+                itemCount: chats.length,
+                itemBuilder: (context, index) {
+                  final chat = chats[index];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: 28,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.grey[600],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 5, left: 5, right: 5),
+                            child: Text(
+                              chat.date,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ),
+                      ),
+                      ...chat.messages
+                          .map((message) => ChatMessagePage(message: message))
+                          .toList(),
+                    ],
+                  );
+                },
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Divider(height: 1.0),
+            _buildTextComposer(),
+          ],
+        ),
       ),
     );
   }
 }
 
-class ChatMessage extends StatelessWidget {
-  final String text;
-  final bool isSender;
+// class ChatMessagePage extends StatelessWidget {
+//   final String text;
+//   final bool isSender;
 
-  ChatMessage({required this.text, required this.isSender});
+//   ChatMessagePage({required this.text, required this.isSender});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final bool shouldWrapText =
+//         text.length > 25; // Determine if text should wrap
+//     final BorderRadius messageBorderRadius = BorderRadius.only(
+//       topLeft:
+//           Radius.circular(isSender ? 18.0 : 0), // Round top-left for sender
+//       bottomRight:
+//           Radius.circular(isSender ? 0 : 16.0), // Round top-right for receiver
+//       bottomLeft: Radius.circular(16.0), // Always round bottom-left
+//       topRight: Radius.circular(16.0), // Always round bottom-right
+//     );
+//     return isSender
+//         ? Row(
+//             children: [
+//               ChatBubble(
+//                 clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
+//                 backGroundColor: Colors.grey,
+//                 margin: EdgeInsets.only(top: 20),
+//                 child: Container(
+//                   constraints: BoxConstraints(
+//                     maxWidth: MediaQuery.of(context).size.width * 0.7,
+//                   ),
+//                   child: Column(
+//                     children: [
+//                       Text(
+//                         text,
+//                         style: TextStyle(color: Colors.white, fontSize: 14),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//               ),
+//               SizedBox(
+//                 width: 5,
+//               ),
+//               Padding(
+//                 padding: const EdgeInsets.only(top: 20),
+//                 child: Text(
+//                   '4:00 PM',
+//                   style: TextStyle(color: Colors.grey[500], fontSize: 12),
+//                 ),
+//               )
+//             ],
+//           )
+//         : Row(
+//             mainAxisAlignment: MainAxisAlignment.end,
+//             children: [
+//               Padding(
+//                 padding: const EdgeInsets.only(top: 20),
+//                 child: Text(
+//                   '4:00 PM',
+//                   style: TextStyle(color: Colors.grey[500], fontSize: 12),
+//                 ),
+//               ),
+//               SizedBox(
+//                 width: 5,
+//               ),
+//               ChatBubble(
+//                 clipper: ChatBubbleClipper2(type: BubbleType.sendBubble),
+//                 alignment: Alignment.topRight,
+//                 margin: EdgeInsets.only(top: 20),
+//                 backGroundColor: Colors.white,
+//                 child: Container(
+//                   constraints: BoxConstraints(
+//                     maxWidth: MediaQuery.of(context).size.width * 0.7,
+//                   ),
+//                   child: Text(
+//                     text,
+//                     style: TextStyle(color: Colors.black, fontSize: 14),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           );
+//   }
+// }
+
+class ChatMessagePage extends StatelessWidget {
+  final ChatMessages message; // Pass ChatMessages object
+
+  ChatMessagePage({required this.message});
 
   @override
   Widget build(BuildContext context) {
-    final bool shouldWrapText =
-        text.length > 25; // Determine if text should wrap
-    final BorderRadius messageBorderRadius = BorderRadius.only(
-      topLeft:
-          Radius.circular(isSender ? 18.0 : 0), // Round top-left for sender
-      topRight:
-          Radius.circular(isSender ? 0 : 16.0), // Round top-right for receiver
-      bottomLeft: Radius.circular(16.0), // Always round bottom-left
-      bottomRight: Radius.circular(16.0), // Always round bottom-right
-    );
+    final bool isSender =
+        message.senderId == '1'; // Determine if the message is from the sender
 
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-      child: Row(
-        mainAxisAlignment:
-            isSender ? MainAxisAlignment.end : MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width *
-                  0.7, // Set a maximum width
-            ),
-            decoration: BoxDecoration(
-              color: isSender ? Colors.white : Colors.blueGrey,
-              borderRadius: messageBorderRadius,
-            ),
-            padding: EdgeInsets.all(10.0),
-            child: Text(
-              text,
-              style: TextStyle(
-                color: isSender ? Colors.black : Colors.white,
-              ),
-              maxLines: shouldWrapText ? null : 1, // Allow text to wrap
-              overflow:
-                  shouldWrapText ? TextOverflow.visible : TextOverflow.ellipsis,
-            ),
+    return Column(
+      crossAxisAlignment:
+          isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            message.time,
+            style: TextStyle(color: Colors.grey[500], fontSize: 12),
           ),
-        ],
-      ),
+        ),
+        isSender
+            ? ChatBubble(
+                clipper: ChatBubbleClipper2(type: BubbleType.sendBubble),
+                alignment: isSender ? Alignment.topRight : Alignment.topLeft,
+                backGroundColor: isSender ? Colors.white : Colors.grey,
+                child: Container(
+                  constraints: BoxConstraints(
+                      // maxWidth: MediaQuery.of(context).size.width * 0.7,
+                      ),
+                  // padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    message.message,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              )
+            : ChatBubble(
+                clipper: ChatBubbleClipper1(type: BubbleType.receiverBubble),
+                alignment: isSender ? Alignment.topRight : Alignment.topLeft,
+                backGroundColor: isSender ? Colors.white : Colors.grey,
+                child: Container(
+                  constraints: BoxConstraints(
+                      // maxWidth: MediaQuery.of(context).size.width * 0.7,
+                      ),
+                  // padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    "  " + message.message,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
+              ),
+      ],
     );
   }
 }
+
+class ChatMessages {
+  final String senderId;
+  final String receiverId;
+  final String message;
+  final int messageId;
+  final String time; // Add time field
+
+  ChatMessages({
+    required this.senderId,
+    required this.receiverId,
+    required this.message,
+    required this.messageId,
+    required this.time, // Include time in the constructor
+  });
+}
+
+class Chat {
+  final String date;
+  final List<ChatMessages> messages;
+
+  Chat({
+    required this.date,
+    required this.messages,
+  });
+}
+
+List<Chat> chats = [
+  Chat(
+    date: '14th Jan 2019',
+    messages: [
+      ChatMessages(
+        senderId: '1',
+        receiverId: '2',
+        message: 'Hello',
+        messageId: 1,
+        time: '10:30 AM', // Include time here
+      ),
+      ChatMessages(
+        senderId: '2',
+        receiverId: '1',
+        message: 'Hi',
+        messageId: 2,
+        time: '10:35 AM', // Include time here
+      ),
+    ],
+  ),
+  Chat(
+    date: '15th Jan 2019',
+    messages: [
+      ChatMessages(
+        senderId: '1',
+        receiverId: '3',
+        message: 'Hey Alice',
+        messageId: 3,
+        time: '11:00 AM', // Include time here
+      ),
+      ChatMessages(
+        senderId: '3',
+        receiverId: '1',
+        message: 'Hi John',
+        messageId: 4,
+        time: '11:05 AM', // Include time here
+      ),
+    ],
+  ),
+  // Add more chat objects with dates, messages, and times
+  // ...
+];

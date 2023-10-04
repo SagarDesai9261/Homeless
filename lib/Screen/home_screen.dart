@@ -6,6 +6,7 @@ import 'package:homeless/Screen/profile_Screen.dart';
 import 'package:homeless/Screen/wallet_screen.dart';
 import '../model/service.dart';
 import 'map.dart';
+
 class Navbar_screen extends StatefulWidget {
   const Navbar_screen({Key? key}) : super(key: key);
 
@@ -171,7 +172,7 @@ class _Navbar_screenState extends State<Navbar_screen> {
                         ),
                       ),
                       child: const Center(
-                        child:  Icon(
+                        child: Icon(
                           Icons.notification_important_rounded,
                           color: Colors.white,
                         ),
@@ -231,7 +232,9 @@ class _Navbar_screenState extends State<Navbar_screen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 5,),
+                    const SizedBox(
+                      width: 5,
+                    ),
                     const Text(
                       "Profile",
                       style: TextStyle(color: Color(0xFF43BA82)),
@@ -251,7 +254,9 @@ class _Navbar_screenState extends State<Navbar_screen> {
                     ),
                     const Text(
                       "Profile",
-                      style: TextStyle(color: Colors.grey,),
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
                     )
                   ],
                 ],
@@ -295,52 +300,53 @@ class _Home_screenState extends State<Home_screen> {
     super.initState();
     filteredDetails = details;
   }
+
   List filteredDetails = [];
   List details = [
     {
-      'index':0,
+      'index': 0,
       'profile': "assets/user_1.png",
       'name': "John Doe",
       'location': "New York",
       'years': "28 Years"
     },
     {
-      'index':1,
+      'index': 1,
       'profile': "assets/user_2.png",
       'name': "Alice Johnson",
       'location': " California",
       'years': "32 Years"
     },
     {
-       'index':2,
+      'index': 2,
       'profile': "assets/user_3.png",
       'name': "Madelyn Ekstrom",
       'location': "Chicago",
       'years': "30 Years"
     },
     {
-      'index':3,
+      'index': 3,
       'profile': "assets/user_4.png",
       'name': "Martin Levin",
       'location': "Miami",
       'years': "32 Years"
     },
     {
-      'index':4,
+      'index': 4,
       'profile': "assets/user_5.png",
       'name': "Marley Geldt",
       'location': "Colorado",
       'years': "32 Years"
     },
     {
-      'index':5,
+      'index': 5,
       'profile': "assets/user_6.png",
       'name': "Mira Lubin",
       'location': "Washington",
       'years': "32 Years"
     },
   ];
-  void _filterbyName(String query){
+  void _filterbyName(String query) {
     setState(() {
       if (query.isEmpty) {
         // If the query is empty, show all items.
@@ -355,11 +361,12 @@ class _Home_screenState extends State<Home_screen> {
       }
     });
   }
+
   TextEditingController search = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop : ()async{
+      onWillPop: () async {
         SystemNavigator.pop();
         return false;
       },
@@ -387,11 +394,9 @@ class _Home_screenState extends State<Home_screen> {
                       child: TextFormField(
                         controller: search,
                         onChanged: _filterbyName,
-
                         decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide.none
-                            ),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide.none),
                             label: Text("Search"),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             prefixIcon: const Icon(Icons.search),
@@ -428,11 +433,10 @@ class _Home_screenState extends State<Home_screen> {
             )
           ],
         ),
-        drawer:  SizedBox(
+        drawer: SizedBox(
           width: 200,
           child: Drawer(
-            child:
-            SafeArea(
+            child: SafeArea(
               child: ListTile(
                 leading: Icon(Icons.logout),
                 title: Text('Sign Out'),
@@ -440,7 +444,8 @@ class _Home_screenState extends State<Home_screen> {
                   // Sign out the user when the "Sign Out" button is pressed
                   AuthService().signOut();
                   Navigator.pop(context);
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Account_type()));
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Account_type()));
                   //Navigator.pop(context); // Close the drawer
                 },
               ),
@@ -449,14 +454,14 @@ class _Home_screenState extends State<Home_screen> {
         ),
         body: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Two cards per row
-            childAspectRatio: 1.0, // Aspect ratio of the cards (square)
+            crossAxisCount: 6, // Two cards per row
+            childAspectRatio: 2.0, // Aspect ratio of the cards (square)
           ),
           itemCount: filteredDetails.length,
           itemBuilder: (BuildContext context, int index) {
             return Card(
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
               //elevation: 2.0, // Card elevation
               //margin: EdgeInsets.all(10.0), // Margin around each card
               child: Padding(
@@ -488,8 +493,14 @@ class _Home_screenState extends State<Home_screen> {
                         height: 10,
                       ),
                       InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MapScreen(user_index: filteredDetails[index]['index'],)));
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapScreen(
+                                        user_index: filteredDetails[index]
+                                            ['index'],
+                                      )));
                         },
                         child: Column(
                           children: [
@@ -500,9 +511,10 @@ class _Home_screenState extends State<Home_screen> {
                                 Text(filteredDetails[index]['location']),
                               ],
                             ),
-                            Text("(Click Here)",style: TextStyle(
-                              fontSize: 12
-                            ),)
+                            Text(
+                              "(Click Here)",
+                              style: TextStyle(fontSize: 12),
+                            )
                           ],
                         ),
                       ),
@@ -531,6 +543,4 @@ class _Home_screenState extends State<Home_screen> {
       ),
     );
   }
-
-
 }

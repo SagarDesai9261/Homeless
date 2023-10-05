@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:homeless/Screen/Merchant/DetailPersonPage.dart';
-import 'package:homeless/Screen/Merchant/SearchPage.dart';
 
 class Merchant_dashboard extends StatefulWidget {
   @override
@@ -63,16 +62,16 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
 
   Widget appBarTitle = new Row(
     children: [
-      Icon(
+      const Icon(
         Icons.location_on,
         size: 28,
         color: Colors.grey,
       ),
-      Text(
+      const Text(
         "HOME",
         style: TextStyle(color: Colors.black),
       ),
-      Text(
+      const Text(
         "LESS",
         style: TextStyle(color: Colors.grey),
       ),
@@ -155,7 +154,7 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
                         color: Colors.black,
                       ),
                       decoration: new InputDecoration(
-                          border: OutlineInputBorder(
+                          border: const OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
                           prefixIcon:
@@ -168,16 +167,16 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
                         new Icon(Icons.search, color: Colors.black);
                     this.appBarTitle = new Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on,
                           size: 28,
                           color: Colors.grey,
                         ),
-                        Text(
+                        const Text(
                           "HOME",
                           style: TextStyle(color: Colors.black),
                         ),
-                        Text(
+                        const Text(
                           "LESS",
                           style: TextStyle(color: Colors.grey),
                         ),
@@ -207,7 +206,7 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
             height: 100,
             width: double.infinity,
             color: Colors.blueGrey[200],
-            child: Center(
+            child: const Center(
                 child: Text(
               "REQUEST PAYMENT",
               style: TextStyle(
@@ -296,11 +295,11 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
                             ),
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.location_searching,
                                   size: 18,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(

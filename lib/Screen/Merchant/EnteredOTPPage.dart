@@ -118,18 +118,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('6-Digit OTP Input'),
+        title: const Text('6-Digit OTP Input'),
       ),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 60),
-              Text(
+              const SizedBox(height: 60),
+              const Text(
                 'Enter a 6 Digit unique idenfication number \n\t\t\t\t\t\t\t\t\t\t\t\t\t to complete the process',
                 style: TextStyle(fontSize: 16),
               ),
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -139,7 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     controller: otpController,
 
                     decoration: BoxLooseDecoration(
-                      strokeColorBuilder: FixedColorBuilder(Colors.black),
+                      strokeColorBuilder: const FixedColorBuilder(Colors.black),
                     ),
                     autoFocus: true,
                     textInputAction: TextInputAction.done,
@@ -151,8 +151,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ),
-              SizedBox(height: 40),
-              Row(
+              const SizedBox(height: 40),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -169,14 +169,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(28.0),
+              const Padding(
+                padding: EdgeInsets.all(28.0),
                 child: Text(
                   "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                   style: TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 180,
               ),
               Padding(
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 50,
                   width: double.infinity,
                   color: Colors.blueGrey[200],
-                  child: Center(
+                  child: const Center(
                       child: Text(
                     "REQUEST PAYMENT",
                     style: TextStyle(

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:homeless/Screen/Register.dart';
+
 import 'package:homeless/Screen/Register_donor.dart';
-import 'package:homeless/Screen/Register_merchant.dart';
+
 import 'package:homeless/Screen/home_screen.dart';
 import 'package:homeless/Screen/login_mechant.dart';
 import 'package:homeless/Screen/login_organization.dart';
@@ -40,11 +40,11 @@ class _Account_typeState extends State<Account_type> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.arrow_back)),
+                      icon: const Icon(Icons.arrow_back)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .25,
                   ),
-                  Text(
+                  const Text(
                     'Account Type',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -57,7 +57,7 @@ class _Account_typeState extends State<Account_type> {
                   ),
                 ],
               ),
-              Text(
+              const Text(
                 'Kindly select account type from below options.',
                 style: TextStyle(
                   color: Color(0xFF787878),
@@ -84,7 +84,7 @@ class _Account_typeState extends State<Account_type> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: seleted_index == 1
-                        ? Border.all(color: Color(0xFF46BA80))
+                        ? Border.all(color: const Color(0xFF46BA80))
                         : Border.all(color: Colors.white),
                   ),
                   child: Column(
@@ -103,7 +103,7 @@ class _Account_typeState extends State<Account_type> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: seleted_index == 1
-                              ? Color(0xFF46BA80)
+                              ? const Color(0xFF46BA80)
                               : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
@@ -131,7 +131,7 @@ class _Account_typeState extends State<Account_type> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: seleted_index == 2
-                        ? Border.all(color: Color(0xFF46BA80))
+                        ? Border.all(color: const Color(0xFF46BA80))
                         : Border.all(color: Colors.white),
                   ),
                   child: Column(
@@ -150,7 +150,7 @@ class _Account_typeState extends State<Account_type> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: seleted_index == 2
-                              ? Color(0xFF46BA80)
+                              ? const Color(0xFF46BA80)
                               : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
@@ -178,7 +178,7 @@ class _Account_typeState extends State<Account_type> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: seleted_index == 3
-                        ? Border.all(color: Color(0xFF46BA80))
+                        ? Border.all(color: const Color(0xFF46BA80))
                         : Border.all(color: Colors.white),
                   ),
                   child: Column(
@@ -197,7 +197,7 @@ class _Account_typeState extends State<Account_type> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: seleted_index == 3
-                              ? Color(0xFF46BA80)
+                              ? const Color(0xFF46BA80)
                               : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
@@ -219,26 +219,26 @@ class _Account_typeState extends State<Account_type> {
               InkWell(
                 onTap: () {
                   if (seleted_index == 0) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text("Please select the Account type")));
                   } else if (seleted_index == 1) {
                     if (FirebaseAuth.instance.currentUser != null) {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Navbar_screen()));
+                              builder: (context) => const Navbar_screen()));
                     } else {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  Login_screen_Organazition()));
+                                  const Login_screen_Organazition()));
                     }
                   } else if (seleted_index == 2) {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Login_screen_Merchant()));
+                            builder: (context) => const Login_screen_Merchant()));
                   } else if (seleted_index == 3) {
                     Navigator.push(
                         context,
@@ -250,11 +250,11 @@ class _Account_typeState extends State<Account_type> {
                     width: 343,
                     height: 50,
                     decoration: ShapeDecoration(
-                      color: Color(0xFF46BA80),
+                      color: const Color(0xFF46BA80),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                     ),
-                    child: Text('Continue',
+                    child: const Text('Continue',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,

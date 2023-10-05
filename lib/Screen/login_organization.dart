@@ -33,7 +33,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFF46BA80),
             ),
             child: SingleChildScrollView(
@@ -42,7 +42,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .1,
                   ),
-                  Center(
+                  const Center(
                     child: Text(
                       "Login",
                       style: TextStyle(
@@ -51,10 +51,10 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Center(
+                  const Center(
                     child: Text(
                       "Welcome to Organization",
                       style: TextStyle(
@@ -63,14 +63,14 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   SingleChildScrollView(
                     child: Container(
                       height: MediaQuery.of(context).size.height * .75,
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(topLeft: Radius.circular(100),topRight: Radius.circular(100))),
                       child: Column(
@@ -88,7 +88,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                       )),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           SizedBox(
@@ -98,14 +98,14 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                               obscureText: pass,
                               decoration: InputDecoration(
                                 suffixIcon: pass ?  IconButton(
-                                  icon:  Icon(Icons.visibility)
+                                  icon:  const Icon(Icons.visibility)
                                   , onPressed: () {
                                     setState(() {
                                       pass = false;
                                     });
                                 },
                                 ) : IconButton(
-                                  icon:  Icon(Icons.visibility_off)
+                                  icon:  const Icon(Icons.visibility_off)
                                   , onPressed: () {
                                   setState(() {
                                     pass = true;
@@ -120,7 +120,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                       )),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           GestureDetector(
@@ -131,7 +131,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                               margin: EdgeInsets.only(
                                   right: MediaQuery.of(context).size.width * .15),
                               alignment: Alignment.topRight,
-                              child: Text(
+                              child: const Text(
                                 "Forgot Password?",
                                 style: TextStyle(
                                     color: Color(0xFF46BA80),
@@ -139,7 +139,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           GestureDetector(
@@ -163,7 +163,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                               });
 
                                 // Simulate a login request.
-                                await Future.delayed(Duration(seconds: 3));
+                                await Future.delayed(const Duration(seconds: 3));
                                // Navigator.push(context, MaterialPageRoute(builder: (context)=>Navbar_screen()));
                                 setState(() {
                                   isloading = false;
@@ -172,18 +172,18 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                   Alert(context: context,type: AlertType.error,title: error.toString()).show();
                                 }
                                 else{
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Navbar_screen()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Navbar_screen()));
                                 }
                             },
                             child: Container(
                                 width: 200,
                                 height: 50,
                                 decoration: ShapeDecoration(
-                                  color: Color(0xFF46BA80),
+                                  color: const Color(0xFF46BA80),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)),
                                 ),
-                                child: isloading == false ?  Text('Sign to your Account',
+                                child: isloading == false ?  const Text('Sign to your Account',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -191,15 +191,15 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                       fontFamily: 'SF Pro Text',
                                       fontWeight: FontWeight.w600,
                                       height: 2,
-                                    )) : Center(child: CircularProgressIndicator(color: Colors.white,))),
+                                    )) : const Center(child: CircularProgressIndicator(color: Colors.white,))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't have Account ? ",
                                 style: TextStyle(fontSize: 16),
                               ),
@@ -207,7 +207,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                                 onTap: (){
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Register_Organization()));
                                 },
-                                  child: Text(
+                                  child: const Text(
                                 "Register",
                                 style:
                                     TextStyle(fontSize: 16, color: Color(0xFF46BA80)),
@@ -235,16 +235,16 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
           final emailField = TextFormField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.black,
             ),
             decoration: InputDecoration(
               hintText: 'something@example.com',
              // labelText: 'Account Email to Reset',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: Colors.black,
               ),
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Colors.black,
               ),
               border: OutlineInputBorder(
@@ -265,7 +265,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text("Reset Password Link",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
+                  const Text("Reset Password Link",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 17),),
                   emailField,
                   MaterialButton(
                     onPressed: () async {
@@ -276,11 +276,11 @@ class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height/12,
-                      padding: EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.all(15.0),
                       child: Material(
-                          color: Color(0xFF46BA80),
+                          color: const Color(0xFF46BA80),
                           borderRadius: BorderRadius.circular(25.0),
-                          child: Column(
+                          child: const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(

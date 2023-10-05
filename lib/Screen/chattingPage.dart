@@ -31,7 +31,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildTextComposer() {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
           Flexible(
@@ -39,13 +39,13 @@ class _ChatScreenState extends State<ChatScreen> {
               maxLines: null,
               controller: _textController,
               // onSubmitted: _handleSubmitted,
-              decoration: InputDecoration.collapsed(
+              decoration: const InputDecoration.collapsed(
                   hintText: 'Type your message',
                   hintStyle: TextStyle(color: Colors.grey)),
             ),
           ),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.swap_horiz,
               color: Colors.grey,
             ), // Add a button to switch message type
@@ -63,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 // _handleSubmitted(_textController.text);
               }
             },
-            child: SizedBox(
+            child: const SizedBox(
               height: 28,
               child: Image(
                 image: AssetImage('assets/send.png'),
@@ -79,20 +79,20 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.grey),
+        iconTheme: const IconThemeData(color: Colors.grey),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
           widget.chatPerson.name.toString(),
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
         ),
       ),
       body: Container(
         color: Colors.black12,
         child: Column(
           children: <Widget>[
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(
@@ -115,7 +115,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 top: 5, left: 5, right: 5),
                             child: Text(
                               chat.date,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500),
@@ -131,10 +131,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Divider(height: 1.0),
+            const Divider(height: 1.0),
             _buildTextComposer(),
           ],
         ),
@@ -254,13 +254,13 @@ class ChatMessagePage extends StatelessWidget {
                 alignment: isSender ? Alignment.topRight : Alignment.topLeft,
                 backGroundColor: isSender ? Colors.white : Colors.grey,
                 child: Container(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                       // maxWidth: MediaQuery.of(context).size.width * 0.7,
                       ),
                   // padding: EdgeInsets.all(10.0),
                   child: Text(
                     message.message,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 14,
                     ),
@@ -272,13 +272,13 @@ class ChatMessagePage extends StatelessWidget {
                 alignment: isSender ? Alignment.topRight : Alignment.topLeft,
                 backGroundColor: isSender ? Colors.white : Colors.grey,
                 child: Container(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                       // maxWidth: MediaQuery.of(context).size.width * 0.7,
                       ),
                   // padding: EdgeInsets.all(10.0),
                   child: Text(
                     "  " + message.message,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 14,
                     ),

@@ -28,7 +28,7 @@ class AuthService {
       }
       return null;
     } catch (error) {
-      print(error.toString());
+      // print(error.toString());
       return null;
     }
   }
@@ -69,7 +69,7 @@ class AuthService {
       }
       return null;
     } catch (error) {
-      print(error.toString());
+      // print(error.toString());
       return null;
     }
   }
@@ -89,7 +89,7 @@ class AuthService {
       }
       return "";
     } catch (error) {
-      print(error.toString());
+      // print(error.toString());
       return "Email and Password is invalid";
     }
   }
@@ -103,7 +103,7 @@ class AuthService {
     try {
       await _auth.signOut();
     } catch (error) {
-      print(error.toString());
+      // print(error.toString());
     }
   }
 }

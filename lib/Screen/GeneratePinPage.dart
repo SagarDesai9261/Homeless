@@ -44,14 +44,14 @@ class _GeneratePinPageState extends State<GeneratePinPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey[200],
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Pay',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
           IconButton(
-              color: Colors.grey, onPressed: () {}, icon: Icon(Icons.menu)),
+              color: Colors.grey, onPressed: () {}, icon: const Icon(Icons.menu)),
         ],
       ),
       body: Container(
@@ -68,7 +68,7 @@ class _GeneratePinPageState extends State<GeneratePinPage> {
             ),
             //
             Container(
-                padding: EdgeInsets.all(40), //padding of outer Container
+                padding: const EdgeInsets.all(40), //padding of outer Container
                 child: DottedBorder(
                   color: Colors.black, //color of dotted/dash line
                   strokeWidth: 3, //thickness of dash/dots
@@ -84,7 +84,7 @@ class _GeneratePinPageState extends State<GeneratePinPage> {
                         child: Text(
                       Value,
                       style:
-                          TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                     )),
                   ),
                 )),
@@ -95,7 +95,7 @@ class _GeneratePinPageState extends State<GeneratePinPage> {
                 style: TextStyle(fontSize: 13, color: Colors.grey[700]),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 100,
             ),
           ],
@@ -107,7 +107,7 @@ class _GeneratePinPageState extends State<GeneratePinPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Divider(
+              const Divider(
                 thickness: 1,
               ),
               Padding(
@@ -124,8 +124,8 @@ class _GeneratePinPageState extends State<GeneratePinPage> {
 
   String generateRandomString() {
     final random = Random();
-    final alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    final digits = '0123456789';
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const digits = '0123456789';
 
     String result = '';
 

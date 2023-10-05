@@ -78,28 +78,28 @@ class PersonDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Details',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
       body: Container(
-        color: Color.fromARGB(255, 208, 199, 199),
+        color: const Color.fromARGB(255, 208, 199, 199),
         height: 1000,
         // width: double.infinity,
         child: Center(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
               Container(
                 // height: 100,
                 // width: 100,
-                padding: EdgeInsets.all(15), // Padding for the border width
+                padding: const EdgeInsets.all(15), // Padding for the border width
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(
+                  color: const Color.fromARGB(
                       255, 229, 223, 223), // Background color of the circle
                   borderRadius: BorderRadius.circular(
                       150), // Half of th e sum of radius and border width
@@ -108,7 +108,7 @@ class PersonDetailPage extends StatelessWidget {
                     // width: 5, // Border width
                   ),
                 ),
-                child: CircleAvatar(
+                child: const CircleAvatar(
                   maxRadius: 100,
                   backgroundColor:
                       Colors.transparent, // Transparent background color
@@ -116,27 +116,27 @@ class PersonDetailPage extends StatelessWidget {
                   // You can set a background image or initials here if needed
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 14,
               ),
-              Text(
+              const Text(
                 'Graham Thorpe',
                 style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
                     fontSize: 25),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 14,
               ),
-              Text(
+              const Text(
                 '29 years',
                 style: TextStyle(color: Colors.grey, fontSize: 15),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 14,
               ),
-              Center(
+              const Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -151,19 +151,19 @@ class PersonDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 105,
               ),
               Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
+                margin: const EdgeInsets.symmetric(horizontal: 20),
                 height: 60,
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: Colors.grey),
                   color: Colors.white,
                 ),
                 child: ListTile(
-                  leading: Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                  leading: const Padding(
+                    padding: EdgeInsets.only(top: 4),
                     child: Text(
                       'Amount',
                       style: TextStyle(
@@ -179,10 +179,10 @@ class PersonDetailPage extends StatelessWidget {
                     ),
                     child: TextField(
                       controller: a,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: InputBorder.none, // Remove underline
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.none,
@@ -191,8 +191,8 @@ class PersonDetailPage extends StatelessWidget {
                       textAlign: TextAlign.center, // Align text to the center
                     ),
                   ),
-                  trailing: Padding(
-                    padding: const EdgeInsets.only(top: 0),
+                  trailing: const Padding(
+                    padding: EdgeInsets.only(top: 0),
                     child: Text(
                       'US Dollars',
                       style: TextStyle(color: Colors.grey),
@@ -200,7 +200,7 @@ class PersonDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -213,8 +213,8 @@ class PersonDetailPage extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     height: 55,
-                    color: Color.fromARGB(255, 69, 190, 170),
-                    child: Center(
+                    color: const Color.fromARGB(255, 69, 190, 170),
+                    child: const Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

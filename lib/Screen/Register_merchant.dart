@@ -109,14 +109,14 @@ class _Register_merchantState extends State<Register_merchant> {
           foregroundColor: Colors.black,
           elevation: 0,
           centerTitle: true,
-          title: Text('Register'),
+          title: const Text('Register'),
         ),
         body: SingleChildScrollView(
           child: Form(
             key: formkey,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -127,13 +127,13 @@ class _Register_merchantState extends State<Register_merchant> {
                     List<String> words = text.split(" ");
                     return Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
                           '${words[0]}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'SF Pro Text',
@@ -141,13 +141,13 @@ class _Register_merchantState extends State<Register_merchant> {
                             height: 1,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
                           '${words[1]}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'SF Pro Text',
@@ -168,7 +168,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     );
                   }),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Container(
@@ -196,8 +196,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Full name',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -209,7 +209,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: name,
                   validator: (value) {
@@ -219,7 +219,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Full Name",
                       border: OutlineInputBorder(
@@ -233,8 +233,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Email Address',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -246,7 +246,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: email,
                   validator: (value) {
@@ -256,7 +256,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Email Address",
                       border: OutlineInputBorder(
@@ -270,8 +270,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Phone',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -283,7 +283,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -299,7 +299,7 @@ class _Register_merchantState extends State<Register_merchant> {
                   controller: phone,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Phone",
                       border: OutlineInputBorder(
@@ -313,8 +313,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Choose Password',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -326,7 +326,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -337,12 +337,12 @@ class _Register_merchantState extends State<Register_merchant> {
                   controller: choosePassword,
                   obscureText: password1,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       suffixIcon: IconButton(
                         icon: password1
-                            ? Icon(Icons.visibility)
-                            : Icon(Icons.visibility_off),
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             password1 ? password1 = false : password1 = true;
@@ -361,8 +361,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Confirm Password',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -374,7 +374,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -387,13 +387,13 @@ class _Register_merchantState extends State<Register_merchant> {
                   obscureText: password2,
                   controller: confirmPassword,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Confirm Password",
                       suffixIcon: IconButton(
                         icon: password2
-                            ? Icon(Icons.visibility)
-                            : Icon(Icons.visibility_off),
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             password2 ? password2 = false : password2 = true;
@@ -408,7 +408,7 @@ class _Register_merchantState extends State<Register_merchant> {
             ],
           ),
           CheckboxListTile(
-            title: Text(
+            title: const Text(
               "I’ve read and agreed to Terms & conditions",
               style: TextStyle(fontSize: 14),
             ),
@@ -429,7 +429,7 @@ class _Register_merchantState extends State<Register_merchant> {
             onTap: () {
               if (formkey.currentState!.validate()) {
                 if (checkvalue == false) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Please check the Terms and Condition")));
                 } else {
                   print(name.text);
@@ -449,11 +449,11 @@ class _Register_merchantState extends State<Register_merchant> {
                 width: 343,
                 height: 50,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
+                  color: const Color(0xFF46BA80),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue',
+                child: const Text('Continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -479,8 +479,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Business name',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -492,7 +492,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: Businessname,
                   validator: (value) {
@@ -502,7 +502,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Business name",
                       border: OutlineInputBorder(
@@ -516,8 +516,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Business Category',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -529,7 +529,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -539,7 +539,7 @@ class _Register_merchantState extends State<Register_merchant> {
                   },
                   controller: BusinessCategory,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Business Category",
                       border: OutlineInputBorder(
@@ -553,8 +553,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Street Address',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -566,7 +566,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -576,7 +576,7 @@ class _Register_merchantState extends State<Register_merchant> {
                   },
                   controller: address,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Street Address",
                       border: OutlineInputBorder(
@@ -590,8 +590,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Area/Sector',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -603,7 +603,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: AreaSector,
                   validator: (value) {
@@ -613,7 +613,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Area/Sector",
                       border: OutlineInputBorder(
@@ -627,8 +627,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Pincode',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -640,7 +640,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: pincode,
                   validator: (value) {
@@ -650,7 +650,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Pincode",
                       border: OutlineInputBorder(
@@ -664,8 +664,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'State',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -677,7 +677,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: state4Business,
                   validator: (value) {
@@ -687,7 +687,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
 
                       //suffixIcon: Icon(Icons.visibility),
@@ -703,8 +703,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Country',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -716,7 +716,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: TextFormField(
                   controller: country4Business,
                   validator: (value) {
@@ -726,7 +726,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Country",
                       //suffixIcon: Icon(Icons.visibility),
@@ -745,7 +745,7 @@ class _Register_merchantState extends State<Register_merchant> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Upload Registraction Certificate',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -761,7 +761,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     shrinkWrap: true,
                     itemCount: selectedImages.length +
                         1, // Add one for the "Add" button
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
                           3, // You can adjust the number of columns as needed
                       childAspectRatio:
@@ -809,7 +809,7 @@ class _Register_merchantState extends State<Register_merchant> {
                                 10.0), // Set border radius as desired
                           ),
                           child: IconButton(
-                            icon: Icon(Icons.add),
+                            icon: const Icon(Icons.add),
                             onPressed:
                                 pickImage, // Call pickImage() when the button is pressed
                           ),
@@ -838,11 +838,11 @@ class _Register_merchantState extends State<Register_merchant> {
                 width: 343,
                 height: 50,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
+                  color: const Color(0xFF46BA80),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue',
+                child: const Text('Continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -868,8 +868,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Account Number',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -881,7 +881,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: AccountNumber,
                   validator: (value) {
@@ -891,7 +891,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Account Number",
                       border: OutlineInputBorder(
@@ -905,8 +905,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Bank Name',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -918,7 +918,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -928,7 +928,7 @@ class _Register_merchantState extends State<Register_merchant> {
                   },
                   controller: bankName,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Bank Name",
                       border: OutlineInputBorder(
@@ -942,8 +942,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'City',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -955,7 +955,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: city4Bank,
                   validator: (value) {
@@ -965,7 +965,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "City",
                       border: OutlineInputBorder(
@@ -979,8 +979,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'State',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -992,7 +992,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -1002,7 +1002,7 @@ class _Register_merchantState extends State<Register_merchant> {
                   },
                   controller: state4Bank,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "State",
                       border: OutlineInputBorder(
@@ -1016,8 +1016,8 @@ class _Register_merchantState extends State<Register_merchant> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Branch Location',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -1029,7 +1029,7 @@ class _Register_merchantState extends State<Register_merchant> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: TextFormField(
                   controller: branchLocation,
                   validator: (value) {
@@ -1039,7 +1039,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Branch Location",
                       //suffixIcon: Icon(Icons.visibility),
@@ -1080,18 +1080,18 @@ class _Register_merchantState extends State<Register_merchant> {
 
                 await firestoreService.addMerchantData(merchant);
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Navbar_screen()));
+                    MaterialPageRoute(builder: (context) => const Navbar_screen()));
               }
             },
             child: Container(
                 width: 343,
                 height: 50,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
+                  color: const Color(0xFF46BA80),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue',
+                child: const Text('Continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,

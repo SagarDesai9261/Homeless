@@ -1,19 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeless/Screen/ChattingPersonListpage.dart';
-import 'package:homeless/Screen/GeneratePinPage.dart';
-import 'package:homeless/Screen/Merchant/EnteredOTPPage.dart';
-import 'package:homeless/Screen/Merchant/Merchant_dashboard.dart';
-import 'package:homeless/Screen/home_screen.dart';
-import 'package:homeless/Screen/wallet_screen.dart';
 
-import 'Screen/splash_screen.dart';
+import 'package:homeless/Screen/GeneratePinPage.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // Initialize Firebase
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {

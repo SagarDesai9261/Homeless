@@ -396,8 +396,8 @@ class _Home_screenState extends State<Home_screen> {
                         onChanged: _filterbyName,
                         decoration: InputDecoration(
                             focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide.none),
-                            label: Text("Search"),
+                                const OutlineInputBorder(borderSide: BorderSide.none),
+                            label: const Text("Search"),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             prefixIcon: const Icon(Icons.search),
                             fillColor: Colors.white,
@@ -424,8 +424,8 @@ class _Home_screenState extends State<Home_screen> {
             ),
           ),
           backgroundColor: const Color(0xFF43BA82),
-          actions: [
-            const Padding(
+          actions: const [
+            Padding(
               padding: EdgeInsets.all(8.0),
               child: CircleAvatar(
                 backgroundImage: AssetImage("assets/user.png"),
@@ -438,14 +438,14 @@ class _Home_screenState extends State<Home_screen> {
           child: Drawer(
             child: SafeArea(
               child: ListTile(
-                leading: Icon(Icons.logout),
-                title: Text('Sign Out'),
+                leading: const Icon(Icons.logout),
+                title: const Text('Sign Out'),
                 onTap: () {
                   // Sign out the user when the "Sign Out" button is pressed
                   AuthService().signOut();
                   Navigator.pop(context);
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Account_type()));
+                      MaterialPageRoute(builder: (context) => const Account_type()));
                   //Navigator.pop(context); // Close the drawer
                 },
               ),
@@ -511,7 +511,7 @@ class _Home_screenState extends State<Home_screen> {
                                 Text(filteredDetails[index]['location']),
                               ],
                             ),
-                            Text(
+                            const Text(
                               "(Click Here)",
                               style: TextStyle(fontSize: 12),
                             )

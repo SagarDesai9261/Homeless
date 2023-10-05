@@ -534,7 +534,7 @@ class _Wallet_pageState extends State<Wallet_page> {
                       ),
                     if (_bannerAd == null)
                       Container(
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Image.asset("assets/google_ad.png"))
                   ],
                 ),

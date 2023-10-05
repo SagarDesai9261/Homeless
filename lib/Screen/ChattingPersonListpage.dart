@@ -44,7 +44,7 @@ class ChatListPage extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Messages',
           style: TextStyle(color: Colors.black),
         ),
@@ -53,14 +53,14 @@ class ChatListPage extends StatelessWidget {
               onPressed: () {
                 CustomDrawer();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.menu,
                 color: Colors.black,
               ))
         ],
       ),
       body: Container(
-        decoration: BoxDecoration(color: Colors.white10),
+        decoration: const BoxDecoration(color: Colors.white10),
         child: ListView.builder(
           itemCount: chatPersons.length,
           itemBuilder: (ctx, index) {
@@ -71,7 +71,7 @@ class ChatListPage extends StatelessWidget {
               ),
               title: Text(chatPerson.name.toString()),
               subtitle: Text(chatPerson.lastMessage.toString()),
-              trailing: Text(
+              trailing: const Text(
                 '2:30 PM', // Replace with the actual message timestamp
                 style: TextStyle(fontSize: 12, color: Colors.grey),
               ),
@@ -98,7 +98,7 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
+          const DrawerHeader(
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
@@ -111,15 +111,15 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
+            leading: const Icon(Icons.home),
+            title: const Text('Home'),
             onTap: () {
               // Handle the home item tap here
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'),
             onTap: () {
               // Handle the settings item tap here
             },

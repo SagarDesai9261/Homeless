@@ -68,7 +68,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
           foregroundColor: Colors.black,
           elevation: 0,
           centerTitle: true,
-          title: Text('Register'),
+          title: const Text('Register'),
         ),
         body: SingleChildScrollView(
           child: Form(
@@ -83,13 +83,13 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     List<String> words = text.split(" ");
                     return Column(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
                           '${words[0]}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'SF Pro Text',
@@ -97,13 +97,13 @@ class _Register_OrganizationState extends State<Register_Organization> {
                             height: 1,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
                           '${words[1]}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'SF Pro Text',
@@ -147,8 +147,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Organization name',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -160,7 +160,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: name,
                   validator: (value) {
@@ -170,7 +170,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Organization name",
                       border: OutlineInputBorder(
@@ -184,8 +184,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Email Address',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -197,7 +197,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: email,
                   validator: (value) {
@@ -207,7 +207,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Email Address",
                       border: OutlineInputBorder(
@@ -221,8 +221,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Contact Person',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -234,7 +234,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -244,7 +244,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   },
                   controller: contact_person,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Contact Person",
                       border: OutlineInputBorder(
@@ -258,8 +258,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Phone',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -271,7 +271,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -288,7 +288,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   controller: phone,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Phone",
                       border: OutlineInputBorder(
@@ -302,8 +302,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Choose Password',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -315,7 +315,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -326,12 +326,12 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   controller: choose_password,
                   obscureText: password1,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       suffixIcon: IconButton(
                         icon: password1
-                            ? Icon(Icons.visibility)
-                            : Icon(Icons.visibility_off),
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             password1 ? password1 = false : password1 = true;
@@ -350,8 +350,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Confirm Password',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -363,7 +363,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -377,13 +377,13 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   obscureText: password2,
                   controller: confirm_password,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Confirm Password",
                       suffixIcon: IconButton(
                         icon: password2
-                            ? Icon(Icons.visibility)
-                            : Icon(Icons.visibility_off),
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             password2 ? password2 = false : password2 = true;
@@ -397,7 +397,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
             ],
           ),
           CheckboxListTile(
-            title: Text(
+            title: const Text(
               "I’ve read and agreed to Terms & conditions",
               style: TextStyle(fontSize: 14),
             ),
@@ -418,7 +418,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
             onTap: () {
               if (formkey.currentState!.validate()) {
                 if (checkvalue == false) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Please check the Terms and Condition")));
                 } else {
                   print(name.text);
@@ -435,11 +435,11 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 width: 343,
                 height: 50,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
+                  color: const Color(0xFF46BA80),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue',
+                child: const Text('Continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,
@@ -462,8 +462,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Full name',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -475,7 +475,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: fullname,
                   validator: (value) {
@@ -486,7 +486,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   },
                   decoration: InputDecoration(
 
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Full name",
                       border: OutlineInputBorder(
@@ -500,8 +500,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Address',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -513,7 +513,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
@@ -523,7 +523,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   },
                   controller: address,
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Address",
                       border: OutlineInputBorder(
@@ -537,8 +537,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Appartment name,society etc',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -550,7 +550,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: appartment,
                   validator: (value) {
@@ -560,7 +560,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Appartment name,society etc",
                       border: OutlineInputBorder(
@@ -574,8 +574,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'City',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -587,7 +587,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: city,
                   validator: (value) {
@@ -597,7 +597,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "city",
                       border: OutlineInputBorder(
@@ -611,8 +611,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'State',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -624,7 +624,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: TextFormField(
                   controller: state,
                   validator: (value) {
@@ -634,7 +634,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
 
                       //suffixIcon: Icon(Icons.visibility),
@@ -650,8 +650,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                padding: EdgeInsets.only(top: 10, left: 20),
-                child: Text(
+                padding: const EdgeInsets.only(top: 10, left: 20),
+                child: const Text(
                   'Country',
                   style: TextStyle(
                     color: Color(0xFF787878),
@@ -663,7 +663,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 child: TextFormField(
                   controller: country,
                   validator: (value) {
@@ -673,7 +673,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-                      fillColor: Color(0x1943BA82),
+                      fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Country",
                       //suffixIcon: Icon(Icons.visibility),
@@ -705,13 +705,13 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 );
                 AuthService().registerUser(user).then((value) => Alert(context: context,title:"Account Register Successfully",type: AlertType.success,buttons: [
                   DialogButton(
-                    child: Text(
+                    child: const Text(
                       "ok",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     onPressed: () =>  Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Navbar_screen())),
-                    color: Color.fromRGBO(0, 179, 134, 1.0),
+                        MaterialPageRoute(builder: (context) => const Navbar_screen())),
+                    color: const Color.fromRGBO(0, 179, 134, 1.0),
                     radius: BorderRadius.circular(0.0),
                   ),
                 ],).show());
@@ -724,11 +724,11 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 width: 343,
                 height: 50,
                 decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
+                  color: const Color(0xFF46BA80),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                 ),
-                child: Text('Continue',
+                child: const Text('Continue',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.white,

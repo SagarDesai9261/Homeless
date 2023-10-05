@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
 class MapScreen extends StatefulWidget {
   int user_index;
-  MapScreen(
-  {
+  MapScreen({
     required this.user_index,
-}
-);
+  });
   @override
   _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
-
   GoogleMapController? mapController;
   final LatLng _center = const LatLng(21.5397, 71.5776);
   PageController pageController = PageController(initialPage: 0);
   List<LocationInfo> locations = [
     LocationInfo(
       profile_image: "assets/user_1.png",
-      position: const LatLng(40.7128,-74.0060), // Initial location
+      position: const LatLng(40.7128, -74.0060), // Initial location
       userName: 'John Doe',
       address: 'New York City, New York',
       year: 28,
@@ -33,7 +29,7 @@ class _MapScreenState extends State<MapScreen> {
     ),
     LocationInfo(
       profile_image: "assets/user_2.png",
-      position: const LatLng(34.0522,-118.2437), // Example location 1
+      position: const LatLng(34.0522, -118.2437), // Example location 1
       userName: 'Alice Johnson',
       address: 'Los Angeles, California',
       year: 32,
@@ -45,7 +41,7 @@ class _MapScreenState extends State<MapScreen> {
     ),
     LocationInfo(
       profile_image: "assets/user_3.png",
-      position: const LatLng(41.8781,-87.6298), // Example location 1
+      position: const LatLng(41.8781, -87.6298), // Example location 1
       userName: 'Madelyn Ekstrom',
       address: 'Chicago, Illinois',
       year: 30,
@@ -69,7 +65,7 @@ class _MapScreenState extends State<MapScreen> {
     ),
     LocationInfo(
       profile_image: "assets/user_5.png",
-      position: const LatLng(39.7392,-104.9903), // Example location 1
+      position: const LatLng(39.7392, -104.9903), // Example location 1
       userName: 'Marley Geldt',
       address: 'Denver, Colorado',
       year: 32,
@@ -117,7 +113,6 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-
     mapController = controller;
     //_onPageChanged(widget.user_index);
     mapController!.animateCamera(
@@ -130,7 +125,7 @@ class _MapScreenState extends State<MapScreen> {
     for (int i = 0; i < locations.length; i++) {
       markers.add(
         Marker(
-          onTap: (){
+          onTap: () {
             _onMarkerTapped(i);
           },
           markerId: MarkerId('marker_$i'),
@@ -145,6 +140,7 @@ class _MapScreenState extends State<MapScreen> {
     }
     return markers;
   }
+
   void _onMarkerTapped(int index) {
     setState(() {
       selectedLocationIndex = index;
@@ -155,6 +151,7 @@ class _MapScreenState extends State<MapScreen> {
       curve: Curves.ease,
     );
   }
+
   void _onPageChanged(int index) {
     setState(() {
       selectedLocationIndex = index;
@@ -166,9 +163,7 @@ class _MapScreenState extends State<MapScreen> {
       // If the last page is reached, wrap around to the first page.
       pageController.jumpToPage(0);
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -195,8 +190,11 @@ class _MapScreenState extends State<MapScreen> {
             bottom: 20,
             left: 20,
             right: 20,
-            child: Container(
-              height: height > 660 ? MediaQuery.of(context).size.height*.45 :  MediaQuery.of(context).size.height*.57, // Adjust the height as needed
+            child: SizedBox(
+              height: height > 660
+                  ? MediaQuery.of(context).size.height * .45
+                  : MediaQuery.of(context).size.height *
+                      .57, // Adjust the height as needed
               child: PageView.builder(
                 controller: pageController,
                 itemCount: locations.length,
@@ -217,7 +215,8 @@ class _MapScreenState extends State<MapScreen> {
                             height: 62,
                             decoration: ShapeDecoration(
                               image: DecorationImage(
-                                image: AssetImage('${locations[index].profile_image}'), // Replace with actual image path
+                                image: AssetImage(locations[index]
+                                    .profile_image), // Replace with actual image path
                                 fit: BoxFit.fill,
                               ),
                               shape: RoundedRectangleBorder(
@@ -232,13 +231,15 @@ class _MapScreenState extends State<MapScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          subtitle: Text(currentLocation.address,style: const TextStyle(
-                              fontSize: 10
-                          ),),
+                          subtitle: Text(
+                            currentLocation.address,
+                            style: const TextStyle(fontSize: 10),
+                          ),
                           trailing: Container(
                             width: 67,
                             height: 24,
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 6),
                             clipBehavior: Clip.antiAlias,
                             decoration: ShapeDecoration(
                               color: const Color(0x1443BA82),
@@ -246,7 +247,7 @@ class _MapScreenState extends State<MapScreen> {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            child:  Text(
+                            child: Text(
                               '${locations[index].year.toString()} Years',
                               textAlign: TextAlign.right,
                               style: const TextStyle(
@@ -260,18 +261,18 @@ class _MapScreenState extends State<MapScreen> {
                           ),
                         ),
                         ListTile(
-                          title:  const Text(
+                          title: const Text(
                             'Device allotted ',
                             style: TextStyle(
                               color: Color(0xFF787878),
                               fontSize: 14,
                               fontFamily: 'SF Pro Text',
                               fontWeight: FontWeight.w400,
-                              height:  1 ,
+                              height: 1,
                             ),
                           ),
                           trailing: Text(
-                            '${locations[index].deviceAllocated}',
+                            locations[index].deviceAllocated,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF1F2D36),
@@ -285,9 +286,12 @@ class _MapScreenState extends State<MapScreen> {
                         Container(
                             margin: const EdgeInsets.only(left: 15),
                             width: MediaQuery.of(context).size.width * .80,
-                            child: const Divider(height: 1,thickness: 2,)),
+                            child: const Divider(
+                              height: 1,
+                              thickness: 2,
+                            )),
                         ListTile(
-                          title:  const Text(
+                          title: const Text(
                             'Device serial ',
                             style: TextStyle(
                               color: Color(0xFF787878),
@@ -298,7 +302,7 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                           ),
                           trailing: Text(
-                            '${locations[index].deviceSerial}',
+                            locations[index].deviceSerial,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF1F2D36),
@@ -312,9 +316,12 @@ class _MapScreenState extends State<MapScreen> {
                         Container(
                             margin: const EdgeInsets.only(left: 15),
                             width: MediaQuery.of(context).size.width * .80,
-                            child: const Divider(height: 1,thickness: 2,)),
+                            child: const Divider(
+                              height: 1,
+                              thickness: 2,
+                            )),
                         ListTile(
-                          title:  const Text(
+                          title: const Text(
                             'Donation received ',
                             style: TextStyle(
                               color: Color(0xFF787878),
@@ -325,7 +332,7 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                           ),
                           trailing: Text(
-                            '${locations[index].donationReceived}',
+                            locations[index].donationReceived,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF1F2D36),
@@ -339,9 +346,12 @@ class _MapScreenState extends State<MapScreen> {
                         Container(
                             margin: const EdgeInsets.only(left: 15),
                             width: MediaQuery.of(context).size.width * .80,
-                            child: const Divider(height: 1,thickness: 2,)),
+                            child: const Divider(
+                              height: 1,
+                              thickness: 2,
+                            )),
                         ListTile(
-                          title:  const Text(
+                          title: const Text(
                             'Wallet balance ',
                             style: TextStyle(
                               color: Color(0xFF787878),
@@ -366,9 +376,12 @@ class _MapScreenState extends State<MapScreen> {
                         Container(
                             margin: const EdgeInsets.only(left: 15),
                             width: MediaQuery.of(context).size.width * .80,
-                            child: const Divider(height: 1,thickness: 2,)),
+                            child: const Divider(
+                              height: 1,
+                              thickness: 2,
+                            )),
                         ListTile(
-                          title:  const Text(
+                          title: const Text(
                             'Member since ',
                             style: TextStyle(
                               color: Color(0xFF787878),
@@ -379,7 +392,7 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                           ),
                           trailing: Text(
-                            '${locations[index].memberSince}',
+                            locations[index].memberSince,
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               color: Color(0xFF1F2D36),
@@ -390,7 +403,6 @@ class _MapScreenState extends State<MapScreen> {
                             ),
                           ),
                         ),
-
                       ],
                     ),
                   );
@@ -403,6 +415,7 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 }
+
 class LocationInfo {
   final LatLng position;
   final String userName;
@@ -413,18 +426,18 @@ class LocationInfo {
   final String donationReceived;
   final double walletBalance;
   final String memberSince;
+  // ignore: non_constant_identifier_names
   final String profile_image;
 
-  LocationInfo({
-    required this.position,
-    required this.userName,
-    required this.address,
-    required this.year,
-    required this.deviceAllocated,
-    required this.deviceSerial,
-    required this.donationReceived,
-    required this.walletBalance,
-    required this.memberSince,
-    required this.profile_image
-  });
+  LocationInfo(
+      {required this.position,
+      required this.userName,
+      required this.address,
+      required this.year,
+      required this.deviceAllocated,
+      required this.deviceSerial,
+      required this.donationReceived,
+      required this.walletBalance,
+      required this.memberSince,
+      required this.profile_image});
 }

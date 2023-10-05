@@ -21,7 +21,7 @@ class FirestoreService {
         'country': user.country,
       });
     } catch (e) {
-      print('Error creating user record: $e');
+      // print('Error creating user record: $e');
     }
   }
 

@@ -54,16 +54,16 @@ class _Register_merchantState extends State<Register_merchant> {
   TextEditingController choosePassword = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
 //Business Details
-  TextEditingController Businessname = TextEditingController();
-  TextEditingController BusinessCategory = TextEditingController();
+  TextEditingController businessname = TextEditingController();
+  TextEditingController businessCategory = TextEditingController();
   TextEditingController city4Business = TextEditingController();
   TextEditingController state4Business = TextEditingController();
   TextEditingController country4Business = TextEditingController();
   TextEditingController address = TextEditingController();
-  TextEditingController AreaSector = TextEditingController();
+  TextEditingController areaSector = TextEditingController();
   TextEditingController pincode = TextEditingController();
 // Bank Details
-  TextEditingController AccountNumber = TextEditingController();
+  TextEditingController accountNumber = TextEditingController();
   TextEditingController bankName = TextEditingController();
   TextEditingController city4Bank = TextEditingController();
   TextEditingController state4Bank = TextEditingController();
@@ -494,7 +494,7 @@ class _Register_merchantState extends State<Register_merchant> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
-                  controller: Businessname,
+                  controller: businessname,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Business name";
@@ -537,7 +537,7 @@ class _Register_merchantState extends State<Register_merchant> {
                     }
                     return null;
                   },
-                  controller: BusinessCategory,
+                  controller: businessCategory,
                   decoration: InputDecoration(
                       fillColor: const Color(0x1943BA82),
                       filled: true,
@@ -605,7 +605,7 @@ class _Register_merchantState extends State<Register_merchant> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
-                  controller: AreaSector,
+                  controller: areaSector,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Area/Sector";
@@ -761,7 +761,8 @@ class _Register_merchantState extends State<Register_merchant> {
                     shrinkWrap: true,
                     itemCount: selectedImages.length +
                         1, // Add one for the "Add" button
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
                           3, // You can adjust the number of columns as needed
                       childAspectRatio:
@@ -883,7 +884,7 @@ class _Register_merchantState extends State<Register_merchant> {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
-                  controller: AccountNumber,
+                  controller: accountNumber,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Account Number";
@@ -1063,15 +1064,15 @@ class _Register_merchantState extends State<Register_merchant> {
                   ChoosePassword: choosePassword.text,
                   ConfirmPassword: confirmPassword.text,
                   //business
-                  BusinessName: Businessname.text,
-                  BusinessCategory: BusinessCategory.text,
+                  BusinessName: businessname.text,
+                  BusinessCategory: businessCategory.text,
                   StreetAddress: address.text,
-                  AreaSector: AreaSector.text,
+                  AreaSector: areaSector.text,
                   Pincode: 123456,
                   State: state4Business.text,
                   Country: country4Business.text,
                   //bank
-                  AccountNumber: AccountNumber.text,
+                  AccountNumber: accountNumber.text,
                   BankName: bankName.text,
                   CityBank: city4Bank.text,
                   StateBank: state4Bank.text,
@@ -1079,8 +1080,11 @@ class _Register_merchantState extends State<Register_merchant> {
                 );
 
                 await firestoreService.addMerchantData(merchant);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Navbar_screen()));
+                // ignore: use_build_context_synchronously
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const Navbar_screen()));
               }
             },
             child: Container(

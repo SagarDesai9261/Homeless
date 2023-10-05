@@ -1,72 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// class DetailPersonPage extends StatefulWidget {
-//   @override
-//   State<DetailPersonPage> createState() => _DetailPersonPageState();
-// }
-
-// class _DetailPersonPageState extends State<DetailPersonPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         iconTheme: IconThemeData(color: Colors.grey),
-//         backgroundColor: Colors.grey[200],
-//         elevation: 0,
-//         centerTitle: true,
-//         title: Text(
-//           "Details",
-//           style: TextStyle(color: Colors.black),
-//         ),
-//       ),
-//       body: Container(
-//         color: Colors.blueGrey[100],
-//         child: Center(
-//           child: Column(
-//             children: [
-//               SizedBox(
-//                 height: 80,
-//               ),
-//               CircleAvatar(
-//                 backgroundColor: Colors.white10,
-//                 radius: 120,
-//                 child: CircleAvatar(
-//                   backgroundImage: AssetImage('assets/user_1.png'),
-//                   radius: 100,
-//                 ),
-//               ),
-//               SizedBox(
-//                 height: 30,
-//               ),
-//               Text(
-//                 "John Doe",
-//                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 "29 years",
-//                 style: TextStyle(
-//                     fontSize: 14,
-//                     fontWeight: FontWeight.w400,
-//                     color: Colors.grey),
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 "300m",
-//                 style: const TextStyle(color: Colors.grey),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:homeless/Screen/Merchant/EnteredOTPPage.dart';
 
@@ -97,7 +28,8 @@ class PersonDetailPage extends StatelessWidget {
               Container(
                 // height: 100,
                 // width: 100,
-                padding: const EdgeInsets.all(15), // Padding for the border width
+                padding:
+                    const EdgeInsets.all(15), // Padding for the border width
                 decoration: BoxDecoration(
                   color: const Color.fromARGB(
                       255, 229, 223, 223), // Background color of the circle

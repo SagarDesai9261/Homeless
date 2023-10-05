@@ -8,7 +8,6 @@ class SearchPageMerchant extends StatefulWidget {
 class _SearchPageMerchantState extends State<SearchPageMerchant> {
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -25,14 +24,14 @@ class _SearchPageMerchantState extends State<SearchPageMerchant> {
                           iconSize: 24,
                           color: Colors.grey,
                           onPressed: () {},
-                          icon: Icon(Icons.arrow_back)),
-                      Icon(
+                          icon: const Icon(Icons.arrow_back)),
+                      const Icon(
                         Icons.search,
                         color: Colors.grey,
                         size: 24,
                       ),
                       TextFormField(
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           labelText:
                               'Enter your name', // Add your label text here
                         ),

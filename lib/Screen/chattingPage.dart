@@ -1,13 +1,12 @@
-import 'package:chat_bubbles/bubbles/bubble_special_one.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:homeless/Screen/triangleUIChat.dart';
+
 import 'package:homeless/model/model.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatPerson chatPerson;
 
-  ChatScreen({required this.chatPerson});
+  const ChatScreen({required this.chatPerson});
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
@@ -57,6 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           InkWell(
             onTap: () {
+              // ignore: unnecessary_null_comparison
               if (_textController.text == null) {
                 return;
               } else {
@@ -230,7 +230,7 @@ class _ChatScreenState extends State<ChatScreen> {
 class ChatMessagePage extends StatelessWidget {
   final ChatMessages message; // Pass ChatMessages object
 
-  ChatMessagePage({required this.message});
+  const ChatMessagePage({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

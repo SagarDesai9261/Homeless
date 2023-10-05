@@ -9,7 +9,6 @@ class Merchant_dashboard extends StatefulWidget {
 class _Merchant_dashboardState extends State<Merchant_dashboard> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     filteredDetails = details;
   }
@@ -60,24 +59,24 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
     },
   ];
 
-  Widget appBarTitle = new Row(
+  Widget appBarTitle = const Row(
     children: [
-      const Icon(
+      Icon(
         Icons.location_on,
         size: 28,
         color: Colors.grey,
       ),
-      const Text(
+      Text(
         "HOME",
         style: TextStyle(color: Colors.black),
       ),
-      const Text(
+      Text(
         "LESS",
         style: TextStyle(color: Colors.grey),
       ),
     ],
   );
-  Icon actionIcon = new Icon(
+  Icon actionIcon = const Icon(
     Icons.search,
     color: Colors.black,
   );
@@ -93,7 +92,6 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
     double childAspectRatio = screenWidth / 375.0 * 0.75;
 
     // Get the screen height using MediaQuery
-    double screenHeight = MediaQuery.of(context).size.height;
 
     // Adjust the fraction as needed
 
@@ -142,41 +140,41 @@ class _Merchant_dashboardState extends State<Merchant_dashboard> {
           centerTitle: true,
           title: appBarTitle,
           actions: <Widget>[
-            new IconButton(
+            IconButton(
               icon: actionIcon,
               onPressed: () {
                 setState(() {
-                  if (this.actionIcon.icon == Icons.search) {
-                    this.actionIcon =
-                        new Icon(Icons.close, color: Colors.black);
-                    this.appBarTitle = new TextField(
-                      style: new TextStyle(
+                  if (actionIcon.icon == Icons.search) {
+                    actionIcon =
+                        const Icon(Icons.close, color: Colors.black);
+                    appBarTitle = const TextField(
+                      style: TextStyle(
                         color: Colors.black,
                       ),
-                      decoration: new InputDecoration(
-                          border: const OutlineInputBorder(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                           ),
                           prefixIcon:
-                              new Icon(Icons.search, color: Colors.black),
+                              Icon(Icons.search, color: Colors.black),
                           hintText: "Search...",
-                          hintStyle: new TextStyle(color: Colors.black)),
+                          hintStyle: TextStyle(color: Colors.black)),
                     );
                   } else {
-                    this.actionIcon =
-                        new Icon(Icons.search, color: Colors.black);
-                    this.appBarTitle = new Row(
+                    actionIcon =
+                        const Icon(Icons.search, color: Colors.black);
+                    appBarTitle = const Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.location_on,
                           size: 28,
                           color: Colors.grey,
                         ),
-                        const Text(
+                        Text(
                           "HOME",
                           style: TextStyle(color: Colors.black),
                         ),
-                        const Text(
+                        Text(
                           "LESS",
                           style: TextStyle(color: Colors.grey),
                         ),

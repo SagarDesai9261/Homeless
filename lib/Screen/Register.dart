@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:homeless/Screen/home_screen.dart';
 import 'package:homeless/model/model.dart';
 import 'package:homeless/model/service.dart';
-import 'package:navbar_router/navbar_router.dart';
+
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class StepModel {
@@ -21,10 +21,10 @@ class Register_Organization extends StatefulWidget {
 class _Register_OrganizationState extends State<Register_Organization> {
   TextEditingController name = TextEditingController();
   TextEditingController email = TextEditingController();
-  TextEditingController contact_person = TextEditingController();
+  TextEditingController contactPerson = TextEditingController();
   TextEditingController phone = TextEditingController();
-  TextEditingController choose_password = TextEditingController();
-  TextEditingController confirm_password = TextEditingController();
+  TextEditingController choosePassword = TextEditingController();
+  TextEditingController confirmPassword = TextEditingController();
   TextEditingController fullname = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController appartment = TextEditingController();
@@ -128,8 +128,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   child: currentStep == 0
                       ? Organization_details(context)
                       : currentStep == 1
-                      ? Address_details(context)
-                      : Container(),
+                          ? Address_details(context)
+                          : Container(),
                 )
               ],
             ),
@@ -242,7 +242,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     }
                     return null;
                   },
-                  controller: contact_person,
+                  controller: contactPerson,
                   decoration: InputDecoration(
                       fillColor: const Color(0x1943BA82),
                       filled: true,
@@ -276,8 +276,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Phone";
-                    }
-                    else if(value.length < 10){
+                    } else if (value.length < 10) {
                       return "Please enter valid Phone";
                     }
                     return null;
@@ -323,7 +322,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     }
                     return null;
                   },
-                  controller: choose_password,
+                  controller: choosePassword,
                   obscureText: password1,
                   decoration: InputDecoration(
                       fillColor: const Color(0x1943BA82),
@@ -368,14 +367,13 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Confirm Password";
-                    }
-                    else if(value != choose_password.text){
+                    } else if (value != choosePassword.text) {
                       return "Both password is not Match";
                     }
                     return null;
                   },
                   obscureText: password2,
-                  controller: confirm_password,
+                  controller: confirmPassword,
                   decoration: InputDecoration(
                       fillColor: const Color(0x1943BA82),
                       filled: true,
@@ -387,7 +385,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
                         onPressed: () {
                           setState(() {
                             password2 ? password2 = false : password2 = true;
-                          });},
+                          });
+                        },
                       ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -412,7 +411,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
               });
             },
             controlAffinity:
-            ListTileControlAffinity.leading, //  <-- leading Checkbox
+                ListTileControlAffinity.leading, //  <-- leading Checkbox
           ),
           InkWell(
             onTap: () {
@@ -485,7 +484,6 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     return null;
                   },
                   decoration: InputDecoration(
-
                       fillColor: const Color(0x1943BA82),
                       filled: true,
                       hintText: "Full name",
@@ -687,38 +685,41 @@ class _Register_OrganizationState extends State<Register_Organization> {
           SizedBox(
             height: MediaQuery.of(context).size.height * .02,
           ),
-          InkWell(  
+          InkWell(
             onTap: () {
-              if(formkey.currentState!.validate()){
+              if (formkey.currentState!.validate()) {
                 UserApp user = UserApp(
-                    organizationName : name.text,
+                    organizationName: name.text,
                     email: email.text,
-                    password: confirm_password.text,
-                    contactPerson: contact_person.text,
+                    password: confirmPassword.text,
+                    contactPerson: contactPerson.text,
                     phone: phone.text,
                     fullName: fullname.text,
                     address: address.text,
                     apartmentName: appartment.text,
                     city: city.text,
                     state: state.text,
-                    country: country.text
-                );
-                AuthService().registerUser(user).then((value) => Alert(context: context,title:"Account Register Successfully",type: AlertType.success,buttons: [
-                  DialogButton(
-                    child: const Text(
-                      "ok",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    onPressed: () =>  Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Navbar_screen())),
-                    color: const Color.fromRGBO(0, 179, 134, 1.0),
-                    radius: BorderRadius.circular(0.0),
-                  ),
-                ],).show());
-
+                    country: country.text);
+                AuthService().registerUser(user).then((value) => Alert(
+                      context: context,
+                      title: "Account Register Successfully",
+                      type: AlertType.success,
+                      buttons: [
+                        DialogButton(
+                          child: const Text(
+                            "ok",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Navbar_screen())),
+                          color: const Color.fromRGBO(0, 179, 134, 1.0),
+                          radius: BorderRadius.circular(0.0),
+                        ),
+                      ],
+                    ).show());
               }
-
-
             },
             child: Container(
                 width: 343,
@@ -743,5 +744,3 @@ class _Register_OrganizationState extends State<Register_Organization> {
     );
   }
 }
-
-

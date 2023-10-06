@@ -132,3 +132,27 @@ class Message {
     required this.timestamp,
   });
 }
+
+class Member {
+  final String fullName;
+  final String email;
+  final String phone;
+  final String? gender;
+  final String? dayOfBirth;
+  final String? monthOfBirth;
+  final String? yearOfBirth;
+  final String? allotDevice;
+  final String? deviceSerial;
+
+  Member({
+    required this.fullName,
+    required this.email,
+    required this.phone,
+    this.gender,
+    this.dayOfBirth,
+    this.monthOfBirth,
+    this.yearOfBirth,
+    this.allotDevice,
+    this.deviceSerial,
+  });
+}

@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:homeless/Screen/AddMember.dart';
 
 import 'package:homeless/Screen/GeneratePinPage.dart';
-
+import 'package:homeless/Screen/account_type.dart';
+import 'package:homeless/Screen/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +26,6 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
-        debugShowCheckedModeBanner: false, home: GeneratePinPage());
+        debugShowCheckedModeBanner: false, home: AddMemberPage());
   }
 }

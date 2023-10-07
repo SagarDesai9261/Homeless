@@ -2,10 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:homeless/Screen/AddMember.dart';
-
-import 'package:homeless/Screen/GeneratePinPage.dart';
-import 'package:homeless/Screen/account_type.dart';
-import 'package:homeless/Screen/splash_screen.dart';
+import 'package:homeless/Screen/EditMemberPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

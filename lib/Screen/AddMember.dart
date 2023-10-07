@@ -3,6 +3,7 @@ import 'package:datepicker_dropdown/datepicker_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:homeless/Screen/CustomSnackBar.dart';
+import 'package:homeless/Screen/EditMemberPage.dart';
 import 'package:homeless/model/model.dart';
 
 class AddMemberPage extends StatefulWidget {
@@ -11,17 +12,22 @@ class AddMemberPage extends StatefulWidget {
 }
 
 class _AddMemberPageState extends State<AddMemberPage> {
+  bool isLoading = false;
+
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController deviceSerialController = TextEditingController();
+  final TextEditingController pinController = TextEditingController();
+  final TextEditingController userNameController = TextEditingController();
 
-  final formkey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String selectedGender = '';
   String? selectedDay;
   String? selectedMonth;
   String? selectedYear;
   String? allotDevice = 'Yes';
+  String? genderValidationError;
 
   List<String> days = List.generate(31, (index) => (index + 1).toString());
   List<String> months = [
@@ -55,7 +61,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: formkey,
+          key: formKey,
           child: Column(
             children: [
               SizedBox(
@@ -210,6 +216,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                     padding:
                         const EdgeInsets.only(left: 10, right: 10, top: 10),
                     child: TextFormField(
+                      controller: pinController,
                       validator: (value) {
                         if (value!.isEmpty || value == "") {
                           return "Please enter Username";
@@ -249,6 +256,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: TextFormField(
+                      controller: userNameController,
                       inputFormatters: [
                         LengthLimitingTextInputFormatter(6),
                       ],
@@ -272,21 +280,24 @@ class _AddMemberPageState extends State<AddMemberPage> {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
                     onTap: () {
                       setState(() {
                         selectedGender = "Male";
+                        genderValidationError =
+                            null; // Clear validation message
                       });
                     },
-                    child: Column(
+                    child: Row(
                       children: [
                         Image.asset(
-                          'assets/user_2.png',
-                          width: 80,
-                          height: 80,
+                          'assets/man.png',
+                          width: 40,
+                          height: 40,
                         ),
+                        SizedBox(width: 10),
                         Text(
                           "Male",
                           style: TextStyle(
@@ -304,15 +315,18 @@ class _AddMemberPageState extends State<AddMemberPage> {
                     onTap: () {
                       setState(() {
                         selectedGender = "Female";
+                        genderValidationError =
+                            null; // Clear validation message
                       });
                     },
-                    child: Column(
+                    child: Row(
                       children: [
                         Image.asset(
-                          'assets/user_1.png',
-                          width: 80,
-                          height: 80,
+                          'assets/woman.png',
+                          width: 40,
+                          height: 40,
                         ),
+                        SizedBox(width: 10),
                         Text(
                           "Female",
                           style: TextStyle(
@@ -326,6 +340,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
                     ),
                   ),
                 ],
+              ),
+              if (genderValidationError != null)
+                Text(
+                  genderValidationError!,
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              SizedBox(
+                height: 10,
               ),
               Container(
                 padding: EdgeInsets.only(left: 18),
@@ -461,8 +485,6 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       validator: (value) {
                         if (value!.isEmpty || value == "") {
                           return "Please enter Device Serial";
-                        } else if (value.length < 6) {
-                          return "Please enter valid PIN";
                         }
                         return null;
                       },
@@ -479,49 +501,72 @@ class _AddMemberPageState extends State<AddMemberPage> {
               ),
               InkWell(
                 onTap: () {
-                  setState(() async {
-                    Member member = Member(
-                      fullName: fullNameController
-                          .text, // Full Name from TextEditingController
-                      email: emailController
-                          .text, // Email from TextEditingController
-                      phone: phoneController
-                          .text, // Phone from TextEditingController
-                      gender: selectedGender,
-                      dayOfBirth: selectedDay,
-                      monthOfBirth: selectedMonth,
-                      yearOfBirth: selectedYear,
-                      allotDevice: allotDevice,
-                      deviceSerial: deviceSerialController
-                          .text, // Device Serial from TextEditingController
-                    );
+                  if (formKey.currentState!.validate()) {
+                    setState(() async {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      Member member = Member(
+                        fullName: fullNameController
+                            .text, // Full Name from TextEditingController
+                        email: emailController
+                            .text, // Email from TextEditingController
+                        phone: phoneController
+                            .text, // Phone from TextEditingController
+                        gender: selectedGender,
+                        dayOfBirth: selectedDay,
+                        monthOfBirth: selectedMonth,
+                        yearOfBirth: selectedYear,
+                        allotDevice: allotDevice,
+                        deviceSerial: deviceSerialController.text,
+                        pinNumber: pinController.text,
+                        userName: userNameController
+                            .text, // Device Serial from TextEditingController
+                      );
 
-                    final CollectionReference membersCollection =
-                        FirebaseFirestore.instance
-                            .collection('HomeLess Members');
+                      final CollectionReference membersCollection =
+                          FirebaseFirestore.instance
+                              .collection('HomeLessMembers');
 
-                    await membersCollection.add({
-                      'fullName': member.fullName,
-                      'email': member.email,
-                      'phone': member.phone,
-                      'gender': member.gender,
-                      'dayOfBirth': member.dayOfBirth,
-                      'monthOfBirth': member.monthOfBirth,
-                      'yearOfBirth': member.yearOfBirth,
-                      'allotDevice': member.allotDevice,
-                      'deviceSerial': member.deviceSerial,
-                    });
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: CustomSnackbar(
-                          message: 'Data inserted successfully',
+                      await membersCollection.add({
+                        'fullName': member.fullName,
+                        'email': member.email,
+                        'phone': member.phone,
+                        'gender': member.gender,
+                        'dayOfBirth': member.dayOfBirth,
+                        'monthOfBirth': member.monthOfBirth,
+                        'yearOfBirth': member.yearOfBirth,
+                        'allotDevice': member.allotDevice,
+                        'deviceSerial': member.deviceSerial,
+                        'pinNumber': member.pinNumber,
+                        'userName': member.userName,
+                      });
+
+                      setState(() {
+                        isLoading = false;
+                      });
+                      final snackBar = SnackBar(
+                        content: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ), // Add padding to all sides
+                          child: Text('This is a SnackBar with padding'),
                         ),
-                        duration: Duration(seconds: 10),
-                      ),
-                    );
-                    // Now you can use the 'member' object or send it to Firebase or perform any other actions with it
-                    // For example, you can add it to Firebase Firestore as shown in the previous answer.
-                  });
+                        duration: Duration(seconds: 3),
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Set the borderRadius
+                        ),
+                        padding: EdgeInsets.all(16.0), // Set padding
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      // Now you can use the 'member' object or send it to Firebase or perform any other actions with it
+                      // For example, you can add it to Firebase Firestore as shown in the previous answer.
+                    });
+                  }
+                  ;
                 },
                 child: Container(
                     width: 343,
@@ -531,15 +576,19 @@ class _AddMemberPageState extends State<AddMemberPage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)),
                     ),
-                    child: const Text('Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'SF Pro Text',
-                          fontWeight: FontWeight.w600,
-                          height: 2,
-                        ))),
+                    child: isLoading
+                        ? Center(
+                            child:
+                                CircularProgressIndicator()) // Show progress indicator when isLoading is true
+                        : const Text('Continue',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: 'SF Pro Text',
+                              fontWeight: FontWeight.w600,
+                              height: 2,
+                            ))),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .02,
@@ -547,6 +596,28 @@ class _AddMemberPageState extends State<AddMemberPage> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditMemberPage(
+                        memberId: 'sbIp2VCTa0vJPyzcdSYf',
+                        initialFullName: '',
+                        initialEmail: '',
+                        initialPhone: '',
+                        initialGender: '',
+                        initialAllotDevice: '',
+                        initialDay: '',
+                        initialDeviceSerial: '',
+                        initialMonth: '',
+                        initialYear: '',
+                        initialPinNumber: '',
+                        initialUserName: '',
+                      )));
+        },
+        child: Icon(Icons.edit),
       ),
     );
   }

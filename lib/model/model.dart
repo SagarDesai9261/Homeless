@@ -134,25 +134,28 @@ class Message {
 }
 
 class Member {
-  final String fullName;
-  final String email;
-  final String phone;
+  final String? fullName;
+  final String? email;
+  final String? phone;
   final String? gender;
   final String? dayOfBirth;
   final String? monthOfBirth;
   final String? yearOfBirth;
   final String? allotDevice;
   final String? deviceSerial;
+  final String? pinNumber;
+  final String? userName;
 
-  Member({
-    required this.fullName,
-    required this.email,
-    required this.phone,
-    this.gender,
-    this.dayOfBirth,
-    this.monthOfBirth,
-    this.yearOfBirth,
-    this.allotDevice,
-    this.deviceSerial,
-  });
+  Member(
+      {this.fullName,
+      this.email,
+      this.phone,
+      this.gender,
+      this.dayOfBirth,
+      this.monthOfBirth,
+      this.yearOfBirth,
+      this.allotDevice,
+      this.deviceSerial,
+      this.pinNumber,
+      this.userName});
 }

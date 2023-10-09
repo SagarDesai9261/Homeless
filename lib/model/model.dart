@@ -134,17 +134,20 @@ class Message {
 }
 
 class Member {
-  final String? fullName;
-  final String? email;
-  final String? phone;
-  final String? gender;
-  final String? dayOfBirth;
-  final String? monthOfBirth;
-  final String? yearOfBirth;
-  final String? allotDevice;
-  final String? deviceSerial;
-  final String? pinNumber;
-  final String? userName;
+  String? fullName;
+  String? email;
+  String? phone;
+  String? gender;
+  String? dayOfBirth;
+  String? monthOfBirth;
+  String? deviceSerial;
+  String? yearOfBirth;
+  String? allotDevice;
+  String? pinNumber;
+  String? userName;
+  String? longitude;
+  String? latitude;
+  String? profileImage;
 
   Member(
       {this.fullName,
@@ -157,5 +160,8 @@ class Member {
       this.allotDevice,
       this.deviceSerial,
       this.pinNumber,
-      this.userName});
+      this.userName,
+      this.latitude,
+      this.longitude,
+      this.profileImage});
 }

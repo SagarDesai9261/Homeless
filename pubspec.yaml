@@ -41,7 +41,7 @@ dependencies:
   flutter_launcher_icons:
   gallery_saver: ^2.3.2
   image_picker: ^1.0.4
-  google_maps_flutter:
+  google_maps_flutter: ^2.5.0
   carousel_slider:
   google_mobile_ads:
   firebase_auth:
@@ -57,6 +57,8 @@ dependencies:
   dotted_border: ^2.1.0
   shared_preferences: ^2.2.1
   datepicker_dropdown: ^0.0.8
+  flutter_osm_plugin: ^0.60.5
+  location: ^5.0.3
 
 
 

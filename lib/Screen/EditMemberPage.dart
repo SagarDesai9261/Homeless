@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeless/Screen/AddMember.dart';
+import 'package:homeless/Screen/Organization/AddMember.dart';
 import 'package:homeless/model/model.dart';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as path;
 
 class EditMemberPage extends StatefulWidget {
   final String
@@ -55,6 +58,7 @@ class _EditMemberPageState extends State<EditMemberPage> {
   String? selectedMonth;
   String? selectedYear;
   String? allotDevice = 'Yes';
+  String? profileI = '';
 
   List<String> days = List.generate(31, (index) => (index + 1).toString());
   List<String> months = [
@@ -88,9 +92,10 @@ class _EditMemberPageState extends State<EditMemberPage> {
         // Retrieve data from Firestore
         Map<String, dynamic> data =
             documentSnapshot.data() as Map<String, dynamic>;
+        print('${widget.memberId}');
 
         // Update the state and controllers with retrieved data
-        setState(() {
+        setState(() async {
           isLoading = false;
           fullNameController.text = data['fullName'] ?? '';
           emailController.text = data['email'] ?? '';
@@ -103,7 +108,8 @@ class _EditMemberPageState extends State<EditMemberPage> {
           allotDevice = data['allotDevice'] ?? 'Yes';
           pinNumberController.text = data['pinNumber'] ?? '';
           userNameController.text = data['userName'] ?? '';
-          print('${fullNameController.text}');
+          profileI = data['profileImage'] ?? '';
+          print('Profile :${profileI}');
         });
       } else {
         // Handle the case where the document does not exist
@@ -157,7 +163,8 @@ class _EditMemberPageState extends State<EditMemberPage> {
                         radius: 60,
                         backgroundColor: Colors.amber[50],
                         child: CircleAvatar(
-                          backgroundImage: AssetImage('assets/user_2.png'),
+                          backgroundImage:
+                              NetworkImage("${profileI.toString()}"),
                           radius: 50,
                         ),
                       ),

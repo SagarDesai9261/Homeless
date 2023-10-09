@@ -1,8 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeless/Screen/AddMember.dart';
+import 'package:homeless/Screen/Organization/AddMember.dart';
 import 'package:homeless/Screen/EditMemberPage.dart';
+import 'package:homeless/Screen/add_location.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

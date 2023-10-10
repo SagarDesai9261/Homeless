@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:homeless/Screen/CustomSnackBar.dart';
-import 'package:homeless/Screen/EditMemberPage.dart';
+import 'package:homeless/Screen/Organization/EditMemberPage.dart';
 
 import 'package:homeless/model/model.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,7 +20,29 @@ class AddMemberPage extends StatefulWidget {
 }
 
 class _AddMemberPageState extends State<AddMemberPage> {
+  int getMonthNumber(String monthName) {
+    // Define a map to map month names to their numeric values
+    final months = {
+      'January': 1,
+      'February': 2,
+      'March': 3,
+      'April': 4,
+      'May': 5,
+      'June': 6,
+      'July': 7,
+      'August': 8,
+      'September': 9,
+      'October': 10,
+      'November': 11,
+      'December': 12,
+    };
+
+    // Convert the month name to a numeric value
+    return months[monthName] ?? 1; // Default to January if not found
+  }
+
   File? _pickedImage;
+  String downloadUrl = '';
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
@@ -32,6 +54,24 @@ class _AddMemberPageState extends State<AddMemberPage> {
       });
     } else {
       // The user canceled the image picking.
+    }
+    if (_pickedImage != null) {
+      Reference storageReference = FirebaseStorage.instance.ref().child(
+            'profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg',
+          );
+
+      UploadTask uploadTask = storageReference.putFile(_pickedImage!);
+
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
+        setState(() {
+          isLoading = false;
+        });
+      });
+
+      if (taskSnapshot.state == TaskState.success) {
+        downloadUrl = await storageReference.getDownloadURL();
+        // Do something with the download URL (e.g., save it in Firestore or display it)
+      }
     }
   }
 
@@ -92,7 +132,7 @@ class _AddMemberPageState extends State<AddMemberPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.grey[200]),
+        iconTheme: IconThemeData(color: Colors.grey[600]),
         title: const Text(
           'Add Member',
           style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold),
@@ -593,189 +633,77 @@ class _AddMemberPageState extends State<AddMemberPage> {
               SizedBox(
                 height: 10,
               ),
-              // InkWell(
-              //   onTap: () {
-              //     if (formKey.currentState!.validate()) {
-              //       setState(() async {
-              //         setState(() {
-              //           isLoading = true;
-              //         });
-              //         Member member = Member(
-              //           fullName: fullNameController
-              //               .text, // Full Name from TextEditingController
-              //           email: emailController
-              //               .text, // Email from TextEditingController
-              //           phone: phoneController
-              //               .text, // Phone from TextEditingController
-              //           gender: selectedGender,
-              //           dayOfBirth: selectedDay,
-              //           monthOfBirth: selectedMonth,
-              //           yearOfBirth: selectedYear,
-              //           allotDevice: allotDevice,
-              //           deviceSerial: deviceSerialController.text,
-              //           pinNumber: pinController.text,
-              //           userName: userNameController
-              //               .text, // Device Serial from TextEditingController
-              //         );
-
-              //         final CollectionReference membersCollection =
-              //             FirebaseFirestore.instance
-              //                 .collection('HomeLessMembers');
-
-              //         await membersCollection.add({
-              //           'fullName': member.fullName,
-              //           'email': member.email,
-              //           'phone': member.phone,
-              //           'gender': member.gender,
-              //           'dayOfBirth': member.dayOfBirth,
-              //           'monthOfBirth': member.monthOfBirth,
-              //           'yearOfBirth': member.yearOfBirth,
-              //           'allotDevice': member.allotDevice,
-              //           'deviceSerial': member.deviceSerial,
-              //           'pinNumber': member.pinNumber,
-              //           'userName': member.userName,
-              //         });
-
-              //         setState(() {
-              //           isLoading = false;
-              //         });
-              //         final snackBar = SnackBar(
-              //           content: Padding(
-              //             padding: const EdgeInsets.symmetric(
-              //               horizontal: 20,
-              //             ), // Add padding to all sides
-              //             child: Text('This is a SnackBar with padding'),
-              //           ),
-              //           duration: Duration(seconds: 3),
-              //           backgroundColor: Colors.blue,
-              //           shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(
-              //                 10.0), // Set the borderRadius
-              //           ),
-              //           padding: EdgeInsets.all(16.0), // Set padding
-              //         );
-
-              //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              //         // Now you can use the 'member' object or send it to Firebase or perform any other actions with it
-              //         // For example, you can add it to Firebase Firestore as shown in the previous answer.
-              //       });
-              //     }
-              //     ;
-              //   },
-              //   child: Container(
-              //       width: 343,
-              //       height: 50,
-              //       decoration: ShapeDecoration(
-              //         color: const Color(0xFF46BA80),
-              //         shape: RoundedRectangleBorder(
-              //             borderRadius: BorderRadius.circular(8)),
-              //       ),
-              //       child: isLoading
-              //           ? Center(
-              //               child:
-              //                   CircularProgressIndicator()) // Show progress indicator when isLoading is true
-              //           : const Text('Continue',
-              //               textAlign: TextAlign.center,
-              //               style: TextStyle(
-              //                 color: Colors.white,
-              //                 fontSize: 18,
-              //                 fontFamily: 'SF Pro Text',
-              //                 fontWeight: FontWeight.w600,
-              //                 height: 2,
-              //               ))),
-              // ),
-
               InkWell(
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
                     setState(() {
                       isLoading = true;
                     });
+                    int monthNumber = getMonthNumber(selectedMonth.toString());
+
+                    DateTime date = DateTime(int.parse(selectedYear.toString()),
+                        monthNumber, int.parse(selectedDay.toString()));
 
                     // Upload the picked image to Firebase Storage
-                    if (_pickedImage != null) {
-                      Reference storageReference =
-                          FirebaseStorage.instance.ref().child(
-                                'profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg',
-                              );
 
-                      UploadTask uploadTask =
-                          storageReference.putFile(_pickedImage!);
+                    Member member = Member(
+                      fullName: fullNameController
+                          .text, // Full Name from TextEditingController
+                      email: emailController
+                          .text, // Email from TextEditingController
+                      phone: phoneController
+                          .text, // Phone from TextEditingController
+                      gender: selectedGender,
+                      dob: date.toString(),
+                      allotDevice: allotDevice,
+                      deviceSerial: deviceSerialController.text,
+                      pinNumber: pinController.text,
+                      userName: userNameController
+                          .text, // Device Serial from TextEditingController
+                      longitude: selectedLocation!.longitude.toString(),
+                      latitude: selectedLocation!.latitude.toString(),
+                    );
 
-                      TaskSnapshot taskSnapshot =
-                          await uploadTask.whenComplete(() {
-                        setState(() {
-                          isLoading = false;
-                        });
-                      });
+                    final CollectionReference membersCollection =
+                        FirebaseFirestore.instance
+                            .collection('HomeLessMembers');
 
-                      if (taskSnapshot.state == TaskState.success) {
-                        final String downloadUrl =
-                            await storageReference.getDownloadURL();
+                    await membersCollection.add({
+                      'fullName': member.fullName,
+                      'email': member.email,
+                      'phone': member.phone,
+                      'gender': member.gender,
+                      'dob': member.dob,
+                      'allotDevice': member.allotDevice,
+                      'deviceSerial': member.deviceSerial,
+                      'pinNumber': member.pinNumber,
+                      'userName': member.userName,
+                      'profileImageUrl': downloadUrl == ''
+                          ? 'https://firebasestorage.googleapis.com/v0/b/homeless-399009.appspot.com/o/profile_images%2Fimages.jpeg?alt=media&token=d4464296-feb1-4baa-83d6-17fefae82e2d&_gl=1*1owceyi*_ga*OTc2NTc3NTkwLjE2OTUwMDk4ODc.*_ga_CW55HF8NVT*MTY5NjgyMzIxMC4zMi4xLjE2OTY4MjU0NzIuNTAuMC4w'
+                          : downloadUrl,
+                      'longitude': member.longitude,
+                      'latitude': member.latitude,
+                    });
+                    setState(() {
+                      isLoading = false;
+                    });
+                    final snackBar = SnackBar(
+                      content: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                        ), // Add padding to all sides
+                        child: Text('Data Inserted Sucessfully'),
+                      ),
+                      duration: Duration(seconds: 3),
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10.0), // Set the borderRadius
+                      ),
+                      padding: EdgeInsets.all(16.0), // Set padding
+                    );
 
-                        Member member = Member(
-                          fullName: fullNameController
-                              .text, // Full Name from TextEditingController
-                          email: emailController
-                              .text, // Email from TextEditingController
-                          phone: phoneController
-                              .text, // Phone from TextEditingController
-                          gender: selectedGender,
-                          dayOfBirth: selectedDay,
-                          monthOfBirth: selectedMonth,
-                          yearOfBirth: selectedYear,
-                          allotDevice: allotDevice,
-                          deviceSerial: deviceSerialController.text,
-                          pinNumber: pinController.text,
-                          userName: userNameController
-                              .text, // Device Serial from TextEditingController
-                          longitude: selectedLocation!.longitude.toString(),
-                          latitude: selectedLocation!.latitude.toString(),
-                        );
-
-                        final CollectionReference membersCollection =
-                            FirebaseFirestore.instance
-                                .collection('HomeLessMembers');
-
-                        await membersCollection.add({
-                          'fullName': member.fullName,
-                          'email': member.email,
-                          'phone': member.phone,
-                          'gender': member.gender,
-                          'dayOfBirth': member.dayOfBirth,
-                          'monthOfBirth': member.monthOfBirth,
-                          'yearOfBirth': member.yearOfBirth,
-                          'allotDevice': member.allotDevice,
-                          'deviceSerial': member.deviceSerial,
-                          'pinNumber': member.pinNumber,
-                          'userName': member.userName,
-                          'profileImageUrl': downloadUrl ??
-                              'https://firebasestorage.googleapis.com/v0/b/homeless-399009.appspot.com/o/profile_images%2Fimages.jpeg?alt=media&token=d4464296-feb1-4baa-83d6-17fefae82e2d&_gl=1*1s4rg95*_ga*OTc2NTc3NTkwLjE2OTUwMDk4ODc.*_ga_CW55HF8NVT*MTY5NjgyMzIxMC4zMi4xLjE2OTY4MjM1MDguNTUuMC4w',
-                          'longitude': member.longitude,
-                          'latitude': member.latitude,
-                        });
-
-                        final snackBar = SnackBar(
-                          content: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ), // Add padding to all sides
-                            child: Text('This is a SnackBar with padding'),
-                          ),
-                          duration: Duration(seconds: 3),
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                10.0), // Set the borderRadius
-                          ),
-                          padding: EdgeInsets.all(16.0), // Set padding
-                        );
-
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      }
-                    } else {
-                      // No image picked, handle this case as needed
-                    }
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                 },
                 child: Container(
@@ -800,35 +728,12 @@ class _AddMemberPageState extends State<AddMemberPage> {
                               height: 2,
                             ))),
               ),
-
               SizedBox(
                 height: MediaQuery.of(context).size.height * .02,
               ),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => EditMemberPage(
-                        memberId: 'uuLo9962gJbonBQxTQww',
-                        initialFullName: '',
-                        initialEmail: '',
-                        initialPhone: '',
-                        initialGender: '',
-                        initialAllotDevice: '',
-                        initialDay: '',
-                        initialDeviceSerial: '',
-                        initialMonth: '',
-                        initialYear: '',
-                        initialPinNumber: '',
-                        initialUserName: '',
-                      )));
-        },
-        child: Icon(Icons.edit),
       ),
     );
   }
@@ -942,7 +847,14 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Current Location on Map'),
+        elevation: 0,
+        backgroundColor: Color(0xFF46BA80),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: const Text(
+          'Current Location On Map',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: _currentLocation != null
           ? GoogleMap(
@@ -972,6 +884,7 @@ class _MapScreenState extends State<MapScreen> {
               child: CircularProgressIndicator(),
             ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color(0xFF46BA80),
         onPressed: () async {
           if (selectedLocation != null) {
             SharedPreferences prefs = await SharedPreferences.getInstance();

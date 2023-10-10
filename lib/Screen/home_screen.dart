@@ -395,8 +395,8 @@ class _Home_screenState extends State<Home_screen> {
                         controller: search,
                         onChanged: _filterbyName,
                         decoration: InputDecoration(
-                            focusedBorder:
-                                const OutlineInputBorder(borderSide: BorderSide.none),
+                            focusedBorder: const OutlineInputBorder(
+                                borderSide: BorderSide.none),
                             label: const Text("Search"),
                             floatingLabelBehavior: FloatingLabelBehavior.never,
                             prefixIcon: const Icon(Icons.search),
@@ -444,8 +444,10 @@ class _Home_screenState extends State<Home_screen> {
                   // Sign out the user when the "Sign Out" button is pressed
                   AuthService().signOut();
                   Navigator.pop(context);
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const Account_type()));
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Account_type()));
                   //Navigator.pop(context); // Close the drawer
                 },
               ),
@@ -454,8 +456,8 @@ class _Home_screenState extends State<Home_screen> {
         ),
         body: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 6, // Two cards per row
-            childAspectRatio: 2.0, // Aspect ratio of the cards (square)
+            crossAxisCount: 2, // Two cards per row
+            childAspectRatio: 0.8, // Aspect ratio of the cards (square)
           ),
           itemCount: filteredDetails.length,
           itemBuilder: (BuildContext context, int index) {

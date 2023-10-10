@@ -138,10 +138,8 @@ class Member {
   String? email;
   String? phone;
   String? gender;
-  String? dayOfBirth;
-  String? monthOfBirth;
+  String? dob;
   String? deviceSerial;
-  String? yearOfBirth;
   String? allotDevice;
   String? pinNumber;
   String? userName;
@@ -154,9 +152,7 @@ class Member {
       this.email,
       this.phone,
       this.gender,
-      this.dayOfBirth,
-      this.monthOfBirth,
-      this.yearOfBirth,
+      this.dob,
       this.allotDevice,
       this.deviceSerial,
       this.pinNumber,
@@ -164,4 +160,51 @@ class Member {
       this.latitude,
       this.longitude,
       this.profileImage});
+}
+
+class UserData {
+  String? fullName;
+  String? allotDevice;
+  String? deviceSerial;
+  String? dob;
+  String? donationReceived;
+  String? walletBalance;
+  String? memberSince;
+  String? profileImageURL;
+
+  UserData(
+      {this.fullName,
+      this.deviceSerial,
+      this.allotDevice,
+      this.dob,
+      this.donationReceived,
+      this.walletBalance,
+      this.memberSince,
+      this.profileImageURL});
+
+  factory UserData.fromJson(Map<String, dynamic> json) {
+    return UserData(
+      fullName: json['fullName'] ?? '',
+      dob: json['dob'] ?? '',
+      deviceSerial: json['deviceSerial'] ?? '',
+      donationReceived: json['deviceSerial'] ?? '',
+      memberSince: json['deviceSerial'] ?? '',
+      walletBalance: json['deviceSerial'] ?? '',
+      allotDevice: json['allotDevice'] ?? 'Yes',
+      profileImageURL: json['profileImageURL'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fullName': fullName,
+      'dob': dob,
+      'donationReceived': donationReceived,
+      'memberSince': memberSince,
+      'deviceSerial': deviceSerial,
+      'walletBalance': walletBalance,
+      'allotDevice': allotDevice,
+      'profileImageURL': profileImageURL,
+    };
+  }
 }

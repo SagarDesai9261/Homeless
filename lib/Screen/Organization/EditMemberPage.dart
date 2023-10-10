@@ -1,46 +1,99 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:homeless/Screen/Organization/AddMember.dart';
 import 'package:homeless/model/model.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
 class EditMemberPage extends StatefulWidget {
-  final String
+  String?
       memberId; // You may need to pass the member ID to identify the member you want to edit.
-  final String initialFullName;
-  final String initialEmail;
-  final String initialPhone;
-  final String initialGender;
-  final String initialDay;
-  final String initialMonth;
-  final String initialYear;
-  final String initialAllotDevice;
-  final String initialDeviceSerial;
-  final String initialPinNumber;
-  final String initialUserName;
 
-  EditMemberPage(
-      {required this.memberId,
-      required this.initialFullName,
-      required this.initialEmail,
-      required this.initialPhone,
-      required this.initialGender,
-      required this.initialDay,
-      required this.initialMonth,
-      required this.initialYear,
-      required this.initialDeviceSerial,
-      required this.initialAllotDevice,
-      required this.initialPinNumber,
-      required this.initialUserName});
+  EditMemberPage({
+    required this.memberId,
+  });
 
   @override
   _EditMemberPageState createState() => _EditMemberPageState();
 }
 
 class _EditMemberPageState extends State<EditMemberPage> {
+  int getMonthNumber(String monthName) {
+    // Define a map to map month names to their numeric values
+    final months = {
+      'January': 1,
+      'February': 2,
+      'March': 3,
+      'April': 4,
+      'May': 5,
+      'June': 6,
+      'July': 7,
+      'August': 8,
+      'September': 9,
+      'October': 10,
+      'November': 11,
+      'December': 12,
+    };
+
+    // Convert the month name to a numeric value
+    return months[monthName] ?? 1; // Default to January if not found
+  }
+
+  File? _pickedImage;
+  String downloadUrl = '';
+
+  Future<void> _pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _pickedImage = File(pickedFile.path);
+      });
+    } else {
+      // The user canceled the image picking.
+    }
+    if (_pickedImage != null) {
+      Reference storageReference = FirebaseStorage.instance.ref().child(
+            'profile_images/${DateTime.now().millisecondsSinceEpoch}.jpg',
+          );
+
+      UploadTask uploadTask = storageReference.putFile(_pickedImage!);
+
+      TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {
+        setState(() {
+          isLoading = false;
+        });
+      });
+
+      if (taskSnapshot.state == TaskState.success) {
+        downloadUrl = await storageReference.getDownloadURL();
+        // Do something with the download URL (e.g., save it in Firestore or display it)
+      }
+    }
+  }
+
+  void _navigateToMapScreen() async {
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => MapScreen(),
+      ),
+    );
+
+    if (result != null && result is LatLng) {
+      setState(() {
+        selectedLocation = result;
+      });
+    }
+  }
+
   bool isLoading = true;
 
   String? genderValidationError;
@@ -59,6 +112,29 @@ class _EditMemberPageState extends State<EditMemberPage> {
   String? selectedYear;
   String? allotDevice = 'Yes';
   String? profileI = '';
+  LatLng? selectedLocation;
+  String? latitude = '';
+  String? longitude = '';
+  String getMonthName(int monthNumber) {
+    // Define a map to map numeric month values to their names
+    final months = {
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
+    };
+
+    // Convert the numeric month value to a month name
+    return months[monthNumber] ?? 'January'; // Default to January if not found
+  }
 
   List<String> days = List.generate(31, (index) => (index + 1).toString());
   List<String> months = [
@@ -102,14 +178,20 @@ class _EditMemberPageState extends State<EditMemberPage> {
           phoneController.text = data['phone'] ?? '';
           deviceSerialController.text = data['deviceSerial'] ?? '';
           selectedGender = data['gender'] ?? '';
-          selectedDay = data['dayOfBirth'] ?? '';
-          selectedMonth = data['monthOfBirth'] ?? '';
-          selectedYear = data['yearOfBirth'] ?? '';
+          selectedDay =
+              DateTime.parse(data['dob'].toString()).day.toString() ?? '';
+          selectedMonth =
+              getMonthName(DateTime.parse(data['dob'].toString()).month)
+                      .toString() ??
+                  '';
+          selectedYear =
+              DateTime.parse(data['dob'].toString()).year.toString() ?? '';
           allotDevice = data['allotDevice'] ?? 'Yes';
           pinNumberController.text = data['pinNumber'] ?? '';
           userNameController.text = data['userName'] ?? '';
-          profileI = data['profileImage'] ?? '';
-          print('Profile :${profileI}');
+          profileI = data['profileImageUrl'] ?? '';
+          selectedLocation = LatLng(double.parse(data['latitude'].toString()),
+              double.parse(data['longitude'].toString()));
         });
       } else {
         // Handle the case where the document does not exist
@@ -126,6 +208,7 @@ class _EditMemberPageState extends State<EditMemberPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(selectedLocation);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -159,14 +242,39 @@ class _EditMemberPageState extends State<EditMemberPage> {
                 Container(
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.amber[50],
-                        child: CircleAvatar(
-                          backgroundImage:
-                              NetworkImage("${profileI.toString()}"),
-                          radius: 50,
-                        ),
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 60,
+                            backgroundColor: Colors.amber[50],
+                            child: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage("${profileI.toString()}"),
+                              radius: 50,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () {
+                                _pickImage(ImageSource.gallery);
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.amber,
+                                ),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 20,
@@ -560,51 +668,169 @@ class _EditMemberPageState extends State<EditMemberPage> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Container(
-                            alignment: Alignment.topLeft,
-                            padding: const EdgeInsets.only(top: 10, left: 20),
-                            child: const Text(
-                              'Device Serial',
-                              style: TextStyle(
-                                color: Color(0xFF787878),
-                                fontSize: 13,
-                                fontFamily: 'SF Pro Text',
-                                fontWeight: FontWeight.w400,
-                                height: 1,
+                      if (allotDevice == 'Yes')
+                        Column(
+                          children: [
+                            Container(
+                              alignment: Alignment.topLeft,
+                              padding: const EdgeInsets.only(top: 10, left: 20),
+                              child: const Text(
+                                'Device Serial',
+                                style: TextStyle(
+                                  color: Color(0xFF787878),
+                                  fontSize: 13,
+                                  fontFamily: 'SF Pro Text',
+                                  fontWeight: FontWeight.w400,
+                                  height: 1,
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: TextFormField(
-                              controller: deviceSerialController,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(6),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: TextFormField(
+                                controller: deviceSerialController,
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(6),
+                                ],
+                                validator: (value) {
+                                  if (value!.isEmpty || value == "") {
+                                    return "Please enter Device Serial";
+                                  } else if (value.length < 6) {
+                                    return "Please enter valid PIN";
+                                  }
+                                  return null;
+                                },
+                                decoration: InputDecoration(
+                                    fillColor: const Color(0x1943BA82),
+                                    filled: true,
+                                    hintText: "Device Serial",
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide.none)),
+                              ),
+                            )
+                          ],
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 21.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.location_on),
+                            TextButton(
+                                onPressed: () {
+                                  _navigateToMapScreen();
+                                },
+                                child: Text(
+                                  'Pick HomeLess People Location',
+                                  style: TextStyle(
+                                    color: const Color(0xFF46BA80),
+                                  ),
+                                )),
+                          ],
+                        ),
+                      ),
+                      if (selectedLocation != null)
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Latitue : ",
+                                ),
+                                Text("${selectedLocation!.latitude}")
                               ],
-                              validator: (value) {
-                                if (value!.isEmpty || value == "") {
-                                  return "Please enter Device Serial";
-                                } else if (value.length < 6) {
-                                  return "Please enter valid PIN";
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                  fillColor: const Color(0x1943BA82),
-                                  filled: true,
-                                  hintText: "Device Serial",
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: BorderSide.none)),
                             ),
-                          )
-                        ],
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text("Longitude : "),
+                                Text("${selectedLocation!.longitude}")
+                              ],
+                            )
+                          ],
+                        ),
+                      SizedBox(
+                        height: 10,
                       ),
                       InkWell(
-                        onTap: () {
-                          if (formKey.currentState!.validate()) {}
+                        onTap: () async {
+                          if (formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            int monthNumber =
+                                getMonthNumber(selectedMonth.toString());
+
+                            DateTime date = DateTime(
+                                int.parse(selectedYear.toString()),
+                                monthNumber,
+                                int.parse(selectedDay.toString()));
+
+                            // Upload the picked image to Firebase Storage
+
+                            Member member = Member(
+                              fullName: fullNameController
+                                  .text, // Full Name from TextEditingController
+                              email: emailController
+                                  .text, // Email from TextEditingController
+                              phone: phoneController
+                                  .text, // Phone from TextEditingController
+                              gender: selectedGender,
+                              dob: date.toString(),
+                              allotDevice: allotDevice,
+                              deviceSerial: deviceSerialController.text,
+                              pinNumber: pinNumberController.text,
+                              userName: userNameController
+                                  .text, // Device Serial from TextEditingController
+                              longitude: selectedLocation!.longitude.toString(),
+                              latitude: selectedLocation!.latitude.toString(),
+                            );
+
+                            final CollectionReference membersCollection =
+                                FirebaseFirestore.instance
+                                    .collection('HomeLessMembers');
+
+                            await membersCollection
+                                .doc(widget.memberId)
+                                .update({
+                              'fullName': member.fullName,
+                              'email': member.email,
+                              'phone': member.phone,
+                              'gender': member.gender,
+                              'dob': member.dob,
+                              'allotDevice': member.allotDevice,
+                              'deviceSerial': member.deviceSerial,
+                              'pinNumber': member.pinNumber,
+                              'userName': member.userName,
+                              'profileImageUrl': downloadUrl == ''
+                                  ? 'https://firebasestorage.googleapis.com/v0/b/homeless-399009.appspot.com/o/profile_images%2Fimages.jpeg?alt=media&token=d4464296-feb1-4baa-83d6-17fefae82e2d&_gl=1*1owceyi*_ga*OTc2NTc3NTkwLjE2OTUwMDk4ODc.*_ga_CW55HF8NVT*MTY5NjgyMzIxMC4zMi4xLjE2OTY4MjU0NzIuNTAuMC4w'
+                                  : downloadUrl,
+                              'longitude': member.longitude,
+                              'latitude': member.latitude,
+                            });
+                            setState(() {
+                              isLoading = false;
+                            });
+                            final snackBar = SnackBar(
+                              content: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                ), // Add padding to all sides
+                                child: Text('Data Saved Sucessfully'),
+                              ),
+                              duration: Duration(seconds: 3),
+                              backgroundColor: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set the borderRadius
+                              ),
+                              padding: EdgeInsets.all(16.0), // Set padding
+                            );
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
                           ;
                         },
                         child: Container(
@@ -619,7 +845,7 @@ class _EditMemberPageState extends State<EditMemberPage> {
                                 ? Center(
                                     child:
                                         CircularProgressIndicator()) // Show progress indicator when isLoading is true
-                                : const Text('Continue',
+                                : const Text('Save',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
@@ -629,6 +855,21 @@ class _EditMemberPageState extends State<EditMemberPage> {
                                       height: 2,
                                     ))),
                       ),
+                      TextButton(
+                          onPressed: () async {
+                            final CollectionReference membersCollection =
+                                FirebaseFirestore.instance
+                                    .collection('HomeLessMembers');
+
+                            await membersCollection
+                                .doc(widget.memberId)
+                                .delete()
+                                .then((value) => Navigator.pop(context));
+                          },
+                          child: Text(
+                            "Delete Member",
+                            style: TextStyle(color: Colors.red),
+                          )),
                     ],
                   ),
                 ),

@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:homeless/Screen/Organization/AddMember.dart';
-import 'package:homeless/Screen/EditMemberPage.dart';
-import 'package:homeless/Screen/add_location.dart';
+import 'Screen/demoMap.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +22,6 @@ class _MyAppState extends State<MyApp> {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return MaterialApp(
-        debugShowCheckedModeBanner: false, home: AddMemberPage());
+        debugShowCheckedModeBanner: false, home: MapScreen(user_index: 0));
   }
 }

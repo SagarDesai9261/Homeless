@@ -2,22 +2,21 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:homeless/Screen/Register.dart';
-import 'package:homeless/Screen/Register_donor.dart';
+import 'package:homeless/Screen/register/Register.dart';
 import 'package:homeless/model/service.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'Donor/donor_home.dart';
-import 'home_screen.dart';
+import '../Organization/home_screen.dart';
 
-class Login_screen_donor extends StatefulWidget {
-  const Login_screen_donor({Key? key}) : super(key: key);
+class Login_screen_Organazition extends StatefulWidget {
+  const Login_screen_Organazition({Key? key}) : super(key: key);
 
   @override
-  State<Login_screen_donor> createState() => _Login_screen_OrganazitionState();
+  State<Login_screen_Organazition> createState() =>
+      _Login_screen_OrganazitionState();
 }
 
-class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
+class _Login_screen_OrganazitionState extends State<Login_screen_Organazition> {
   String error = "";
   bool pass = true;
   bool isloading = false;
@@ -34,7 +33,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFF46BA80),
             ),
             child: SingleChildScrollView(
@@ -43,7 +42,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .1,
                   ),
-                  Center(
+                  const Center(
                     child: Text(
                       "Login",
                       style: TextStyle(
@@ -52,26 +51,26 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Center(
+                  const Center(
                     child: Text(
-                      "Welcome to Donor",
+                      "Welcome to Organization",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   SingleChildScrollView(
                     child: Container(
                       height: MediaQuery.of(context).size.height * .75,
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(100),
@@ -84,6 +83,16 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                           SizedBox(
                             width: MediaQuery.of(context).size.width * .8,
                             child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter an email address';
+                                } else if (!RegExp(
+                                        r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                    .hasMatch(value)) {
+                                  return 'Please enter a valid email address';
+                                }
+                                return null; // Return null if the input is valid.
+                              },
                               controller: email,
                               decoration: InputDecoration(
                                   hintText: "Email address",
@@ -93,18 +102,26 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                       )),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * .8,
                             child: TextFormField(
+                              validator: (value) {
+                                if (value!.isEmpty || value == "") {
+                                  return "Please enter Choose Password";
+                                } else if (value.length < 6) {
+                                  return "Password must be at least 6 characters";
+                                }
+                                return null;
+                              },
                               controller: password,
                               obscureText: pass,
                               decoration: InputDecoration(
                                   suffixIcon: pass
                                       ? IconButton(
-                                          icon: Icon(Icons.visibility),
+                                          icon: const Icon(Icons.visibility),
                                           onPressed: () {
                                             setState(() {
                                               pass = false;
@@ -112,7 +129,8 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                           },
                                         )
                                       : IconButton(
-                                          icon: Icon(Icons.visibility_off),
+                                          icon:
+                                              const Icon(Icons.visibility_off),
                                           onPressed: () {
                                             setState(() {
                                               pass = true;
@@ -126,7 +144,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                       )),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           GestureDetector(
@@ -138,7 +156,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                   right:
                                       MediaQuery.of(context).size.width * .15),
                               alignment: Alignment.topRight,
-                              child: Text(
+                              child: const Text(
                                 "Forgot Password?",
                                 style: TextStyle(
                                     color: Color(0xFF46BA80),
@@ -146,73 +164,101 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           GestureDetector(
                             onTap: () async {
-                              setState(() {
-                                isloading = true;
-                              });
-                              try {
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                        email: email.text,
-                                        password: password.text);
-                                final user = FirebaseAuth.instance.currentUser;
-
-                                if(user!.displayName == "Donor"){
-                                  showalert("Login Successfully", AlertType.success, context);
-                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>CustomInfoWindowExample()));
-                                }
-                                else{
-                                  showalert("Email is not register in Donor", AlertType.error, context);
-                                }
-                                //print(user!.displayName);
+                              if (form_key.currentState!.validate()) {
                                 setState(() {
-                                 isloading = false;
+                                  isloading = true;
                                 });
-                              } catch (e) {
-                                if (e is FirebaseAuthException) {
-                                  print(
-                                      'Firebase Authentication Error: ${e.code}');
-                                  print('Error Message: ${e.message}');
-                                  if(e.code == "INVALID_LOGIN_CREDENTIALS"){
-                                    print("hello");
+                                try {
+                                  await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                          email: email.text,
+                                          password: password.text);
+                                  final user =
+                                      FirebaseAuth.instance.currentUser;
+
+                                  if (user!.displayName == "Organization") {
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Navbar_screen()));
+                                    // ignore: use_build_context_synchronously
+                                    showalert("Login Successfully",
+                                        AlertType.success, context);
+                                  } else {
+                                    FirebaseAuth.instance.signOut();
+                                    // ignore: use_build_context_synchronously
+                                    showalert(
+                                        "Email is not register in Organization",
+                                        AlertType.error,
+                                        context);
                                   }
-                                  switch (e.code) {
-                                    case 'INVALID_LOGIN_CREDENTIALS':
-                                      showalert("Your Email and Password is invalid", AlertType.error, context);
-                                      break;
-                                    case 'invalid-email':
-                                      showalert("Your Email is invalid", AlertType.error, context);
-                                      // Handle invalid email error
-                                      break;
-                                    case 'user-disabled':
-                                      showalert(e.code, AlertType.error, context);
-                                      // Handle user disabled error
-                                      break;
-                                    case 'user-not-found':
-                                      showalert("Email is not Register", AlertType.error, context);
-                                      // Handle user not found error
-                                      break;
-                                    case 'wrong-password':
-                                      showalert("Password is mismatch", AlertType.error, context);
-                                      // Handle wrong password error
-                                      break;
-                                    case 'too-many-requests':
-                                      // Handle too many login attempts error
-                                      break;
-                                    case 'network-request-failed':
-                                      // Handle network request failed error
-                                      break;
-                                    default:
-                                      // Handle other Firebase Authentication errors
-                                      break;
+                                  //print(user!.displayName);
+                                  setState(() {
+                                    isloading = false;
+                                  });
+                                } catch (e) {
+                                  if (e is FirebaseAuthException) {
+                                    print(
+                                        'Firebase Authentication Error: ${e.code}');
+                                    print('Error Message: ${e.message}');
+                                    if (e.code == "INVALID_LOGIN_CREDENTIALS") {
+                                      print("hello");
+                                    }
+                                    switch (e.code) {
+                                      case 'INVALID_LOGIN_CREDENTIALS':
+                                        // ignore: use_build_context_synchronously
+                                        showalert(
+                                            "Your Email and Password is invalid",
+                                            AlertType.error,
+                                            context);
+                                        isloading == false;
+                                        break;
+                                      case 'invalid-email':
+                                        // ignore: use_build_context_synchronously
+                                        showalert("Your Email is invalid",
+                                            AlertType.error, context);
+                                        isloading == false;
+                                        // Handle invalid email error
+                                        break;
+                                      case 'user-disabled':
+                                        // ignore: use_build_context_synchronously
+                                        showalert(
+                                            e.code, AlertType.error, context);
+                                        // Handle user disabled error
+                                        break;
+                                      case 'user-not-found':
+                                        // ignore: use_build_context_synchronously
+                                        showalert("Email is not Register",
+                                            AlertType.error, context);
+                                        isloading == false;
+                                        // Handle user not found error
+                                        break;
+                                      case 'wrong-password':
+                                        // ignore: use_build_context_synchronously
+                                        showalert("Password is mismatch",
+                                            AlertType.error, context);
+                                        isloading == false;
+                                        // Handle wrong password error
+                                        break;
+                                      case 'too-many-requests':
+                                        // Handle too many login attempts error
+                                        break;
+                                      case 'network-request-failed':
+                                        // Handle network request failed error
+                                        break;
+                                      default:
+                                        // Handle other Firebase Authentication errors
+                                        break;
+                                    }
                                   }
                                 }
-                              }
-
 
 /*
                               // Simulate a login request.
@@ -228,22 +274,24 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                         title: error.toString())
                                     .show();
                               } else {
-                              *//*  Navigator.pushReplacement(
+                              */
+                                /*  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Navbar_screen()));*//*
+                                        builder: (context) => Navbar_screen()));*/ /*
                               }*/
+                              }
                             },
                             child: Container(
                                 width: 200,
                                 height: 50,
                                 decoration: ShapeDecoration(
-                                  color: Color(0xFF46BA80),
+                                  color: const Color(0xFF46BA80),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)),
                                 ),
                                 child: isloading == false
-                                    ? Text('Sign up your Account',
+                                    ? const Text('Sign up your Account',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Colors.white,
@@ -252,18 +300,18 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                           fontWeight: FontWeight.w600,
                                           height: 2,
                                         ))
-                                    : Center(
+                                    : const Center(
                                         child: CircularProgressIndicator(
                                         color: Colors.white,
                                       ))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't have Account ? ",
                                 style: TextStyle(fontSize: 16),
                               ),
@@ -273,9 +321,9 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Register_donor()));
+                                                Register_Organization()));
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Register",
                                     style: TextStyle(
                                         fontSize: 16, color: Color(0xFF46BA80)),
@@ -294,41 +342,48 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
       ),
     );
   }
-  showalert(message,type,BuildContext context){
-    return Alert(context: context,title: message,type: type,buttons: [
-      DialogButton(
-        child: Text(
-          "Ok",
-          style: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        onPressed: () {Navigator.pop(context);
-        setState(() {
-          isloading = false;
-        });
-        } ,
-        width: 120,
-      )
-    ],).show();
+
+  showalert(message, type, BuildContext context) {
+    return Alert(
+      context: context,
+      title: message,
+      type: type,
+      buttons: [
+        DialogButton(
+          onPressed: () {
+            Navigator.pop(context);
+            setState(() {
+              isloading = false;
+            });
+          },
+          width: 120,
+          child: const Text(
+            "Ok",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+        )
+      ],
+    ).show();
   }
 
   showAlertDialog(BuildContext context) {
-    TextEditingController _emailController = new TextEditingController();
+    TextEditingController emailController = TextEditingController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         final emailField = TextFormField(
-          controller: _emailController,
+          controller: emailController,
           keyboardType: TextInputType.emailAddress,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
           ),
           decoration: InputDecoration(
               hintText: 'something@example.com',
               // labelText: 'Account Email to Reset',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: Colors.black,
               ),
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Colors.black,
               ),
               border:
@@ -339,15 +394,15 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
           content: Container(
             width: MediaQuery.of(context).size.width / 1.3,
             height: MediaQuery.of(context).size.height / 4,
-            decoration: new BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.rectangle,
-              color: const Color(0xFFFFFF),
-              borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+              color: Color(0xFFFFFF),
+              borderRadius: BorderRadius.all(Radius.circular(32.0)),
             ),
-            child: new Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
+                const Text(
                   "Reset Password Link",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
@@ -355,17 +410,32 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                 MaterialButton(
                   onPressed: () async {
                     await FirebaseAuth.instance
-                        .sendPasswordResetEmail(email: _emailController.text);
-                    Navigator.of(context).pop();
+                        .sendPasswordResetEmail(email: emailController.text)
+                        .then((value) {
+                      Navigator.pop(context);
+                      Alert(
+                          context: context,
+                          title: "Reset Password sent Successfully",
+                          type: AlertType.success,
+                          buttons: [
+                            DialogButton(
+                                child: const Text("Ok"),
+                                onPressed: () {
+                                  Alert(context: context).dismiss();
+                                  Navigator.pop(context);
+                                })
+                          ]).show();
+                    });
+                    //  Navigator.of(context).pop();
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 12,
-                    padding: EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Material(
-                        color: Color(0xFF46BA80),
+                        color: const Color(0xFF46BA80),
                         borderRadius: BorderRadius.circular(25.0),
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(

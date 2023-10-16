@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:homeless/Screen/Register.dart';
-import 'package:homeless/Screen/Register_donor.dart';
+import 'package:homeless/Screen/register/Register.dart';
+import 'package:homeless/Screen/register/Register_donor.dart';
 import 'package:homeless/model/service.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'Donor/donor_home.dart';
-import 'home_screen.dart';
+import '../Donor/donor_home.dart';
+import '../Organization/home_screen.dart';
 
 class Login_screen_donor extends StatefulWidget {
   const Login_screen_donor({Key? key}) : super(key: key);
@@ -344,7 +344,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
               color: const Color(0xFFFFFF),
               borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
             ),
-            child: new Column(
+            child:  Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
@@ -355,8 +355,17 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                 MaterialButton(
                   onPressed: () async {
                     await FirebaseAuth.instance
-                        .sendPasswordResetEmail(email: _emailController.text);
-                    Navigator.of(context).pop();
+                        .sendPasswordResetEmail(email: _emailController.text).then((value) {
+                      Navigator.pop(context);
+                      Alert(context: context,title: "Reset Password sent Successfully" , type: AlertType.success,buttons: [
+                        DialogButton(child: const Text("Ok"), onPressed: (){
+                          Alert(context: context).dismiss();
+                          Navigator.pop(context);
+                        } )
+                      ]).show();
+
+                    });
+                    //Navigator.of(context).pop();
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,

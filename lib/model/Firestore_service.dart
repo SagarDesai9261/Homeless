@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'model.dart';
 
@@ -31,7 +32,10 @@ class FirestoreService {
         'phone': user.phone,
         'password': user.password,
         'fullName': user.fullName,
-        'gender':user.gender
+        'gender':user.gender,
+        'image':"https://firebasestorage.googleapis.com/v0/b/homeless-399009.appspot.com/o/profile_images%2Fimages.jpeg?alt=media&token=d4464296-feb1-4baa-83d6-17fefae82e2d",
+        'year':"",
+        'location':""
       });
     } catch (e) {
       print('Error creating user record: $e');
@@ -61,6 +65,42 @@ class FirestoreService {
     } catch (e) {
       print('Error getting user data: $e');
       return null;
+    }
+  }
+  Future<void> addMerchantData(Merchant merchant) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      final UserCredential authResult =
+      await _auth.createUserWithEmailAndPassword(
+        email: merchant.Email!,
+        password: merchant.ChoosePassword!,
+      );
+
+     // final User? firebaseUser = authResult.user;
+      final User? firebaseUser = authResult.user;
+      firebaseUser!.updateProfile(displayName: "Merchant");
+
+      await _firestore.collection('merchants').doc(firebaseUser.uid).set({
+        'Name': merchant.Name,
+        'Email': merchant.Email,
+        'Phone': merchant.Phone,
+        'ChoosePassword': merchant.ChoosePassword,
+        'ConfirmPassword': merchant.ConfirmPassword,
+        'BusinessName': merchant.BusinessName,
+        'BusinessCategory': merchant.BusinessCategory,
+        'StreetAddress': merchant.StreetAddress,
+        'AreaSector': merchant.AreaSector,
+        'Pincode': merchant.Pincode,
+        'State': merchant.State,
+        'Country': merchant.Country,
+        'AccountNumber': merchant.AccountNumber,
+        'BankName': merchant.BankName,
+        'CityBank': merchant.CityBank,
+        'StateBank': merchant.StateBank,
+        'BranchLocation': merchant.BranchLocation,
+      });
+    } catch (e) {
+      print('Error adding merchant data: $e');
     }
   }
 

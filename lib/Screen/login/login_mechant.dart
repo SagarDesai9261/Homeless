@@ -2,22 +2,22 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:homeless/Screen/Register.dart';
-import 'package:homeless/Screen/Register_donor.dart';
+import 'package:homeless/Screen/register/Register.dart';
+import 'package:homeless/Screen/register/Register_merchant.dart';
 import 'package:homeless/model/service.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import 'Donor/donor_home.dart';
-import 'home_screen.dart';
+import '../Organization/home_screen.dart';
+import '../merchant/Homepage_merchant.dart';
 
-class Login_screen_donor extends StatefulWidget {
-  const Login_screen_donor({Key? key}) : super(key: key);
+class Login_screen_Merchant extends StatefulWidget {
+  const Login_screen_Merchant({Key? key}) : super(key: key);
 
   @override
-  State<Login_screen_donor> createState() => _Login_screen_OrganazitionState();
+  State<Login_screen_Merchant> createState() => _Login_screen_MerchantState();
 }
 
-class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
+class _Login_screen_MerchantState extends State<Login_screen_Merchant> {
   String error = "";
   bool pass = true;
   bool isloading = false;
@@ -34,7 +34,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFF46BA80),
             ),
             child: SingleChildScrollView(
@@ -43,7 +43,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .1,
                   ),
-                  Center(
+                  const Center(
                     child: Text(
                       "Login",
                       style: TextStyle(
@@ -52,26 +52,26 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Center(
+                  const Center(
                     child: Text(
-                      "Welcome to Donor",
+                      "Welcome to Merchant",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   SingleChildScrollView(
                     child: Container(
                       height: MediaQuery.of(context).size.height * .75,
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(100),
@@ -93,7 +93,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                       )),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           SizedBox(
@@ -104,7 +104,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                               decoration: InputDecoration(
                                   suffixIcon: pass
                                       ? IconButton(
-                                          icon: Icon(Icons.visibility),
+                                          icon: const Icon(Icons.visibility),
                                           onPressed: () {
                                             setState(() {
                                               pass = false;
@@ -112,7 +112,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                           },
                                         )
                                       : IconButton(
-                                          icon: Icon(Icons.visibility_off),
+                                          icon: const Icon(Icons.visibility_off),
                                           onPressed: () {
                                             setState(() {
                                               pass = true;
@@ -126,7 +126,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                       )),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           GestureDetector(
@@ -138,7 +138,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                   right:
                                       MediaQuery.of(context).size.width * .15),
                               alignment: Alignment.topRight,
-                              child: Text(
+                              child: const Text(
                                 "Forgot Password?",
                                 style: TextStyle(
                                     color: Color(0xFF46BA80),
@@ -146,7 +146,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           GestureDetector(
@@ -157,20 +157,20 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                               try {
                                 await FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
-                                        email: email.text,
-                                        password: password.text);
+                                    email: email.text,
+                                    password: password.text);
                                 final user = FirebaseAuth.instance.currentUser;
 
-                                if(user!.displayName == "Donor"){
+                                if(user!.displayName == "Merchant"){
                                   showalert("Login Successfully", AlertType.success, context);
-                                  Navigator.push(context,MaterialPageRoute(builder: (context)=>CustomInfoWindowExample()));
+                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>SearchDemo()));
                                 }
                                 else{
                                   showalert("Email is not register in Donor", AlertType.error, context);
                                 }
                                 //print(user!.displayName);
                                 setState(() {
-                                 isloading = false;
+                                  isloading = false;
                                 });
                               } catch (e) {
                                 if (e is FirebaseAuthException) {
@@ -201,49 +201,29 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                       // Handle wrong password error
                                       break;
                                     case 'too-many-requests':
-                                      // Handle too many login attempts error
+                                    // Handle too many login attempts error
                                       break;
                                     case 'network-request-failed':
-                                      // Handle network request failed error
+                                    // Handle network request failed error
                                       break;
                                     default:
-                                      // Handle other Firebase Authentication errors
+                                    // Handle other Firebase Authentication errors
                                       break;
                                   }
                                 }
                               }
 
-
-/*
-                              // Simulate a login request.
-                              await Future.delayed(Duration(seconds: 3));
-                              // Navigator.push(context, MaterialPageRoute(builder: (context)=>Navbar_screen()));
-                              setState(() {
-                                isloading = false;
-                              });
-                              if (error != "") {
-                                Alert(
-                                        context: context,
-                                        type: AlertType.error,
-                                        title: error.toString())
-                                    .show();
-                              } else {
-                              *//*  Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Navbar_screen()));*//*
-                              }*/
                             },
                             child: Container(
                                 width: 200,
                                 height: 50,
                                 decoration: ShapeDecoration(
-                                  color: Color(0xFF46BA80),
+                                  color: const Color(0xFF46BA80),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8)),
                                 ),
                                 child: isloading == false
-                                    ? Text('Sign up your Account',
+                                    ? const Text('Sign to your Account',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           color: Colors.white,
@@ -252,18 +232,18 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                           fontWeight: FontWeight.w600,
                                           height: 2,
                                         ))
-                                    : Center(
+                                    : const Center(
                                         child: CircularProgressIndicator(
                                         color: Colors.white,
                                       ))),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
+                              const Text(
                                 "Don't have Account ? ",
                                 style: TextStyle(fontSize: 16),
                               ),
@@ -273,9 +253,9 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                Register_donor()));
+                                                Register_merchant()));
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     "Register",
                                     style: TextStyle(
                                         fontSize: 16, color: Color(0xFF46BA80)),
@@ -297,7 +277,7 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
   showalert(message,type,BuildContext context){
     return Alert(context: context,title: message,type: type,buttons: [
       DialogButton(
-        child: Text(
+        child: const Text(
           "Ok",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
@@ -319,16 +299,16 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
         final emailField = TextFormField(
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
           ),
           decoration: InputDecoration(
               hintText: 'something@example.com',
               // labelText: 'Account Email to Reset',
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                 color: Colors.black,
               ),
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Colors.black,
               ),
               border:
@@ -344,10 +324,10 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
               color: const Color(0xFFFFFF),
               borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
             ),
-            child: new Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
+                const Text(
                   "Reset Password Link",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                 ),
@@ -355,17 +335,26 @@ class _Login_screen_OrganazitionState extends State<Login_screen_donor> {
                 MaterialButton(
                   onPressed: () async {
                     await FirebaseAuth.instance
-                        .sendPasswordResetEmail(email: _emailController.text);
-                    Navigator.of(context).pop();
+                        .sendPasswordResetEmail(email: _emailController.text).then((value) {
+                      Navigator.pop(context);
+                      Alert(context: context,title: "Reset Password sent Successfully" , type: AlertType.success,buttons: [
+                        DialogButton(child: const Text("Ok"), onPressed: (){
+                          Alert(context: context).dismiss();
+                         Navigator.pop(context);
+                        } )
+                      ]).show();
+
+                    });
+                    //Navigator.of(context).pop();
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height / 12,
-                    padding: EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(15.0),
                     child: Material(
-                        color: Color(0xFF46BA80),
+                        color: const Color(0xFF46BA80),
                         borderRadius: BorderRadius.circular(25.0),
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Text(

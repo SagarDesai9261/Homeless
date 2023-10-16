@@ -51,8 +51,26 @@ dependencies:
   cloud_firestore: ^4.4.4
   rflutter_alert:
   bottom_sheet:
-
-
+  custom_info_window:
+  clippy_flutter:
+  provider:
+  intl: ^0.18.1
+  chat_bubbles: ^1.5.0
+  flutter_chat_bubble: ^2.0.2
+  async:
+  rxdart: ^0.27.0
+  cached_network_image:
+  google_fonts:
+  quickalert: ^1.0.2
+  datepicker_dropdown:
+  location:
+  shared_preferences:
+  geocoding: ^2.0.1
+  pin_input_text_field: ^4.5.1
+  dotted_border: ^2.1.0
+  geolocator:
+  recase:
+  flutter_search_bar:
 
 dev_dependencies:
   flutter_test:

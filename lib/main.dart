@@ -142,13 +142,20 @@ class MyHomePage extends StatelessWidget {
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
+import 'Screen/Donor/Donor_profile.dart';
 import 'Screen/splash_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(); // Initialize Firebase
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => UserProfileProvider()),
+    ],
+    child: MyApp(),
+  ),);
 }
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);

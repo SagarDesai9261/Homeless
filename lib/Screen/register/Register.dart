@@ -10,9 +10,9 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:rflutter_alert/rflutter_alert.dart';
 
-import '../model/model.dart';
-import '../model/service.dart';
-import 'home_screen.dart';
+import '../../model/model.dart';
+import '../../model/service.dart';
+import '../Organization/home_screen.dart';
 
 class StepModel {
   final String title;
@@ -226,10 +226,14 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 child: TextFormField(
                   controller: email,
                   validator: (value) {
-                    if (value!.isEmpty || value == "") {
-                      return "Please Enter Email Address";
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email address';
+                    } else if (!RegExp(
+                            r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value)) {
+                      return 'Please enter a valid email address';
                     }
-                    return null;
+                    return null; // Return null if the input is valid.
                   },
                   decoration: InputDecoration(
                       fillColor: Color(0x1943BA82),
@@ -299,7 +303,6 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 padding: EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
-                    print(value!.length);
                     if (value!.isEmpty || value == "") {
                       return "Please enter Phone";
                     } else if (value.length < 10) {
@@ -343,12 +346,12 @@ class _Register_OrganizationState extends State<Register_Organization> {
                 padding: EdgeInsets.all(10),
                 child: TextFormField(
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a password';
+                    if (value!.isEmpty || value == "") {
+                      return "Please enter Choose Password";
                     } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return "Password must be at least 6 characters";
                     }
-                    return null; // Return null if the input is valid.
+                    return null;
                   },
                   controller: choose_password,
                   obscureText: password1,
@@ -710,7 +713,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   controller: appartment,
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
-                      return "Please enter Area/Sector";
+                      return "Please enter Appartment";
                     }
                     return null;
                   },
@@ -752,6 +755,8 @@ class _Register_OrganizationState extends State<Register_Organization> {
                   validator: (value) {
                     if (value!.isEmpty || value == "") {
                       return "Please enter Pincode";
+                    } else if (value.length < 6) {
+                      return "Pincode must be at least 6 characters";
                     }
                     return null;
                   },

@@ -100,53 +100,7 @@ class Rectangle1 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                InkWell(
-                  onTap: ()async{
-                    try {
-                      AuthService().signInWithGoogle();
-                    } catch (error) {
-                      print(error);
-                    }
-                  },
-                  child: Container(
-                    width: 343,
-                    height: 50,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF434C54),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/google.png',
-                          height: MediaQuery.of(context).size.height * .05,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 15),
-                          child: Text(
-                            'Sign in with Google',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'SF Pro Text',
-                              fontWeight: FontWeight.w500,
-                              height: 0.06,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
+
                 InkWell(
                   onTap: (){
                   //  print(width);

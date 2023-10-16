@@ -95,3 +95,143 @@ class donorUser{
     );
   }
 }
+class Member {
+  String? fullName;
+  String? email;
+  String? phone;
+  String? gender;
+  String? dob;
+  String? deviceSerial;
+  String? allotDevice;
+  String? pinNumber;
+  String? userName;
+  String? longitude;
+  String? latitude;
+  String? profileImage;
+  String? donationReceived;
+  String? walletBalance;
+  String? joinDate;
+
+  Member(
+      {this.fullName,
+        this.email,
+        this.phone,
+        this.gender,
+        this.dob,
+        this.allotDevice,
+        this.deviceSerial,
+        this.pinNumber,
+        this.userName,
+        this.latitude,
+        this.longitude,
+        this.profileImage,
+        this.walletBalance,
+        this.donationReceived,
+        this.joinDate
+      });
+}
+
+class Merchant {
+  final String? Name;
+  final String? Email;
+  final String? Phone;
+  final String? ChoosePassword;
+  final String? ConfirmPassword;
+  //business detail
+  final String? BusinessName;
+  final String? BusinessCategory;
+  final String? StreetAddress;
+  final String? AreaSector;
+  final int? Pincode;
+  final String? State;
+  final String? Country;
+  final List<String>? images;
+  //bank detail
+  final String? AccountNumber;
+  final String? BankName;
+  final String? CityBank;
+  final String? StateBank;
+  final String? BranchLocation;
+
+  Merchant({
+    //
+    this.Name,
+    this.Email,
+    this.Phone,
+    this.ChoosePassword,
+    this.ConfirmPassword,
+    //business
+    this.BusinessName,
+    this.BusinessCategory,
+    this.StreetAddress,
+    this.AreaSector,
+    this.Pincode,
+    this.State,
+    this.Country,
+    this.images,
+    //bank
+    this.AccountNumber,
+    this.BankName,
+    this.CityBank,
+    this.StateBank,
+    this.BranchLocation,
+  });
+}
+class homeless {
+  String? documentId; // Document ID
+  String? address;
+  String? allotDevice;
+  String? deviceSerial;
+  DateTime? dob; // Date of Birth
+  String? donationReceived;
+  String? fullName;
+  String? gender;
+  String? email;
+  DateTime? joinDate;
+  double? latitude;
+  String? location;
+  double? longitude;
+  String? organizationId;
+  String? phone;
+  String? pinNumber;
+  String? profileImageUrl;
+  String? userName;
+  List<String>? usersChats; // Assuming it's a list of chat IDs or similar
+  double? walletBalance;
+
+  homeless({
+    this.documentId,
+    this.address,
+    this.allotDevice,
+    this.deviceSerial,
+    this.dob,
+    this.donationReceived,
+    this.email,
+    this.fullName,
+    this.gender,
+    this.joinDate,
+    this.latitude,
+    this.location,
+    this.longitude,
+    this.organizationId,
+    this.phone,
+    this.pinNumber,
+    this.profileImageUrl,
+    this.userName,
+    this.usersChats,
+    this.walletBalance,
+  });
+}
+
+class Message {
+  final String id;
+  final String text;
+  final String senderId;
+  final DateTime timestamp;
+  Message({
+    required this.id,
+    required this.text,
+    required this.senderId,
+    required this.timestamp,
+  });
+}

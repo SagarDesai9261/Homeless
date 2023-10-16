@@ -1,13 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:homeless/Screen/Register.dart';
-import 'package:homeless/Screen/Register_donor.dart';
-import 'package:homeless/Screen/Register_merchant.dart';
-import 'package:homeless/Screen/home_screen.dart';
-import 'package:homeless/Screen/login_donor.dart';
-import 'package:homeless/Screen/login_mechant.dart';
-import 'package:homeless/Screen/login_organization.dart';
+import 'package:homeless/Screen/register/Register.dart';
+import 'package:homeless/Screen/register/Register_donor.dart';
+import 'package:homeless/Screen/register/Register_merchant.dart';
+import 'package:homeless/Screen/Organization/home_screen.dart';
+import 'package:homeless/Screen/login/login_donor.dart';
+import 'package:homeless/Screen/login/login_mechant.dart';
+import 'package:homeless/Screen/login/login_organization.dart';
 import 'package:homeless/Screen/splash_screen.dart';
+
+import 'Donor/donor_home.dart';
+import 'merchant/Homepage_merchant.dart';
 
 class Account_type extends StatefulWidget {
   const Account_type({Key? key}) : super(key: key);
@@ -20,26 +23,28 @@ class _Account_typeState extends State<Account_type> {
   var seleted_index = 0;
   @override
   Widget build(BuildContext context) {
-    var height= MediaQuery.of(context).size.height ;
-    var width= MediaQuery.of(context).size.width ;
-     return WillPopScope(
-       onWillPop: ()async{
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>FigmaToCodeApp()));
-         return false;
-       },
-       child: Scaffold(
-
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => FigmaToCodeApp()));
+        return false;
+      },
+      child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height*.05,
+                height: MediaQuery.of(context).size.height * .05,
               ),
               Row(
                 children: [
-                  IconButton(onPressed: (){
-                    Navigator.pop(context);
-                  }, icon: Icon(Icons.arrow_back)),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.arrow_back)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .25,
                   ),
@@ -70,7 +75,7 @@ class _Account_typeState extends State<Account_type> {
                 height: MediaQuery.of(context).size.height * .03,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   setState(() {
                     seleted_index = 1;
                     print(seleted_index);
@@ -82,14 +87,17 @@ class _Account_typeState extends State<Account_type> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: seleted_index == 1 ? Border.all(color: Color(0xFF46BA80)): Border.all(color: Colors.white),
+                    border: seleted_index == 1
+                        ? Border.all(color: Color(0xFF46BA80))
+                        : Border.all(color: Colors.white),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset("assets/organization.png",
-                      height: MediaQuery.of(context).size.height * .1,
+                      Image.asset(
+                        "assets/organization.png",
+                        height: MediaQuery.of(context).size.height * .1,
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * .03,
@@ -98,7 +106,9 @@ class _Account_typeState extends State<Account_type> {
                         'Organization',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color:seleted_index == 1 ? Color(0xFF46BA80) : Colors.black,
+                          color: seleted_index == 1
+                              ? Color(0xFF46BA80)
+                              : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
                           fontWeight: FontWeight.w500,
@@ -113,7 +123,7 @@ class _Account_typeState extends State<Account_type> {
                 height: MediaQuery.of(context).size.height * .04,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   setState(() {
                     seleted_index = 2;
                   });
@@ -124,13 +134,16 @@ class _Account_typeState extends State<Account_type> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: seleted_index == 2 ? Border.all(color: Color(0xFF46BA80)): Border.all(color: Colors.white),
+                    border: seleted_index == 2
+                        ? Border.all(color: Color(0xFF46BA80))
+                        : Border.all(color: Colors.white),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset("assets/merchant.png",
+                      Image.asset(
+                        "assets/merchant.png",
                         height: MediaQuery.of(context).size.height * .1,
                       ),
                       SizedBox(
@@ -140,7 +153,9 @@ class _Account_typeState extends State<Account_type> {
                         'Merchant',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color:seleted_index == 2 ? Color(0xFF46BA80) : Colors.black,
+                          color: seleted_index == 2
+                              ? Color(0xFF46BA80)
+                              : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
                           fontWeight: FontWeight.w500,
@@ -155,11 +170,10 @@ class _Account_typeState extends State<Account_type> {
                 height: MediaQuery.of(context).size.height * .04,
               ),
               InkWell(
-                onTap: (){
+                onTap: () {
                   setState(() {
                     seleted_index = 3;
                   });
-
                 },
                 child: Container(
                   width: width * .4,
@@ -167,13 +181,16 @@ class _Account_typeState extends State<Account_type> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: seleted_index == 3 ? Border.all(color: Color(0xFF46BA80)): Border.all(color: Colors.white),
+                    border: seleted_index == 3
+                        ? Border.all(color: Color(0xFF46BA80))
+                        : Border.all(color: Colors.white),
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset("assets/Donor.png",
+                      Image.asset(
+                        "assets/Donor.png",
                         height: MediaQuery.of(context).size.height * .1,
                       ),
                       SizedBox(
@@ -183,65 +200,93 @@ class _Account_typeState extends State<Account_type> {
                         'Donor',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color:seleted_index == 3 ? Color(0xFF46BA80) : Colors.black,
+                          color: seleted_index == 3
+                              ? Color(0xFF46BA80)
+                              : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
                           fontWeight: FontWeight.w500,
                           height: 0.06,
                         ),
                       ),
-
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: height * .05,),
-              if(height > 700)
               SizedBox(
-                height: MediaQuery.of(context).size.height * .07,
+                height: height * .05,
               ),
-              InkWell(
-                onTap: (){
-                  if(seleted_index == 0){
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Please select the Account type")));
-                  }else if(seleted_index == 1){
-                    if(FirebaseAuth.instance.currentUser != null){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Navbar_screen() ));
-                    }
-                    else{
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_screen_Organazition() ));
-                    }
-
-                  }else if(seleted_index == 2){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_screen_Merchant() ));
-                  }
-                  else if(seleted_index == 3){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Login_screen_donor() ));
-                  }
-
-                },
-                child: Container(
-                    width: 343,
-                    height: 50,
-                    decoration: ShapeDecoration(
-                      color: Color(0xFF46BA80),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                    ),
-                    child: Text('Continue',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'SF Pro Text',
-                          fontWeight: FontWeight.w600,
-                          height: 2,
-                        ))),
-              ),
+              if (height > 700)
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * .07,
+                ),
             ],
           ),
         ),
-    ),
-     );
+        floatingActionButton: InkWell(
+          onTap: () {
+            if (seleted_index == 0) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Please select the Account type")));
+            } else if (seleted_index == 1) {
+              if (FirebaseAuth.instance.currentUser != null &&
+                  FirebaseAuth.instance.currentUser!.displayName ==
+                      "Organization") {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Navbar_screen()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Login_screen_Organazition()));
+              }
+            } else if (seleted_index == 2) {
+              if (FirebaseAuth.instance.currentUser != null &&
+                  FirebaseAuth.instance.currentUser!.displayName ==
+                      "Merchant") {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SearchDemo()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Login_screen_Merchant()));
+              }
+            } else if (seleted_index == 3) {
+              if (FirebaseAuth.instance.currentUser != null &&
+                  FirebaseAuth.instance.currentUser!.displayName == "Donor") {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CustomInfoWindowExample()));
+              } else {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Login_screen_donor()));
+              }
+            }
+          },
+          child: Container(
+              margin: EdgeInsets.only(left: 34),
+              width: 343,
+              height: 50,
+              decoration: ShapeDecoration(
+                color: Color(0xFF46BA80),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              child: Text('Continue',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontFamily: 'SF Pro Text',
+                    fontWeight: FontWeight.w600,
+                    height: 2,
+                  ))),
+        ),
+      ),
+    );
   }
 }

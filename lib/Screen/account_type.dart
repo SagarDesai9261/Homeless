@@ -44,11 +44,11 @@ class _Account_typeState extends State<Account_type> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      icon: Icon(Icons.arrow_back)),
+                      icon: const Icon(Icons.arrow_back)),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * .25,
                   ),
-                  Text(
+                  const Text(
                     'Account Type',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -61,7 +61,7 @@ class _Account_typeState extends State<Account_type> {
                   ),
                 ],
               ),
-              Text(
+              const Text(
                 'Kindly select account type from below options.',
                 style: TextStyle(
                   color: Color(0xFF787878),
@@ -88,7 +88,7 @@ class _Account_typeState extends State<Account_type> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: seleted_index == 1
-                        ? Border.all(color: Color(0xFF46BA80))
+                        ? Border.all(color: const Color(0xFF46BA80))
                         : Border.all(color: Colors.white),
                   ),
                   child: Column(
@@ -107,7 +107,7 @@ class _Account_typeState extends State<Account_type> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: seleted_index == 1
-                              ? Color(0xFF46BA80)
+                              ? const Color(0xFF46BA80)
                               : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
@@ -135,7 +135,7 @@ class _Account_typeState extends State<Account_type> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: seleted_index == 2
-                        ? Border.all(color: Color(0xFF46BA80))
+                        ? Border.all(color: const Color(0xFF46BA80))
                         : Border.all(color: Colors.white),
                   ),
                   child: Column(
@@ -154,7 +154,7 @@ class _Account_typeState extends State<Account_type> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: seleted_index == 2
-                              ? Color(0xFF46BA80)
+                              ? const Color(0xFF46BA80)
                               : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
@@ -182,7 +182,7 @@ class _Account_typeState extends State<Account_type> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                     border: seleted_index == 3
-                        ? Border.all(color: Color(0xFF46BA80))
+                        ? Border.all(color: const Color(0xFF46BA80))
                         : Border.all(color: Colors.white),
                   ),
                   child: Column(
@@ -201,7 +201,7 @@ class _Account_typeState extends State<Account_type> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: seleted_index == 3
-                              ? Color(0xFF46BA80)
+                              ? const Color(0xFF46BA80)
                               : Colors.black,
                           fontSize: 16,
                           fontFamily: 'SF Pro Text',
@@ -227,18 +227,18 @@ class _Account_typeState extends State<Account_type> {
           onTap: () {
             if (seleted_index == 0) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Please select the Account type")));
+                  const SnackBar(content: Text("Please select the Account type")));
             } else if (seleted_index == 1) {
               if (FirebaseAuth.instance.currentUser != null &&
                   FirebaseAuth.instance.currentUser!.displayName ==
                       "Organization") {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Navbar_screen()));
+                    MaterialPageRoute(builder: (context) => const Navbar_screen()));
               } else {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Login_screen_Organazition()));
+                        builder: (context) => const Login_screen_Organazition()));
               }
             } else if (seleted_index == 2) {
               if (FirebaseAuth.instance.currentUser != null &&
@@ -250,7 +250,7 @@ class _Account_typeState extends State<Account_type> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Login_screen_Merchant()));
+                        builder: (context) => const Login_screen_Merchant()));
               }
             } else if (seleted_index == 3) {
               if (FirebaseAuth.instance.currentUser != null &&
@@ -263,20 +263,20 @@ class _Account_typeState extends State<Account_type> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Login_screen_donor()));
+                        builder: (context) => const Login_screen_donor()));
               }
             }
           },
           child: Container(
-              margin: EdgeInsets.only(left: 34),
+              margin: const EdgeInsets.only(left: 34),
               width: 343,
               height: 50,
               decoration: ShapeDecoration(
-                color: Color(0xFF46BA80),
+                color: const Color(0xFF46BA80),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8)),
               ),
-              child: Text('Continue',
+              child: const Text('Continue',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,

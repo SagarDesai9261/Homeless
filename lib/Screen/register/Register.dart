@@ -617,7 +617,7 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     image: downloadUrls,
                   );
 
-                  await AuthService().registerUser(user);
+                  await AuthService().registerUser(context, user);
 
                   setState(() {
                     isRegistering =

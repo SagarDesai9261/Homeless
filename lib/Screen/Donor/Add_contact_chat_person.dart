@@ -22,8 +22,8 @@ class _Add_contact_chat_personState extends State<Add_contact_chat_person> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Select Contact"),
-        backgroundColor: Color(0xFF46BA80),
+        title: const Text("Select Contact"),
+        backgroundColor: const Color(0xFF46BA80),
         elevation: 0,
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -34,9 +34,9 @@ class _Add_contact_chat_personState extends State<Add_contact_chat_person> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (!snapshot.hasData) {
-              return Center(
+              return const Center(
                 child: Text("No User Found"),
               );
             }

@@ -117,7 +117,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       key: _scaffoldkey,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Homeless',
           style: TextStyle(color: Colors.black),
         ),
@@ -127,18 +127,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () {
               _scaffoldkey.currentState!.openEndDrawer();
             },
-            child: Icon(
+            child: const Icon(
               Icons.dehaze,
               size: 20.0,
               color: Colors.black,
             ),
-            shape: CircleBorder(
+            shape: const CircleBorder(
               side: BorderSide(color: Colors.black, width: 2.0),
             ),
             //fillColor: Colors.transparent, // Set the background color to transparent
             constraints:
-                BoxConstraints.tight(Size(40.0, 40.0)), // Set the button size
-            padding: EdgeInsets.all(8.0), // Adjust the padding as needed
+                BoxConstraints.tight(const Size(40.0, 40.0)), // Set the button size
+            padding: const EdgeInsets.all(8.0), // Adjust the padding as needed
             elevation: 2.0, // Add elevation if desired
             highlightElevation: 4.0, // Add elevation when pressed if desired
             // Set the border color and width
@@ -148,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       endDrawer: AppDrawer(),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -161,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 100,
                       decoration: ShapeDecoration(
                         image: userProfile!.image == "null"
-                            ? DecorationImage(
+                            ? const DecorationImage(
                                 image: AssetImage("assets/noImage.png"),
                                 fit: BoxFit.cover,
                               )
@@ -242,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: 30,
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 10),
+                  margin: const EdgeInsets.only(left: 10),
                   width: MediaQuery.of(context).size.width * .85,
                   height: MediaQuery.of(context).size.height * .5,
                   decoration: BoxDecoration(
@@ -280,7 +280,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           // initialValue: snapshot.data!.fullName,
                           controller: _fullnameController
                             ..text = userProfile.fullname,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Enter FullName",
                             border: InputBorder.none,
                           ),
@@ -339,7 +339,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: TextFormField(
                           controller: _phoneController
                             ..text = userProfile.phone,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "1234567890",
                             border: InputBorder.none,
                           ),
@@ -402,7 +402,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: TextFormField(
                           controller: _emailController
                             ..text = userProfile.email,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Enter Email",
                             border: InputBorder.none,
                           ),
@@ -459,7 +459,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         title: TextFormField(
                           controller: _yearController..text = userProfile.year,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Enter Year",
                             border: InputBorder.none,
                           ),
@@ -517,7 +517,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: TextFormField(
                           controller: _locationController
                             ..text = userProfile.location,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Enter Location",
                             border: InputBorder.none,
                           ),
@@ -575,7 +575,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         title: TextFormField(
                           controller: _genderController
                             ..text = userProfile.gender,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Enter Gender",
                             border: InputBorder.none,
                           ),

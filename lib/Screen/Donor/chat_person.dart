@@ -58,7 +58,7 @@ class _UserListScreenState extends State<UserListScreen> {
   String _formatTime(String timeString) {
     final dateTime = DateTime.parse(timeString).toLocal();
     final now = DateTime.now().toLocal();
-    final yesterday = now.subtract(Duration(days: 1));
+    final yesterday = now.subtract(const Duration(days: 1));
 
     if (dateTime.year == now.year &&
         dateTime.month == now.month &&
@@ -174,12 +174,12 @@ class _UserListScreenState extends State<UserListScreen> {
       key: _scaffoldkey,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Messages',
           style: TextStyle(color: Colors.black),
         ),
         elevation: 0,
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black
         ),
         backgroundColor: Colors.white,
@@ -190,10 +190,10 @@ class _UserListScreenState extends State<UserListScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Add_contact_chat_person()));
+                  builder: (context) => const Add_contact_chat_person()));
         },
-        backgroundColor: Color(0xFF46BA80),
-        child: Icon(Icons.add),
+        backgroundColor: const Color(0xFF46BA80),
+        child: const Icon(Icons.add),
       ),
     /*  drawer: SizedBox(
         width: 200,
@@ -239,10 +239,10 @@ class _UserListScreenState extends State<UserListScreen> {
           stream: _getChattedUsersStream(),
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting){
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
            else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text('No chatted users found.'),
               );
             } else if (snapshot.hasError) {
@@ -282,14 +282,14 @@ class _UserListScreenState extends State<UserListScreen> {
                             ? ""
                             : _formatTime(chatPerson.time.toString())
                             .toString(),
-                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                        style: const TextStyle(fontSize: 12, color: Colors.grey),
                       )
                           : CircleAvatar(
-                        backgroundColor: Color(0xFF46BA80),
+                        backgroundColor: const Color(0xFF46BA80),
                         maxRadius: 15,
                         child: Text(
                           chatPerson.countmessages.toString(),
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ),
                       onTap: () async {
@@ -304,7 +304,7 @@ class _UserListScreenState extends State<UserListScreen> {
                         // No need to manually refresh the list when returning from chat screen.
                       },
                     ),
-                    Divider(),
+                    const Divider(),
                   ],
                 );
               },

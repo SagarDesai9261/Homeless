@@ -31,10 +31,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Drawer Example'),
+        title: const Text('Drawer Example'),
       ),
       drawer: AppDrawer(),
-      body: Center(
+      body: const Center(
         child: Text('Home Screen Content'),
       ),
     );
@@ -65,11 +65,11 @@ class _AppDrawerState extends State<AppDrawer> {
               stream: _getUserInfoStream(),
               builder: (context, AsyncSnapshot<UserInfo?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return const CircularProgressIndicator();
                 } else if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
                 } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Text('No user data available.');
+                  return const Text('No user data available.');
                 } else {
                   UserInfo userInfo = snapshot.data!;
                   return Column(
@@ -89,56 +89,56 @@ class _AppDrawerState extends State<AppDrawer> {
                 }
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text('Home'),
+              title: const Text('Home'),
               onTap: () {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>CustomInfoWindowExample()));
                 // Handle Home screen navigation
                // Navigator.pop(context); // Close the drawer
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text('My Donations'),
+              title: const Text('My Donations'),
               onTap: () {
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyDonation()));
                 // Handle My Donations screen navigation
                // Navigator.pop(context); // Close the drawer
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text('My Profile'),
+              title: const Text('My Profile'),
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileScreen()));
                 // Handle My Profile screen navigation
               //  Navigator.pop(context); // Close the drawer
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text('My Jobs'),
+              title: const Text('My Jobs'),
               onTap: () {
                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyJobs()));
                 // Handle My Jobs screen navigation
                 //Navigator.pop(context); // Close the drawer
               },
             ),
-            Divider(),
+            const Divider(),
             StreamBuilder<int>(
               stream: getTotalUnreadMessagesCount(), // Use your stream here
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final unreadMessagesCount = snapshot.data!;
                   return ListTile(
-                    title: Text('Messages'),
+                    title: const Text('Messages'),
                     trailing: unreadMessagesCount !=0 ? CircleAvatar(
-                        backgroundColor: Color(0xFF46BA80),
+                        backgroundColor: const Color(0xFF46BA80),
                         maxRadius: 15,
-                        child: Text(unreadMessagesCount.toString(),style: TextStyle(
+                        child: Text(unreadMessagesCount.toString(),style: const TextStyle(
                             color: Colors.white
-                        ),)):Text("0",style: TextStyle(color: Colors.white),),
+                        ),)):const Text("0",style: TextStyle(color: Colors.white),),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -154,7 +154,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>UserListScreen()));
                     },
-                    child: ListTile(
+                    child: const ListTile(
                       title: Text('Messages'),
                     ),
                   );
@@ -162,17 +162,17 @@ class _AppDrawerState extends State<AppDrawer> {
               },
             ),
 
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text('Advertise'),
+              title: const Text('Advertise'),
               onTap: () {
                 // Handle Advertise screen navigation
                 Navigator.pop(context); // Close the drawer
               },
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              title: Text('Logout'),
+              title: const Text('Logout'),
               onTap: () {
                 QuickAlert.show(
                   onCancelBtnTap: () {
@@ -180,7 +180,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                   onConfirmBtnTap: (){
                      FirebaseAuth.instance.signOut();
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Account_type()));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Account_type()));
                   },
                   context: context,
                   type: QuickAlertType.confirm,
@@ -210,7 +210,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 // Close the drawer
               },
             ),
-            Divider(),
+            const Divider(),
           ],
         ),
       ),
@@ -269,7 +269,7 @@ class _AppDrawerState extends State<AppDrawer> {
         }
       });
     } else {
-      return Stream.empty();
+      return const Stream.empty();
     }
   }
 

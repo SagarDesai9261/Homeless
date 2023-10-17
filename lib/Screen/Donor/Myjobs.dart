@@ -49,7 +49,7 @@ class MyJobs extends StatelessWidget {
         appBar: AppBar(
 
           centerTitle: true,
-          title: Text('Homeless',style: TextStyle(
+          title: const Text('Homeless',style: TextStyle(
               color: Colors.black
           ),),
           elevation: 0,
@@ -58,17 +58,17 @@ class MyJobs extends StatelessWidget {
               onPressed: () {
                 _scaffoldkey.currentState!.openEndDrawer();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.dehaze,
                 size: 20.0,
                 color: Colors.black,
               ),
-              shape: CircleBorder(
+              shape: const CircleBorder(
                 side: BorderSide(color: Colors.black, width: 2.0),
               ),
               //fillColor: Colors.transparent, // Set the background color to transparent
-              constraints: BoxConstraints.tight(Size(40.0, 40.0)), // Set the button size
-              padding: EdgeInsets.all(8.0), // Adjust the padding as needed
+              constraints: BoxConstraints.tight(const Size(40.0, 40.0)), // Set the button size
+              padding: const EdgeInsets.all(8.0), // Adjust the padding as needed
               elevation: 2.0, // Add elevation if desired
               highlightElevation: 4.0, // Add elevation when pressed if desired
               // Set the border color and width
@@ -85,11 +85,11 @@ class MyJobs extends StatelessWidget {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-              return Center(
+              return const Center(
                 child: Text('No job posts found'),
               );
             } else if (snapshot.hasError) {
@@ -121,10 +121,10 @@ class MyJobs extends StatelessWidget {
 
         floatingActionButton: FloatingActionButton(
           onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>add_job_post_screen()));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>const add_job_post_screen()));
           },
-          child: Icon(Icons.add),
-          backgroundColor: Color(0xFF46BA80),
+          child: const Icon(Icons.add),
+          backgroundColor: const Color(0xFF46BA80),
         ),
 
     );
@@ -157,7 +157,7 @@ class MyCard extends StatelessWidget {
             title: Text(title),
             subtitle: Text(location),
             trailing: IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () {
                 FirebaseFirestore.instance.collection("DonorjobPosts").doc(id).delete();
                 },
@@ -167,7 +167,7 @@ class MyCard extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               description,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ),
           Align(
@@ -176,7 +176,7 @@ class MyCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Posted on $date',
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
               ),
             ),
           ),

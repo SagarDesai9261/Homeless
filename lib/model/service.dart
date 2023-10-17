@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:homeless/Screen/login/login_mechant.dart';
+import 'package:homeless/Screen/login/login_organization.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'Firestore_service.dart';
 import 'model.dart';
@@ -9,7 +13,7 @@ class AuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirestoreService _firestoreService = FirestoreService();
 
-  Future<UserApp?> registerUser(UserApp user) async {
+  Future<UserApp?> registerUser(BuildContext context, UserApp user) async {
     try {
       // Register the user with Firebase Authentication first (you can use email/password or Google sign-in)
       final UserCredential authResult =
@@ -24,17 +28,48 @@ class AuthService {
       if (firebaseUser != null) {
         user = user.copyWith(
             uid: firebaseUser.uid); // Set the UID in the UserApp object
-        await _firestoreService.createUserRecord(user);
+        await _firestoreService.createUserRecord(context, user);
+        Alert(
+          context: context,
+          title: "Register Successfully",
+          type: AlertType.success,
+          buttons: [
+            DialogButton(
+              child: Text("Ok"),
+              onPressed: () {
+                Alert(context: context).dismiss();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Login_screen_Organazition(),
+                  ),
+                );
+              },
+            ),
+          ],
+        ).show();
         return user;
       }
+
       return null;
-    } catch (error) {
-      print(error.toString());
-      return null;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
+        Alert(
+            context: context,
+            title: "Email Already Registered",
+            type: AlertType.warning,
+            buttons: [
+              DialogButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Alert(context: context).dismiss();
+                  })
+            ]).show();
+      }
     }
   }
 
-  signInWithGoogle() async {
+  signInWithGoogle(BuildContext context) async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -63,7 +98,7 @@ class AuthService {
           );
 
           // Store the user data in Firestore
-          await _firestoreService.createUserRecord(userData);
+          await _firestoreService.createUserRecord(context, userData);
 
           return userData;
         }
@@ -74,7 +109,9 @@ class AuthService {
       return null;
     }
   }
-  Future<String> signInWithEmailAndPassword(String email, String password) async {
+
+  Future<String> signInWithEmailAndPassword(
+      String email, String password) async {
     try {
       final UserCredential authResult = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -97,6 +134,7 @@ class AuthService {
   Future<UserApp?> getUserData(String uid) async {
     return _firestoreService.getUserData(uid);
   }
+
   Future<void> signOut() async {
     try {
       await _auth.signOut();
@@ -104,7 +142,8 @@ class AuthService {
       print(error.toString());
     }
   }
-  Future<String> registerDonor(donorUser user)async{
+
+  Future<String> registerDonor(donorUser user) async {
     try {
       // Register the user with Firebase Authentication first (you can use email/password or Google sign-in)
       final UserCredential authResult =
@@ -124,7 +163,7 @@ class AuthService {
         //return user;
       }
       return "";
-    }catch (e) {
+    } catch (e) {
       if (e is FirebaseAuthException) {
         if (e.code == 'email-already-in-use') {
           // The email address is already in use by another account

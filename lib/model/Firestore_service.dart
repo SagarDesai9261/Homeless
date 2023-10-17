@@ -9,7 +9,7 @@ import 'model.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> createUserRecord(UserApp user) async {
+  Future<void> createUserRecord(BuildContext context, UserApp user) async {
     try {
       await _firestore.collection('users').doc(user.uid).set({
         'organizationName': user.organizationName,
@@ -24,6 +24,7 @@ class FirestoreService {
         'country': user.country,
         'images': user.image
       });
+     
     } catch (e) {
       print('Error creating user record: $e');
     }

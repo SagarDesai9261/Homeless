@@ -154,7 +154,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // Scroll to the bottom
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeOut,
     );
 
@@ -186,20 +186,20 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget _buildTextComposer() {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
           Flexible(
             child: TextField(
               maxLines: null,
               controller: _textController,
-              decoration: InputDecoration.collapsed(
+              decoration: const InputDecoration.collapsed(
                   hintText: 'Type your message',
                   hintStyle: TextStyle(color: Colors.grey)),
             ),
           ),
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.swap_horiz,
               color: Colors.grey,
             ),
@@ -215,7 +215,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 _sendMessage(_textController.text);
               }
             },
-            child: SizedBox(
+            child: const SizedBox(
               height: 28,
               child: Image(
                 image: AssetImage('assets/send.png'),
@@ -260,7 +260,7 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF46BA80),
+        backgroundColor: const Color(0xFF46BA80),
         title: Text(widget.chatPerson.name),
         centerTitle: true,
         actions: [
@@ -269,7 +269,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   onPressed: () {
                     deleteMessages();
                   },
-                  icon: Icon(Icons.delete_outlined))
+                  icon: const Icon(Icons.delete_outlined))
               : Container()
         ],
       ),
@@ -280,12 +280,12 @@ class _ChatScreenState extends State<ChatScreen> {
               stream: getData() as Stream<List<QuerySnapshot<Object?>>>,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 if (snapshot.data!.isEmpty) {
-                  return Center(child: Text("No Messages found"));
+                  return const Center(child: Text("No Messages found"));
                 }
                 markChatAsRead(widget.chatPerson.receiverId +
                     "_" +
@@ -303,7 +303,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 combinedList.sort((a, b) => (a['time']).compareTo(b['time']));
                 var messages = combinedList;
                 if (messages.length == 0) {
-                  return Center(
+                  return const Center(
                     child: Text("No chats Found"),
                   );
                 }
@@ -340,7 +340,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   top: 5, left: 5, right: 5),
                               child: Text(
                                 formattedDate,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
@@ -397,13 +397,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                       backGroundColor:
                                           isSender ? Colors.white : Colors.grey,
                                       child: Container(
-                                        constraints: BoxConstraints(
+                                        constraints: const BoxConstraints(
                                             // maxWidth: MediaQuery.of(context).size.width * 0.7,
                                             ),
                                         // padding: EdgeInsets.all(10.0),
                                         child: Text(
                                           messageText,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 14,
                                           ),
@@ -426,13 +426,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                       backGroundColor:
                                           isSender ? Colors.white : Colors.grey,
                                       child: Container(
-                                        constraints: BoxConstraints(
+                                        constraints: const BoxConstraints(
                                             // maxWidth: MediaQuery.of(context).size.width * 0.7,
                                             ),
                                         // padding: EdgeInsets.all(10.0),
                                         child: Text(
                                           "  " + messageText,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 14,
                                           ),
@@ -461,7 +461,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
           ),
-          Divider(height: 1.0),
+          const Divider(height: 1.0),
           _buildTextComposer(),
         ],
       ),

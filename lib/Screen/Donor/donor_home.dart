@@ -49,7 +49,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
   CustomInfoWindowController _customInfoWindowController =
   CustomInfoWindowController();
   bool isLoading = true;
-  final LatLng _latLng = LatLng(37.7749, -122.4194);
+  final LatLng _latLng = const LatLng(37.7749, -122.4194);
   final double _zoom = 15.0;
 
   void _fetchMarkerDataFromFirestore() async {
@@ -95,12 +95,12 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
                                     child:
                                     Image(image: NetworkImage(data.imageAsset),width: 160,height: 120,fit: BoxFit.cover,),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 20,
                                   ),
                                   Text(
                                     data.name,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.grey,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,
@@ -133,7 +133,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
                           },
                           child: Text(
                             data.buttonText,
-                            style: TextStyle(color: Colors.white, fontSize: 14),
+                            style: const TextStyle(color: Colors.white, fontSize: 14),
                           ),
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -196,12 +196,12 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
                                   child:
                                   Image(image: AssetImage(data.imageAsset)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 20,
                                 ),
                                 Text(
                                   data.name,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500,
@@ -233,7 +233,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
                         },
                         child: Text(
                           data.buttonText,
-                          style: TextStyle(color: Colors.white, fontSize: 14),
+                          style: const TextStyle(color: Colors.white, fontSize: 14),
                         ),
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
@@ -265,7 +265,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
       key: _scaffoldkey,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Homeless',
           style: TextStyle(color: Colors.black),
         ),
@@ -275,17 +275,17 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
             onPressed: () {
               _scaffoldkey.currentState!.openEndDrawer();
             },
-            child: Icon(
+            child: const Icon(
               Icons.dehaze,
               size: 20.0,
               color: Colors.black,
             ),
-            shape: CircleBorder(
+            shape: const CircleBorder(
               side: BorderSide(color: Colors.black, width: 2.0),
             ),
             constraints:
-            BoxConstraints.tight(Size(40.0, 40.0)),
-            padding: EdgeInsets.all(8.0),
+            BoxConstraints.tight(const Size(40.0, 40.0)),
+            padding: const EdgeInsets.all(8.0),
             elevation: 2.0,
             highlightElevation: 4.0,
           )
@@ -293,7 +293,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
         backgroundColor: Colors.white,
       ),
       endDrawer: AppDrawer(),
-      body: isLoading ? Center(child: CircularProgressIndicator()) : Stack(
+      body: isLoading ? const Center(child: CircularProgressIndicator()) : Stack(
         children: <Widget>[
           GoogleMap(
             onTap: (position) {
@@ -312,7 +312,7 @@ class _CustomInfoWindowExampleState extends State<CustomInfoWindowExample> {
             ),
           ),
           if (isLoading) // Display loading indicator while fetching data
-            Center(
+            const Center(
               child: Center(child: CircularProgressIndicator()),
             ),
           CustomInfoWindow(

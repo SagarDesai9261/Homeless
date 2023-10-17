@@ -93,17 +93,17 @@ class _DonationPageState extends State<DonationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Donation",style: TextStyle(color: Colors.black),),
+        title: const Text("Donation",style: TextStyle(color: Colors.black),),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black
         ),
       ),
 
       body:
-      isloading == true ? Center(child: CircularProgressIndicator()):
+      isloading == true ? const Center(child: CircularProgressIndicator()):
       Stack(
         children: [
           Opacity(
@@ -122,11 +122,11 @@ class _DonationPageState extends State<DonationPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 10), // Add top spacing
+                      padding: const EdgeInsets.only(top: 10), // Add top spacing
                       child: Container(
-                        padding: EdgeInsets.all(8), // Padding for the border width
+                        padding: const EdgeInsets.all(8), // Padding for the border width
                         decoration: BoxDecoration(
-                          color: Color.fromARGB(
+                          color: const Color.fromARGB(
                               255, 207, 203, 203), // Background color of the circle
                           borderRadius: BorderRadius.circular(
                               55), // Half of the sum of radius and border width
@@ -144,24 +144,24 @@ class _DonationPageState extends State<DonationPage> {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 14,
                     ),
-                    Text(
+                    const Text(
                       'YOU ARE PAYING',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 14,
                     ),
                     Container(
                       color: Colors.blueGrey,
-                      margin: EdgeInsets.symmetric(horizontal: 40),
+                      margin: const EdgeInsets.symmetric(horizontal: 40),
                       child: ListTile(
-                        leading:Text(
+                        leading:const Text(
                           'Amount',
                           style: TextStyle(color: Colors.white,height: 1.5,
                           fontWeight: FontWeight.bold,
@@ -172,68 +172,68 @@ class _DonationPageState extends State<DonationPage> {
                         title: TextField(
                           controller: a,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: InputBorder.none
                           ),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 25,
                           ),
                           textAlign: TextAlign.center, // Align text to the center
                         ),
-                        trailing: Text(
+                        trailing: const Text(
                           'US Dollars',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 4,
                       backgroundColor: Colors.blueGrey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 5,
                       backgroundColor: Colors.blueGrey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 6,
                       backgroundColor: Colors.blueGrey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 7,
                       backgroundColor: Colors.blueGrey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 9,
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 9,
                       backgroundColor: Colors.blueGrey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Container(
                       height: 140, width: 140,
-                      padding: EdgeInsets.all(9), // Padding for the border width
+                      padding: const EdgeInsets.all(9), // Padding for the border width
                       decoration: BoxDecoration(
-                        color: Color.fromARGB(
+                        color: const Color.fromARGB(
                             255, 207, 203, 203), // Background color of the circle
                         borderRadius: BorderRadius.circular(
                             85), // Half of the sum of radius and border width
@@ -250,24 +250,24 @@ class _DonationPageState extends State<DonationPage> {
                         // You can set a background image or initials here if needed
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 14,
                     ),
                     Text(
                      HomelessuserData["fullName"],
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 18),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 70,
                     ),
                     Container(
                       width: 300, // Set the width as needed
                       child: FloatingActionButton.extended(
                         // shape: CircleBorder(),
-                        label: Text('DONATE'),
+                        label: const Text('DONATE'),
                         onPressed: () {
                           // Handle the donation button press
                           Navigator.push(

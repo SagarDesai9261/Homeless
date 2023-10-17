@@ -57,7 +57,7 @@ class Rectangle1 extends StatelessWidget {
     return Container(
       width: 2000,
       height: height * .45,
-      decoration: ShapeDecoration(
+      decoration: const ShapeDecoration(
         color: Color(0xFF1F2D36),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(100),topRight: Radius.circular(100)),
@@ -66,7 +66,7 @@ class Rectangle1 extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Text(
+            const Text(
               'Let us help the community',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -105,17 +105,17 @@ class Rectangle1 extends StatelessWidget {
                   onTap: (){
                   //  print(width);
                    //print(height);
-                     Navigator.push(context, MaterialPageRoute(builder: (context)=> Account_type() ));
+                     Navigator.push(context, MaterialPageRoute(builder: (context)=> const Account_type() ));
                   },
                   child: Container(
                       width: 343,
                       height: 50,
                       decoration: ShapeDecoration(
-                        color: Color(0xFF46BA80),
+                        color: const Color(0xFF46BA80),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8)),
                       ),
-                      child: Text('Sign to your Account',
+                      child: const Text('Sign to your Account',
                             textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.white,

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:homeless/Screen/login/login_mechant.dart';
+import 'package:homeless/Screen/login/login_organization.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'model.dart';
@@ -24,9 +25,39 @@ class FirestoreService {
         'country': user.country,
         'images': user.image
       });
-     
-    } catch (e) {
-      print('Error creating user record: $e');
+      Alert(
+        context: context,
+        title: "Register Successfully",
+        type: AlertType.success,
+        buttons: [
+          DialogButton(
+            child: Text("Ok"),
+            onPressed: () {
+              Alert(context: context).dismiss();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login_screen_Organazition(),
+                ),
+              );
+            },
+          ),
+        ],
+      ).show();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
+        Alert(
+            context: context,
+            title: "Email Already Registered",
+            type: AlertType.warning,
+            buttons: [
+              DialogButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Alert(context: context).dismiss();
+                  })
+            ]).show();
+      }
     }
   }
 

@@ -1,9 +1,8 @@
+import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:homeless/Screen/login/login_mechant.dart';
-import 'package:homeless/Screen/login/login_organization.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'Firestore_service.dart';
 import 'model.dart';
@@ -29,43 +28,12 @@ class AuthService {
         user = user.copyWith(
             uid: firebaseUser.uid); // Set the UID in the UserApp object
         await _firestoreService.createUserRecord(context, user);
-        Alert(
-          context: context,
-          title: "Register Successfully",
-          type: AlertType.success,
-          buttons: [
-            DialogButton(
-              child: Text("Ok"),
-              onPressed: () {
-                Alert(context: context).dismiss();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Login_screen_Organazition(),
-                  ),
-                );
-              },
-            ),
-          ],
-        ).show();
         return user;
       }
-
       return null;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "email-already-in-use") {
-        Alert(
-            context: context,
-            title: "Email Already Registered",
-            type: AlertType.warning,
-            buttons: [
-              DialogButton(
-                  child: Text("Ok"),
-                  onPressed: () {
-                    Alert(context: context).dismiss();
-                  })
-            ]).show();
-      }
+    } catch (error) {
+      print(error.toString());
+      return null;
     }
   }
 

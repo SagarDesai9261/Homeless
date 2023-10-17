@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:homeless/Screen/login/login_mechant.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import 'model.dart';
 
@@ -19,12 +22,13 @@ class FirestoreService {
         'pincode': user.city,
         'state': user.state,
         'country': user.country,
-        'images':user.image
+        'images': user.image
       });
     } catch (e) {
       print('Error creating user record: $e');
     }
   }
+
   Future<void> createdonorRecord(donorUser user) async {
     try {
       await _firestore.collection('donor').doc(user.uid).set({
@@ -32,18 +36,21 @@ class FirestoreService {
         'phone': user.phone,
         'password': user.password,
         'fullName': user.fullName,
-        'gender':user.gender,
-        'image':"https://firebasestorage.googleapis.com/v0/b/homeless-399009.appspot.com/o/profile_images%2Fimages.jpeg?alt=media&token=d4464296-feb1-4baa-83d6-17fefae82e2d",
-        'year':"",
-        'location':""
+        'gender': user.gender,
+        'image':
+            "https://firebasestorage.googleapis.com/v0/b/homeless-399009.appspot.com/o/profile_images%2Fimages.jpeg?alt=media&token=d4464296-feb1-4baa-83d6-17fefae82e2d",
+        'year': "",
+        'location': ""
       });
     } catch (e) {
       print('Error creating user record: $e');
     }
   }
+
   Future<UserApp?> getUserData(String uid) async {
     try {
-      final DocumentSnapshot doc = await _firestore.collection('users').doc(uid).get();
+      final DocumentSnapshot doc =
+          await _firestore.collection('users').doc(uid).get();
       if (doc.exists) {
         final data = doc.data() as Map<String, dynamic>;
         return UserApp(
@@ -67,16 +74,17 @@ class FirestoreService {
       return null;
     }
   }
-  Future<void> addMerchantData(Merchant merchant) async {
+
+  Future<void> addMerchantData(BuildContext context, Merchant merchant) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     try {
       final UserCredential authResult =
-      await _auth.createUserWithEmailAndPassword(
+          await _auth.createUserWithEmailAndPassword(
         email: merchant.Email!,
         password: merchant.ChoosePassword!,
       );
 
-     // final User? firebaseUser = authResult.user;
+      // final User? firebaseUser = authResult.user;
       final User? firebaseUser = authResult.user;
       firebaseUser!.updateProfile(displayName: "Merchant");
 
@@ -99,9 +107,40 @@ class FirestoreService {
         'StateBank': merchant.StateBank,
         'BranchLocation': merchant.BranchLocation,
       });
-    } catch (e) {
-      print('Error adding merchant data: $e');
+
+      Alert(
+        context: context,
+        title: "Register Successfully",
+        type: AlertType.success,
+        buttons: [
+          DialogButton(
+            child: Text("Ok"),
+            onPressed: () {
+              Alert(context: context).dismiss();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login_screen_Merchant(),
+                ),
+              );
+            },
+          ),
+        ],
+      ).show();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "email-already-in-use") {
+        Alert(
+            context: context,
+            title: "Email Already Registered",
+            type: AlertType.warning,
+            buttons: [
+              DialogButton(
+                  child: Text("Ok"),
+                  onPressed: () {
+                    Alert(context: context).dismiss();
+                  })
+            ]).show();
+      }
     }
   }
-
 }

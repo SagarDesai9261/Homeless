@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 
 import 'donor_drawer.dart';
 
-
 class User {
   final String email;
   final String fullname;
@@ -44,7 +43,7 @@ class UserProfileProvider with ChangeNotifier {
     final currentUser = _auth.currentUser;
     if (currentUser != null) {
       final userData =
-      await _firestore.collection('donor').doc(currentUser.uid).get();
+          await _firestore.collection('donor').doc(currentUser.uid).get();
       _user = User(
         email: currentUser.email ?? '',
         fullname: userData['fullName'] ?? '',
@@ -77,7 +76,10 @@ class UserProfileProvider with ChangeNotifier {
   Future<String?> uploadImageToStorage(String filePath) async {
     final currentUser = _auth.currentUser;
     if (currentUser != null) {
-      final storageRef = _storage.ref().child('profile_images').child(currentUser.uid + '.jpg');
+      final storageRef = _storage
+          .ref()
+          .child('profile_images')
+          .child(currentUser.uid + '.jpg');
       final uploadTask = storageRef.putFile(File(filePath));
       final snapshot = await uploadTask.whenComplete(() => null);
       final downloadURL = await snapshot.ref.getDownloadURL();
@@ -86,7 +88,6 @@ class UserProfileProvider with ChangeNotifier {
     return null;
   }
 }
-
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -111,15 +112,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final userProfile = context.watch<UserProfileProvider>().user;
-    
+
     return Scaffold(
       key: _scaffoldkey,
       appBar: AppBar(
-
         centerTitle: true,
-        title: Text('Homeless',style: TextStyle(
-            color: Colors.black
-        ),),
+        title: Text(
+          'Homeless',
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 0,
         actions: [
           RawMaterialButton(
@@ -135,13 +136,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               side: BorderSide(color: Colors.black, width: 2.0),
             ),
             //fillColor: Colors.transparent, // Set the background color to transparent
-            constraints: BoxConstraints.tight(Size(40.0, 40.0)), // Set the button size
+            constraints:
+                BoxConstraints.tight(Size(40.0, 40.0)), // Set the button size
             padding: EdgeInsets.all(8.0), // Adjust the padding as needed
             elevation: 2.0, // Add elevation if desired
             highlightElevation: 4.0, // Add elevation when pressed if desired
             // Set the border color and width
           )
-
         ],
         backgroundColor: Colors.white,
       ),
@@ -153,20 +154,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
           children: [
             Column(
               children: [
-                const SizedBox(
-                  height: 20,
-                ),
                 Stack(
                   children: [
                     Container(
                       width: 100,
                       height: 100,
                       decoration: ShapeDecoration(
-                        image: userProfile!.image== "null" ?  DecorationImage(
-                          image:
-                          AssetImage("assets/noImage.png"),
-                          fit: BoxFit.cover,
-                        ) : DecorationImage(image: NetworkImage(userProfile!.image),fit: BoxFit.cover),
+                        image: userProfile!.image == "null"
+                            ? DecorationImage(
+                                image: AssetImage("assets/noImage.png"),
+                                fit: BoxFit.cover,
+                              )
+                            : DecorationImage(
+                                image: NetworkImage(userProfile!.image),
+                                fit: BoxFit.cover),
                         shape: RoundedRectangleBorder(
                           side: const BorderSide(
                             width: 2,
@@ -178,18 +179,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     InkWell(
-                      onTap: ()async{
+                      onTap: () async {
                         final updatedUser = User(
                           email: userProfile.email,
                           fullname: _fullnameController.text,
-                          image: userProfile.image, // Keep the current image URL
+                          image:
+                              userProfile.image, // Keep the current image URL
                           gender: _genderController.text,
                           location: _locationController.text,
                           year: _yearController.text,
                           phone: _phoneController.text,
                         );
 
-                        final imageFilePath = await ImagePicker().pickImage(source: ImageSource.gallery); // Implement this function
+                        final imageFilePath = await ImagePicker().pickImage(
+                            source:
+                                ImageSource.gallery); // Implement this function
 
                         if (imageFilePath != null) {
                           final newImageURL = await context
@@ -202,7 +206,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         }
 
                         // Update user data in Firestore with the new image URL.
-                        await context.read<UserProfileProvider>().updateProfile(updatedUser);
+                        await context
+                            .read<UserProfileProvider>()
+                            .updateProfile(updatedUser);
                       },
                       child: Container(
                         width: 22,
@@ -265,18 +271,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Icon(Icons.person,color: Color(0xFF43BA82),),
+                          child: const Icon(
+                            Icons.person,
+                            color: Color(0xFF43BA82),
+                          ),
                         ),
                         title: TextFormField(
                           // initialValue: snapshot.data!.fullName,
-                          controller: _fullnameController..text =   userProfile.fullname,
+                          controller: _fullnameController
+                            ..text = userProfile.fullname,
                           decoration: InputDecoration(
                             hintText: "Enter FullName",
                             border: InputBorder.none,
                           ),
                         ),
-                        trailing:InkWell(
-                          onTap:(){
+                        trailing: InkWell(
+                          onTap: () {
                             /* print(name.text);
                     FirebaseFirestore.instance.collection("donor").doc(snapshot.data!.uid).update(
                         {
@@ -302,13 +312,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Image.asset("assets/arrow.png")
-                          ),
+                              child: Image.asset("assets/arrow.png")),
                         ),
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: const Divider(height: 2,thickness: 2,)),
+                          child: const Divider(
+                            height: 2,
+                            thickness: 2,
+                          )),
                       ListTile(
                         leading: Container(
                           width: 40,
@@ -319,17 +331,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Icon(Icons.phone,color: Color(0xFF43BA82),),
+                          child: const Icon(
+                            Icons.phone,
+                            color: Color(0xFF43BA82),
+                          ),
                         ),
-                        title:  TextFormField(
-                          controller: _phoneController..text = userProfile.phone,
+                        title: TextFormField(
+                          controller: _phoneController
+                            ..text = userProfile.phone,
                           decoration: InputDecoration(
                             hintText: "1234567890",
                             border: InputBorder.none,
                           ),
                         ),
-                        trailing:InkWell(
-                          onTap:(){
+                        trailing: InkWell(
+                          onTap: () {
                             //print(name.text);
                             /* FirebaseFirestore.instance.collection("donor").doc(snapshot.data!.uid).update(
                         {
@@ -364,7 +380,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: const Divider(height: 2,thickness: 2,)),
+                          child: const Divider(
+                            height: 2,
+                            thickness: 2,
+                          )),
                       ListTile(
                         leading: Container(
                           width: 40,
@@ -375,16 +394,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          child: const Icon(Icons.mail,color: Color(0xFF43BA82),),
+                          child: const Icon(
+                            Icons.mail,
+                            color: Color(0xFF43BA82),
+                          ),
                         ),
                         title: TextFormField(
-                          controller: _emailController..text = userProfile.email,
+                          controller: _emailController
+                            ..text = userProfile.email,
                           decoration: InputDecoration(
                             hintText: "Enter Email",
                             border: InputBorder.none,
                           ),
                         ),
-                        trailing:InkWell(
+                        trailing: InkWell(
                           /*onTap:(){
                     print(name.text);
                     FirebaseFirestore.instance.collection("donor").doc(snapshot.data!.uid).update(
@@ -413,13 +436,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Image.asset("assets/arrow.png")
-                          ),
+                              child: Image.asset("assets/arrow.png")),
                         ),
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: const Divider(height: 2,thickness: 2,)),
+                          child: const Divider(
+                            height: 2,
+                            thickness: 2,
+                          )),
                       ListTile(
                         leading: Container(
                           width: 40,
@@ -432,16 +457,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           child: Image.asset("assets/year.png"),
                         ),
-                        title:TextFormField(
-
+                        title: TextFormField(
                           controller: _yearController..text = userProfile.year,
                           decoration: InputDecoration(
                             hintText: "Enter Year",
                             border: InputBorder.none,
                           ),
                         ),
-                        trailing:InkWell(
-                          onTap:(){
+                        trailing: InkWell(
+                          onTap: () {
                             /* print(name.text);
                     FirebaseFirestore.instance.collection("donor").doc(snapshot.data!.uid).update(
                         {
@@ -469,13 +493,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Image.asset("assets/arrow.png")
-                          ),
+                              child: Image.asset("assets/arrow.png")),
                         ),
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: const Divider(height: 2,thickness: 2,)),
+                          child: const Divider(
+                            height: 2,
+                            thickness: 2,
+                          )),
                       ListTile(
                         leading: Container(
                           width: 40,
@@ -489,14 +515,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Image.asset("assets/location.png"),
                         ),
                         title: TextFormField(
-                          controller: _locationController..text = userProfile.location,
+                          controller: _locationController
+                            ..text = userProfile.location,
                           decoration: InputDecoration(
                             hintText: "Enter Location",
                             border: InputBorder.none,
                           ),
                         ),
-                        trailing:InkWell(
-                          onTap:(){
+                        trailing: InkWell(
+                          onTap: () {
                             /* print(name.text);
                     FirebaseFirestore.instance.collection("donor").doc(snapshot.data!.uid).update(
                         {
@@ -524,14 +551,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Image.asset("assets/arrow.png")
-
-                          ),
+                              child: Image.asset("assets/arrow.png")),
                         ),
                       ),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * .8,
-                          child: const Divider(height: 2,thickness: 2,)),
+                          child: const Divider(
+                            height: 2,
+                            thickness: 2,
+                          )),
                       ListTile(
                         leading: Container(
                           width: 40,
@@ -545,15 +573,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Image.asset("assets/gender.png"),
                         ),
                         title: TextFormField(
-                          controller: _genderController..text = userProfile.gender,
-
+                          controller: _genderController
+                            ..text = userProfile.gender,
                           decoration: InputDecoration(
                             hintText: "Enter Gender",
                             border: InputBorder.none,
                           ),
                         ),
-                        trailing:InkWell(
-                          onTap:(){
+                        trailing: InkWell(
+                          onTap: () {
                             /*  print(name.text);
                     FirebaseFirestore.instance.collection("donor").doc(snapshot.data!.uid).update(
                         {
@@ -581,22 +609,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Image.asset("assets/arrow.png")
-                          ),
+                              child: Image.asset("assets/arrow.png")),
                         ),
                       ),
-
                     ],
                   ),
                 )
               ],
             ),
-
           ],
         ),
       ),
     );
-
-
-    }
+  }
 }

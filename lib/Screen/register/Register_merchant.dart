@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,7 @@ class Register_merchant extends StatefulWidget {
 }
 
 class _Register_merchantState extends State<Register_merchant> {
+  bool isRegistering = false;
   bool isloading = false;
   FirestoreService firestoreService = FirestoreService();
   List<String> imagePaths = [];
@@ -856,9 +858,17 @@ class _Register_merchantState extends State<Register_merchant> {
               if (formkey.currentState!.validate()) {
                 // Insert data into Firebase
 
-                setState(() {
-                  currentStep = currentStep + 1;
-                });
+                if (selectedImages.isEmpty) {
+                  Alert(
+                    context: context,
+                    type: AlertType.warning,
+                    title: "Please Upload Registration Certificate",
+                  ).show();
+                } else {
+                  setState(() {
+                    currentStep = currentStep + 1;
+                  });
+                }
               }
             },
             child: Container(
@@ -1088,7 +1098,7 @@ class _Register_merchantState extends State<Register_merchant> {
             onTap: () async {
               if (formkey.currentState!.validate()) {
                 setState(() {
-                  isloading = true;
+                  isRegistering = true;
                 });
                 Merchant merchant = Merchant(
                   Name: name.text,
@@ -1113,28 +1123,20 @@ class _Register_merchantState extends State<Register_merchant> {
                   BranchLocation: branchLocation.text,
                 );
 
-                await firestoreService.addMerchantData(merchant).then((value) {
-                  setState(() {
-                    isloading = false;
+                try {
+                  await firestoreService
+                      .addMerchantData(context, merchant)
+                      .then((value) {
+                    setState(() {
+                      isRegistering =
+                          false; // Hide the circular progress indicator
+                    });
                   });
-                  Alert(
-                      context: context,
-                      title: "Register Successfully",
-                      type: AlertType.success,
-                      buttons: [
-                        DialogButton(
-                            child: Text("Ok"),
-                            onPressed: () {
-                              Alert(context: context).dismiss();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Login_screen_Merchant()));
-                            })
-                      ]).show();
-                });
-                // ignore: use_build_context_synchronously
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == "email-already-in-use") {
+                    // print('Hello!!');
+                  }
+                }
               }
             },
             child: Container(

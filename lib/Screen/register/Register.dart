@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class Register_Organization extends StatefulWidget {
 }
 
 class _Register_OrganizationState extends State<Register_Organization> {
+  bool isRegistering = false;
   List<String> imagePaths = [];
   List<XFile?> selectedImages = [];
   TextEditingController name = TextEditingController();
@@ -580,19 +582,27 @@ class _Register_OrganizationState extends State<Register_Organization> {
         ),
         Container(
           margin: EdgeInsets.only(
-              top: MediaQuery.of(context).size.height * .75, left: 20),
+            top: MediaQuery.of(context).size.height * .75,
+            left: 10,
+          ),
           child: InkWell(
             onTap: () async {
               if (selectedImages.isEmpty) {
                 Alert(
-                        context: context,
-                        type: AlertType.warning,
-                        title: "Please Upload Registration Certificate")
-                    .show();
+                  context: context,
+                  type: AlertType.warning,
+                  title: "Please Upload Registration Certificate",
+                ).show();
               } else {
-                List<String> downloadUrls = await uploadImages(selectedImages);
-                print(downloadUrls);
-                UserApp user = UserApp(
+                setState(() {
+                  isRegistering = true; // Show the circular progress indicator
+                });
+
+                try {
+                  List<String> downloadUrls =
+                      await uploadImages(selectedImages);
+                  print(downloadUrls);
+                  UserApp user = UserApp(
                     organizationName: name.text,
                     email: email.text,
                     password: confirm_password.text,
@@ -604,46 +614,108 @@ class _Register_OrganizationState extends State<Register_Organization> {
                     city: city.text,
                     state: state.text,
                     country: country.text,
-                    image: downloadUrls);
-                AuthService().registerUser(user).then((value) => Alert(
-                      context: context,
-                      title: "Account Register Successfully",
-                      type: AlertType.success,
-                      buttons: [
-                        DialogButton(
-                          child: Text(
-                            "ok",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Login_screen_Organazition())),
-                          color: Color.fromRGBO(0, 179, 134, 1.0),
-                          radius: BorderRadius.circular(0.0),
+                    image: downloadUrls,
+                  );
+
+                  await AuthService().registerUser(user);
+
+                  setState(() {
+                    isRegistering =
+                        false; // Hide the circular progress indicator
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Login_screen_Organazition(),
+                      ),
+                    );
+                  });
+
+                  Alert(
+                    context: context,
+                    title: "Account Register Successfully",
+                    type: AlertType.success,
+                    buttons: [
+                      DialogButton(
+                        child: Text(
+                          "ok",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
-                      ],
-                    ).show());
+                        onPressed: () {
+                          // Navigate to Login_screen_Organazition
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Login_screen_Organazition(),
+                            ),
+                          );
+                        },
+                        color: Color.fromRGBO(0, 179, 134, 1.0),
+                        radius: BorderRadius.circular(0.0),
+                      ),
+                    ],
+                  ).show();
+                } catch (error) {
+                  setState(() {
+                    isRegistering =
+                        false; // Hide the circular progress indicator
+                  });
+                  if (error is FirebaseAuthException) {
+                    if (error.code == 'email-already-in-use') {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Email is already in use'),
+                        ),
+                      );
+                    } else {
+                      // Handle other Firebase Authentication errors as needed
+                      print("Firebase Authentication Error: ${error.code}");
+                      print(error.message);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content:
+                              Text('An error occurred: ${error.toString()}'),
+                        ),
+                      );
+                    }
+                  } else {
+                    // Handle non-Firebase errors
+                    print("Error: $error");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('An error occurred: ${error.toString()}'),
+                      ),
+                    );
+                  }
+                }
               }
             },
             child: Container(
-                width: 343,
-                height: 50,
-                decoration: ShapeDecoration(
-                  color: Color(0xFF46BA80),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
+              width: 343,
+              height: 50,
+              decoration: ShapeDecoration(
+                color: Color(0xFF46BA80),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text('Register',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontFamily: 'SF Pro Text',
-                      fontWeight: FontWeight.w600,
-                      height: 2,
-                    ))),
+              ),
+              child: isRegistering
+                  ? Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    ) // Show the circular progress indicator
+                  : Text(
+                      'Register',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'SF Pro Text',
+                        fontWeight: FontWeight.w600,
+                        height: 2,
+                      ),
+                    ),
+            ),
           ),
         ),
       ],

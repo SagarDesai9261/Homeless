@@ -42,14 +42,15 @@ class _DonorSProfileState extends State<DonorSProfile> {
       });
     }
   }
-  TextEditingController email  = TextEditingController();
-  TextEditingController phone  = TextEditingController();
-  TextEditingController business_name  = TextEditingController();
-  TextEditingController address  = TextEditingController();
+
+  TextEditingController email = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController business_name = TextEditingController();
+  TextEditingController address = TextEditingController();
   TextEditingController area = TextEditingController();
-  TextEditingController pincode  = TextEditingController();
-  TextEditingController state  = TextEditingController();
-  TextEditingController country  = TextEditingController();
+  TextEditingController pincode = TextEditingController();
+  TextEditingController state = TextEditingController();
+  TextEditingController country = TextEditingController();
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   String? _profileImageUrl;
@@ -59,6 +60,7 @@ class _DonorSProfileState extends State<DonorSProfile> {
     super.initState();
     _getUserData();
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -66,9 +68,10 @@ class _DonorSProfileState extends State<DonorSProfile> {
         children: [
           Container(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * .92,
+            height: MediaQuery.of(context).size.height * .9,
             clipBehavior: Clip.antiAlias,
-            decoration: const BoxDecoration(color: Color.fromRGBO(231, 231, 231, 1)),
+            decoration:
+                const BoxDecoration(color: Color.fromRGBO(231, 231, 231, 1)),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -95,12 +98,14 @@ class _DonorSProfileState extends State<DonorSProfile> {
                         width: 100,
                         height: 100,
                         decoration: ShapeDecoration(
-                          image:   _profileImageUrl != null
+                          image: _profileImageUrl != null
                               ? DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(_profileImageUrl!),
-                          )
-                              : DecorationImage(image: AssetImage("assets/organization_logo.png")),
+                                  fit: BoxFit.cover,
+                                  image: NetworkImage(_profileImageUrl!),
+                                )
+                              : DecorationImage(
+                                  image: AssetImage(
+                                      "assets/organization_logo.png")),
                           shape: RoundedRectangleBorder(
                             side: const BorderSide(
                               width: 2,
@@ -112,7 +117,7 @@ class _DonorSProfileState extends State<DonorSProfile> {
                         ),
                       ),
                       InkWell(
-                        onTap: (){
+                        onTap: () {
                           _pickAndUploadImage();
                         },
                         child: Container(
@@ -130,90 +135,110 @@ class _DonorSProfileState extends State<DonorSProfile> {
                       )
                     ],
                   ),
-                 Container(
-                     width: MediaQuery.of(context).size.width * .85,
-                     height: MediaQuery.of(context).size.height > 660 ? MediaQuery.of(context).size.height*.1 :  MediaQuery.of(context).size.height*.1,
-                     decoration: BoxDecoration(
-                         color: Colors.white,
-                      //   borderRadius: BorderRadius.circular(20),
-                     ),
-                     padding: EdgeInsets.symmetric(horizontal: 15),
-                     child:Column(
-                       mainAxisAlignment: MainAxisAlignment.center,
-                     children: [
-                       Container(
-                        // padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                         child: Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Text("Email",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width * .6,
-                               height: 30,
-                               child: TextField(
-                                 textAlign: TextAlign.right,
-                                   controller: email,
-                                 decoration: InputDecoration(
-                                   hintText: "Email",
-                                   border: InputBorder.none
-                                 ),
-                               ),
-                             )
-                             //Text("abc@gmail.com",style: TextStyle(fontSize: 17),)
-                           ],
-                         ),
-                       ),
-                       Divider(thickness: 2,),
-                       Container(
-                       //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
-                         child: Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Text("Phone",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
-                             SizedBox(
-                               width: MediaQuery.of(context).size.width * .4,
-                               height: 30,
-                               child: TextField(
-                                 inputFormatters: [
-                                   LengthLimitingTextInputFormatter(10),
-                                 ],
-                                 keyboardType: TextInputType.number,
-                                 textAlign: TextAlign.right,
-                                 controller: phone,
-                                 decoration: InputDecoration(
-                                     hintText: "phone",
-                                     border: InputBorder.none
-                                 ),
-                               ),
-                             )
-                           ],
-                         ),
-                       ),
-                     ],
-                   )
-                 ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-
                   Container(
                       width: MediaQuery.of(context).size.width * .85,
-                      height: MediaQuery.of(context).size.height > 660 ? MediaQuery.of(context).size.height*.4 :  MediaQuery.of(context).size.height*.5,
+                      height: MediaQuery.of(context).size.height > 660
+                          ? MediaQuery.of(context).size.height * .1
+                          : MediaQuery.of(context).size.height * .15,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         //   borderRadius: BorderRadius.circular(20),
                       ),
                       padding: EdgeInsets.symmetric(horizontal: 15),
-                      child:Column(
+                      child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
-                           height:40,
                             // padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Business Name",style: TextStyle(fontSize: 15,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
+                                Text(
+                                  "Email",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * .6,
+                                  height: 30,
+                                  child: TextField(
+                                    textAlign: TextAlign.right,
+                                    controller: email,
+                                    decoration: InputDecoration(
+                                        hintText: "Email",
+                                        border: InputBorder.none),
+                                  ),
+                                )
+                                //Text("abc@gmail.com",style: TextStyle(fontSize: 17),)
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            thickness: 2,
+                          ),
+                          Container(
+                            //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Phone",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width * .4,
+                                  height: 30,
+                                  child: TextField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(10),
+                                    ],
+                                    keyboardType: TextInputType.number,
+                                    textAlign: TextAlign.right,
+                                    controller: phone,
+                                    decoration: InputDecoration(
+                                        hintText: "phone",
+                                        border: InputBorder.none),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                      width: MediaQuery.of(context).size.width * .85,
+                      height: MediaQuery.of(context).size.height > 660
+                          ? MediaQuery.of(context).size.height * .4
+                          : MediaQuery.of(context).size.height * .5,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        //   borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 40,
+                            // padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Business Name",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .4,
                                   height: 30,
@@ -223,21 +248,28 @@ class _DonorSProfileState extends State<DonorSProfile> {
                                     //controller: ,
                                     decoration: InputDecoration(
                                         hintText: "Email",
-                                        border: InputBorder.none
-                                    ),
+                                        border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           Container(
-                            height:40,
+                            height: 40,
                             //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Address",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
+                                Text(
+                                  "Address",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .4,
                                   height: 30,
@@ -247,21 +279,28 @@ class _DonorSProfileState extends State<DonorSProfile> {
                                     //controller: ,
                                     decoration: InputDecoration(
                                         hintText: "Email",
-                                        border: InputBorder.none
-                                    ),
+                                        border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           Container(
-                            height:40,
+                            height: 40,
                             //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Area/Sector",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
+                                Text(
+                                  "Area/Sector",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .4,
                                   height: 30,
@@ -271,21 +310,28 @@ class _DonorSProfileState extends State<DonorSProfile> {
                                     //controller: ,
                                     decoration: InputDecoration(
                                         hintText: "Email",
-                                        border: InputBorder.none
-                                    ),
+                                        border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           Container(
-                            height:40,
+                            height: 40,
                             //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Pincode",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
+                                Text(
+                                  "Pincode",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .4,
                                   height: 30,
@@ -295,21 +341,28 @@ class _DonorSProfileState extends State<DonorSProfile> {
                                     //controller: ,
                                     decoration: InputDecoration(
                                         hintText: "Email",
-                                        border: InputBorder.none
-                                    ),
+                                        border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           Container(
-                            height:40,
+                            height: 40,
                             //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("State/Province",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
+                                Text(
+                                  "State/Province",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .4,
                                   height: 30,
@@ -319,21 +372,28 @@ class _DonorSProfileState extends State<DonorSProfile> {
                                     //controller: ,
                                     decoration: InputDecoration(
                                         hintText: "Email",
-                                        border: InputBorder.none
-                                    ),
+                                        border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
                           ),
-                          Divider(thickness: 2,),
+                          Divider(
+                            thickness: 2,
+                          ),
                           Container(
-                            height:40,
+                            height: 40,
                             //  padding:EdgeInsets.symmetric(horizontal: 20,vertical: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Country",style: TextStyle(fontSize: 17,color: Color(0xFF43BA82),fontWeight: FontWeight.bold),),
+                                Text(
+                                  "Country",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFF43BA82),
+                                      fontWeight: FontWeight.bold),
+                                ),
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width * .4,
                                   height: 30,
@@ -343,74 +403,78 @@ class _DonorSProfileState extends State<DonorSProfile> {
                                     //controller: ,
                                     decoration: InputDecoration(
                                         hintText: "Email",
-                                        border: InputBorder.none
-                                    ),
+                                        border: InputBorder.none),
                                   ),
                                 )
                               ],
                             ),
                           ),
                         ],
-                      )
-                  ),
+                      )),
                   const SizedBox(
                     height: 30,
                   ),
                   InkWell(
                     onTap: () async {
-                      final userDocRef = _firestore.collection('users').doc(_user!.uid);
+                      final userDocRef =
+                          _firestore.collection('users').doc(_user!.uid);
                       await userDocRef.update({
-                      "address":address.text,
-                        "apartmentName":area.text,
-                        "country":country.text,
-                        "email":email.text,
-                        "organizationName":business_name.text,
-                        "state":state.text,
-                        "pincode":pincode.text,
-                        "phone":phone.text
+                        "address": address.text,
+                        "apartmentName": area.text,
+                        "country": country.text,
+                        "email": email.text,
+                        "organizationName": business_name.text,
+                        "state": state.text,
+                        "pincode": pincode.text,
+                        "phone": phone.text
                       }).then((value) => Alert(
-                        context: context,
-                        title: "Profile Updated Successfully",
-                        type: AlertType.success,
-                        buttons: [
-                          DialogButton(child: Text("Ok"), onPressed: (){
-                            Alert(
                               context: context,
-
-                            ).dismiss();
-                          })
-                        ]
-                      ).show());
+                              title: "Profile Updated Successfully",
+                              type: AlertType.success,
+                              buttons: [
+                                DialogButton(
+                                    child: Text("Ok"),
+                                    onPressed: () {
+                                      Alert(
+                                        context: context,
+                                      ).dismiss();
+                                    })
+                              ]).show());
                     },
                     child: Container(
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width * .85,
-                        height: MediaQuery.of(context).size.height > 660 ? MediaQuery.of(context).size.height*.06:  MediaQuery.of(context).size.height*.06,
+                        height: MediaQuery.of(context).size.height > 660
+                            ? MediaQuery.of(context).size.height * .06
+                            : MediaQuery.of(context).size.height * .06,
                         decoration: BoxDecoration(
                           color: Color(0xFF43BA82),
                           //   borderRadius: BorderRadius.circular(20),
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text("Save",style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.white),)
-                    ),
+                        child: Text(
+                          "Save",
+                          style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        )),
                   ),
-
                 ],
               ),
             ),
           ),
-
         ],
       ),
     );
-
   }
+
   Future<void> _pickAndUploadImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
-     final File imageFile = File(pickedFile.path);
+      final File imageFile = File(pickedFile.path);
       String? imageUrl = await _uploadProfilePicture(imageFile);
 
       if (imageUrl != null) {
@@ -418,9 +482,11 @@ class _DonorSProfileState extends State<DonorSProfile> {
       }
     }
   }
+
   Future<String?> _uploadProfilePicture(File imageFile) async {
     try {
-      final storageRef = _storage.ref().child('profile_images').child('${_user!.uid}.jpg');
+      final storageRef =
+          _storage.ref().child('profile_images').child('${_user!.uid}.jpg');
       await storageRef.putFile(imageFile);
       final downloadURL = await storageRef.getDownloadURL();
       return downloadURL;
@@ -429,6 +495,7 @@ class _DonorSProfileState extends State<DonorSProfile> {
       return null;
     }
   }
+
   Future<void> _updateProfileImage(String imageUrl) async {
     try {
       final userDocRef = _firestore.collection('users').doc(_user!.uid);
@@ -440,5 +507,4 @@ class _DonorSProfileState extends State<DonorSProfile> {
       print("Error updating profile image URL: $e");
     }
   }
-
 }
